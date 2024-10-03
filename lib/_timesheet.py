@@ -15,6 +15,14 @@ class Timesheet:
     def __init__(self):
         self.client = Client(auth=self.NOTION_ACCESS_TOKEN)
 
-    def get_all_data(self):
-        db_json = self.client.databases.query(self.NOTION_DATABASE_ID)
-        return db_json
+    def get_all_data(self) -> list:
+        db_json = self.client.databases.query(self.NOTION_DATABASE_ID)['results']
+        result  = [self._parse_json(db_json[i]) for i in range(len(db_json))]
+        result  = sorted(result, key=lambda x: x['timestamp'], reverse=True)
+        return result
+
+    def _parse_json(self, db_json_tmp):
+        name      = db_json_tmp['properties']['名前']['title'][0]['plain_text']
+        situation = db_json_tmp['properties']['区分']['select']['name']
+        timestamp = db_json_tmp['properties']['時間']['date']['start']
+        return {'name': name, 'situation': situation, 'timestamp': timestamp}
