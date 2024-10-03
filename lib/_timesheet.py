@@ -15,14 +15,24 @@ class Timesheet:
     def __init__(self):
         self.client = Client(auth=self.NOTION_ACCESS_TOKEN)
 
-    def get_all_data(self) -> list:
-        db_json = self.client.databases.query(self.NOTION_DATABASE_ID)['results']
-        result  = [self._parse_json(db_json[i]) for i in range(len(db_json))]
-        result  = sorted(result, key=lambda x: x['timestamp'], reverse=True)
-        return result
+    # 勤怠データを追加
+    def add_data(self, name:str, situation:str, timestamp:str) -> None:
+        if self._check_data(name, situation, timestamp):
+            print('データを追加します')
+        return
 
-    def _parse_json(self, db_json_tmp):
-        name      = db_json_tmp['properties']['名前']['title'][0]['plain_text']
-        situation = db_json_tmp['properties']['区分']['select']['name']
-        timestamp = db_json_tmp['properties']['時間']['date']['start']
-        return {'name': name, 'situation': situation, 'timestamp': timestamp}
+    # データの整合性を確認
+    def _check_data(self, name:str, situation:str, timestamp:str) -> bool:
+        result = self._get_all_data()
+        return True
+
+    # データベースから全データを取得
+    def _get_all_data(self) -> list:
+        db_json = self.client.databases.query(self.NOTION_DATABASE_ID)['results']
+        result = []
+        for i in range(len(db_json)):
+            name      = db_json[i]['properties']['名前']['title'][0]['plain_text']
+            situation = db_json[i]['properties']['区分']['select']['name']
+            timestamp = db_json[i]['properties']['時間']['date']['start']
+            result.append({'name': name, 'situation': situation, 'timestamp': timestamp})
+        return sorted(result, key=lambda x: x['timestamp'], reverse=True)
