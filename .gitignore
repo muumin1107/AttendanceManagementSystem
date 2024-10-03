@@ -2,4 +2,10 @@
 **/.venv_attendance_manage/**
 
 # config
-**/config.json/**
+**/config/config.json
+
+# Cache
+**/__pycache__/**
+
+## others
+**/.vscode/**
