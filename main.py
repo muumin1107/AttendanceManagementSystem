@@ -1,4 +1,4 @@
-from _timesheet import Timesheet
+from lib._timesheet import Timesheet
 
 # インスタンス生成
 timesheet = Timesheet()
