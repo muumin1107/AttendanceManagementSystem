@@ -1,2 +1,0 @@
-nfcpy==1.0.4
-notion-client==2.2.1
