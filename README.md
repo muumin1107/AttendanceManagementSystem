@@ -13,9 +13,10 @@ RaspberryPiを使ったカードリーダー式の勤怠管理システムを作
 ## RaspberryPiのセットアップ
 
 - RaspberryPi 4 Model B
-- Raspberry Pi Imager v1.8.5
-- Raspbian 11.9
-- Kernel 6.1.21
+
+| Raspberry Pi Imager | OS | Kernel |
+----|----|----
+| v1.8.5 | Raspbian 11.9 | 6.1.21 |
 
 ```
 $ sudo apt update
