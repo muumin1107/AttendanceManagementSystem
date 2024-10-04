@@ -58,6 +58,14 @@ $ sudo udevadm control -R # then re-attach device
 
 ## インストール手順
 
+- requirements.txt
+
+| Library | Version |
+----|----
+| notion-client | 2.2.1 |
+| nfcpy | 1.0.4 |
+| cryptrography | 43.0.1 |
+
 ```
 $ cd ~/
 $ mkdir {任意のワークフォルダ}
@@ -66,7 +74,3 @@ $ git clone https://github.com/haradakaito/AttendanceManagementSystem.git
 $ pip install --upgrade pip
 $ pip install requirements.txt
 ```
-
-- notion-client==2.2.1
-- nfcpy==1.0.4
-- cryptrography==43.0.1
