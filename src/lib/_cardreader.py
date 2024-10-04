@@ -24,9 +24,6 @@ class CardReader:
             self.clf.connect(rdwr={'on-connect': self._on_connect})
             if self.uid:
                 encrypted_uid = self._encrypt_uid(self.uid)
-                print(self.uid)
-                print(encrypted_uid)
-                print(self._decrypt_uid(encrypted_uid))
                 return {'code': 200, 'body': encrypted_uid}
             else:
                 return {'code': 400, 'body': 'Bad Request'}
