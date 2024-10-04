@@ -5,7 +5,7 @@ RaspberryPiを使ったカードリーダー式の勤怠管理システムを作
 ## 開発環境
 
 - RaspberryPi 4 Model B
-- RC-S300/S1
+- RC-S380/S
 
 ## RaspberryPiのセットアップ
 
