@@ -2,7 +2,6 @@ from lib._timesheet import TimeSheet
 from lib._idpool import IdPool
 
 class NotionAPI:
-
     def __init__(self):
         self.timesheet = TimeSheet()
         self.idpool    = IdPool()
