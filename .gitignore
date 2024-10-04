@@ -4,6 +4,9 @@
 # config
 **/config/config.json
 
+# material
+**/__PNG__/**
+
 # Cache
 **/__pycache__/**
 
