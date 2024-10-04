@@ -85,7 +85,7 @@ class TimeSheet:
             result.append({'name': name, 'state': state, 'timestamp': timestamp})
         result = sorted(result, key=lambda x: x['timestamp'], reverse=True)
         if filter_name:
-            result = [i for i in result if i['name'] == filter_name]
+            result = [x for x in result if x['name'] == filter_name]
             if len(result) == 0:
                 return [{'name': filter_name, 'state': '未登録', 'timestamp': ''}]
             return result
