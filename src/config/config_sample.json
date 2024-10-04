@@ -3,5 +3,9 @@
         "NOTION_ACCESS_TOKEN": "Notion API Token",
         "NOTION_DATABASE_ID" : "Notion Database ID",
         "NOTION_IDPOOL_ID"   : "Notion ID Pool ID"
+    },
+    "card": {
+        "ENCRYPTION_KEY": "Card Encryption Key",
+        "IV"            : "Card IV"
     }
 }
