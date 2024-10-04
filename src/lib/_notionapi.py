@@ -1,5 +1,5 @@
-from _timesheet import TimeSheet
-from _idpool import IdPool
+from lib._timesheet import TimeSheet
+from lib._idpool import IdPool
 
 class NotionAPI:
     def __init__(self):
