@@ -10,8 +10,6 @@ RaspberryPiを使ったカードリーダー式の勤怠管理システムを作
 
 ![UIイメージ](https://github.com/user-attachments/assets/dcf3c998-1461-49b9-8bcf-6be652ccdd0f)
 
-![スクリーンショット 2024-10-05 010933](https://github.com/user-attachments/assets/0d420c8f-559a-4b3f-8661-12a87dbf57fa)
-
 ## RaspberryPiのセットアップ
 
 - RaspberryPi 4 Model B
