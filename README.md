@@ -65,3 +65,7 @@ $ git clone https://github.com/haradakaito/AttendanceManagementSystem.git
 $ pip install --upgrade pip
 $ pip install requirements.txt
 ```
+
+- notion-client==2.2.1
+- nfcpy==1.0.4
+- cryptrography==43.0.1
