@@ -1,5 +1,5 @@
 from lib._notionapi import NotionAPI
-from lib._card import CardReader
+from lib._cardreader import CardReader
 
 notionapi  = NotionAPI()
 cardreader = CardReader()

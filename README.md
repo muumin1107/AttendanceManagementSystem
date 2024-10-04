@@ -10,13 +10,9 @@ RaspberryPiを使ったカードリーダー式の勤怠管理システムを作
 
 ![UIイメージ](https://github.com/user-attachments/assets/dcf3c998-1461-49b9-8bcf-6be652ccdd0f)
 
-## 開発環境
-
-- RaspberryPi 4 Model B
-- RC-S380/S
-
 ## RaspberryPiのセットアップ
 
+- RaspberryPi 4 Model B
 - Raspberry Pi Imager v1.8.5
 - Raspbian 11.9
 - Kernel 6.1.21
@@ -34,6 +30,29 @@ $ sudo reboot
 ```
 
 ## カードリーダー接続
+
+Raspberry Pi 4 Model BにRC-S380/Sを接続する．
+- RC-S380/S
+
+```
+$ lsusb
+
+// Sony Corp. RC-S380/Sが認識されていることを確認
+
+$ sudo pip install nfcpy
+
+// nfcが適切にインストールされているかを確認
+$ git clone https://github.com/nfcpy/nfcpy.git
+$ sudo python3 nfcpy/examples/tagtool.py show
+
+// NFCカードを近づけて情報が表示されればOK
+
+$ python3 -m nfc
+
+// better assign ... と記載されている下の行に提示されたコマンドを入力
+$ sudo sh -c 'echo SUBSYSTEM==\"usb\", ACTION==\"add\", ATTRS{idVendor}==\"054c\", ATTRS{idProduct}==\"06c1\", GROUP=\"plugdev\" >> /etc/udev/rules.d/nfcdev.rules'
+$ sudo udevadm control -R # then re-attach device
+```
 
 
 ## インストール手順
