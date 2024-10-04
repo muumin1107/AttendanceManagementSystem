@@ -4,7 +4,7 @@ from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from notion_client import Client
 
-class Timesheet:
+class TimeSheet:
     # 設定ファイルの読み込み
     current_dir = Path(__file__).resolve().parent
     conf_path   = current_dir / '../config/config.json'

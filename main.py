@@ -1,7 +1,9 @@
-from lib._timesheet import Timesheet
+from lib._timesheet import TimeSheet
+from lib._idpool import IdPool
 
 # インスタンス生成
-timesheet = Timesheet()
+timesheet = TimeSheet()
+idpool    = IdPool()
 
 def add(name:str, next_state:str):
     entry_data = {'name': name, 'next_state': next_state}
@@ -23,5 +25,5 @@ def remove(name:str):
         return False
 
 if __name__ == "__main__":
-    add(name='原田海斗', next_state='出勤') # 例: {'name': '原田海斗', 'state': '出勤'}
+    add(name='原田海斗', next_state='退勤')
     # remove(name='原田海斗')
