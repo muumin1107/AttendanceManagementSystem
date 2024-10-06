@@ -4,6 +4,9 @@
 # python-version
 **/.python-version
 
+# test
+**/test.py
+
 # config
 # **/config/config.json
 
