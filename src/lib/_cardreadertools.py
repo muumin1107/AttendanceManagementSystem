@@ -6,7 +6,7 @@ from pathlib import Path
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 from cryptography.hazmat.backends import default_backend
 
-class CardReader:
+class CardReaderTools:
     # 設定ファイルの読み込み
     current_dir = Path(__file__).resolve().parent
     conf_path   = current_dir / '../config/config.json'
@@ -24,11 +24,9 @@ class CardReader:
             self.clf.connect(rdwr={'on-connect': self._on_connect})
             if self.uid:
                 encrypted_uid = self._encrypt_uid(self.uid)
-                return {'code': 200, 'body': encrypted_uid}
+                return encrypted_uid
             else:
-                return {'code': 400, 'body': 'Bad Request'}
-        except Exception as e:
-            return {'code': 500, 'body': str(e)}
+                return False
         finally:
             self.clf.close()
 
