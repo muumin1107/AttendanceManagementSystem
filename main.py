@@ -13,7 +13,7 @@ cardreadertools = CardReaderTools()
 def register_id(token:str, id_num:str, name:str, attribute:str, discription:str):
     try:
         result = requests.get(f'https://yleolp2v6n3y2csik6kwvnuioa0zfbik.lambda-url.ap-northeast-1.on.aws/?token={token}').json()
-        if result['body'] == 'valid':
+        if result['result'] == 'valid':
             id_num = cardreadertools.encrypt_uid(uid=id_num)
             if notiontools.add_id(id=id_num, name=name, attribute=attribute, discription=discription):
                 return {'code': 200, 'body': 'ID registration completed.'}
@@ -29,7 +29,7 @@ def register_id(token:str, id_num:str, name:str, attribute:str, discription:str)
 def register_attendance(token:str, id_num:str, next_state:str):
     try:
         result = requests.get(f'https://yleolp2v6n3y2csik6kwvnuioa0zfbik.lambda-url.ap-northeast-1.on.aws/?token={token}').json()
-        if result['body'] == 'valid':
+        if result['result'] == 'valid':
             id_num = cardreadertools.encrypt_uid(uid=id_num)
             name = notiontools.search_id(id_num=id_num)
             if name:
@@ -49,7 +49,7 @@ def register_attendance(token:str, id_num:str, next_state:str):
 def remove_data(token:str, id_num:str, mode:str, name:str):
     try:
         result = requests.get(f'https://yleolp2v6n3y2csik6kwvnuioa0zfbik.lambda-url.ap-northeast-1.on.aws/?token={token}').json()
-        if result['body'] == 'valid':
+        if result['result'] == 'valid':
             id_num = cardreadertools.encrypt_uid(uid=id_num)
             is_user = notiontools.search_id(id_num=id_num)
             if is_user == name and mode == 'id':
