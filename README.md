@@ -7,10 +7,15 @@ RaspberryPiを使ったカードリーダー式の勤怠管理システムを作
 ![システム概要図](https://github.com/user-attachments/assets/68536d9d-3d55-40ca-b80d-ccf64a32d61e)
 
 ## ユーザーインターフェース（一部）
+- **確認画面**
 
 ![UIイメージ](https://github.com/user-attachments/assets/dcf3c998-1461-49b9-8bcf-6be652ccdd0f)
 
 ![image](https://github.com/user-attachments/assets/da1da3da-157a-421f-b71a-b26e224a4ee9)
+
+- **勤怠画面**
+
+現在，実装中・・
 
 ## RaspberryPiのセットアップ
 
@@ -65,15 +70,15 @@ $ sudo udevadm control -R # then re-attach device
 | remove_data | token, id_num, mode, name | ID/勤怠DB情報の削除用API |
 | health | - | ヘルスチェック用のAPI |
 
-- register_id  
+- **register_id**  
 ID管理データベースに「ID（id_num），名前（name），属性（attribute），備考（discription）」を登録するAPI
 
-- register_attendance  
+- **register_attendance**  
 勤怠管理データベースに「名前（name），区分（next_state），時間」を登録するAPI
 
 
-- remove_data  
+- **remove_data**  
 「ID（id_num）」が登録されており，対応する名前「名前（name）」に該当するデータを，「モード指定（mode）」によってID管理データベース（id）・勤怠管理データベース（db）に対して削除処理を行う．  
 
-- health  
+- **health**  
 APIサーバーのヘルスチェックを行うAPI
