@@ -1,0 +1,20 @@
+# venv
+**/.venv_attendance/**
+
+# python-version
+**/.python-version
+
+# test
+**/test.py
+
+# config
+**/config/config.json
+
+# material
+**/__PNG__/**
+
+# Cache
+**/__pycache__/**
+
+## others
+**/.vscode/**
