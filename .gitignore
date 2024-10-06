@@ -1,8 +1,8 @@
 # venv
-**/.venv_attendance_manage/**
+**/.venv_attendance/**
 
 # python-version
-.python-version
+**/.python-version
 
 # config
 **/config/config.json
