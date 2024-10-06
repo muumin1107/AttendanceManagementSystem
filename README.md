@@ -55,22 +55,10 @@ $ sudo sh -c 'echo SUBSYSTEM==\"usb\", ACTION==\"add\", ATTRS{idVendor}==\"054c\
 $ sudo udevadm control -R # then re-attach device
 ```
 
-
-## インストール手順
-
-- requirements.txt
-
-| Library | Version |
-----|----
-| notion-client | 2.2.1 |
-| nfcpy | 1.0.4 |
-| cryptrography | 43.0.1 |
-
-```
-$ cd ~/
-$ mkdir {任意のワークフォルダ}
-$ cd {任意のワークフォルダ}
-$ git clone https://github.com/haradakaito/AttendanceManagementSystem.git
-$ pip install --upgrade pip
-$ pip install requirements.txt
-```
+## API仕様
+| API Name | Argument | note |
+----|----|----
+| register_id | id_num, name, attribute, discription | ID情報の登録用API |
+| register_attendance | id_num, next_state | 勤怠情報の登録用API |
+| remove_data | id_num, mode, name | ID/勤怠DB情報の削除用API |
+| health | - | ヘルスチェック用のAPI |
