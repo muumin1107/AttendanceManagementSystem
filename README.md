@@ -4,7 +4,7 @@ RaspberryPiを使ったカードリーダー式の勤怠管理システムを作
 
 ## システム概要図
 
-![システム概要図](https://github.com/user-attachments/assets/add9d3ab-426c-4c73-a235-633a943cf255)
+![システム概要図](https://github.com/user-attachments/assets/68536d9d-3d55-40ca-b80d-ccf64a32d61e)
 
 ## ユーザーインターフェース（一部）
 
