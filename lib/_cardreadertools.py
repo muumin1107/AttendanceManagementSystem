@@ -8,9 +8,11 @@ from cryptography.hazmat.backends import default_backend
 
 class CardReaderTools:
     def __init__(self):
-        self.uid            = None
+        # 環境変数の取得
         self.ENCRYPTION_KEY = os.environ.get('ENCRYPTION_KEY')
         self.IV             = os.environ.get('IV')
+        # ID情報の初期化
+        self.uid            = None
 
     def encrypt_uid(self, uid:str) -> str:
         # AES暗号化

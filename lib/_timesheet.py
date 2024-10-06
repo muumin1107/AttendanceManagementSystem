@@ -7,9 +7,11 @@ from notion_client import Client
 
 class TimeSheet:
     def __init__(self):
-        self.client              = Client(auth=self.NOTION_ACCESS_TOKEN)
+        # 環境変数の取得
         self.NOTION_ACCESS_TOKEN = os.environ.get('NOTION_ACCESS_TOKEN')
         self.NOTION_DATABASE_ID  = os.environ.get('NOTION_DATABASE_ID')
+        # Notionクライアントの初期化
+        self.client              = Client(auth=self.NOTION_ACCESS_TOKEN)
 
     # 勤怠データを追加
     def add_data(self, entry_data:json) -> None:

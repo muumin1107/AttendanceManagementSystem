@@ -6,9 +6,11 @@ from notion_client import Client
 
 class IdPool:
     def __init__(self):
-        self.client              = Client(auth=self.NOTION_ACCESS_TOKEN)
+        # 環境変数の取得
         self.NOTION_ACCESS_TOKEN = os.environ.get('NOTION_ACCESS_TOKEN')
         self.NOTION_IDPOOL_ID    = os.environ.get('NOTION_IDPOOL_ID')
+        # Notionクライアントの初期化
+        self.client              = Client(auth=self.NOTION_ACCESS_TOKEN)
 
     # IDプールデータを追加
     def add_id_data(self, entry_data:json) -> None:
