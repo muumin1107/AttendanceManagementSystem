@@ -10,6 +10,7 @@ cardreadertools = CardReaderTools()
 @app.post('/register_id')
 def register_id(id_num:str, name:str, attribute:str, discription:str):
     try:
+        id_num = cardreadertools.encrypt_uid(uid=id_num)
         if notiontools.add_id(id=id_num, name=name, attribute=attribute, discription=discription):
             return {'code': 200, 'body': 'ID registration completed.'}
         else:
@@ -21,6 +22,7 @@ def register_id(id_num:str, name:str, attribute:str, discription:str):
 @app.post('/register_attendance')
 def register_attendance(id_num:str, next_state:str):
     try:
+        id_num = cardreadertools.encrypt_uid(uid=id_num)
         name = notiontools.search_id(id_num=id_num)
         if name:
             if notiontools.add_db(name=name, next_state=next_state):
@@ -36,6 +38,7 @@ def register_attendance(id_num:str, next_state:str):
 @app.post('/remove_data')
 def remove_data(id_num:str, mode:str, name:str):
     try:
+        id_num = cardreadertools.encrypt_uid(uid=id_num)
         is_user = notiontools.search_id(id_num=id_num)
         if is_user == name and mode == 'id':
             if notiontools.remove_id(name=name):
@@ -51,17 +54,6 @@ def remove_data(id_num:str, mode:str, name:str):
                 return {'code': 400, 'body': 'Name is not found. / mode is invalid.'}
     except Exception as e:
                 return {'code': 500, 'body': str(e)}
-
-@app.get('/encrypt_uid')
-def encrypt_uid(uid:str):
-    try:
-        encrypt_uid = cardreadertools.encrypt_uid(uid=uid)
-        if encrypt_uid:
-            return {'code': 200, 'body': encrypt_uid}
-        else:
-            return {'code': 400, 'body': 'Failed to encrypt UID.'}
-    except Exception as e:
-        return {'code': 500, 'body': str(e)}
 
 @app.get('/')
 def root():
