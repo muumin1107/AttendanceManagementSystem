@@ -58,7 +58,7 @@ $ sudo udevadm control -R # then re-attach device
 ## API仕様
 | API Name | Argument | note |
 ----|----|----
-| register_id | id_num, name, attribute, discription | ID情報の登録用API |
-| register_attendance | id_num, next_state | 勤怠情報の登録用API |
-| remove_data | id_num, mode, name | ID/勤怠DB情報の削除用API |
+| register_id | token, id_num, name, attribute, discription | ID情報の登録用API |
+| register_attendance | token, id_num, next_state | 勤怠情報の登録用API |
+| remove_data | token, id_num, mode, name | ID/勤怠DB情報の削除用API |
 | health | - | ヘルスチェック用のAPI |
