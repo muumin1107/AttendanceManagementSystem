@@ -73,12 +73,6 @@ def remove_data(token:str, id_num:str, mode:str, name:str):
 def root():
     return {'code': 200, 'body': 'Welcome to the API server.'}
 
-import os
 @app.get('/health')
 def health():
-    NOTION_ACCESS_TOKEN = os.environ.get('NOTION_ACCESS_TOKEN')
-    NOTION_DATABASE_ID  = os.environ.get('NOTION_DATABASE_ID')
-    NOTION_IDPOOL_ID    = os.environ.get('NOTION_IDPOOL_ID')
-    ENCRYPTION_KEY      = os.environ.get('ENCRYPTION_KEY')
-    IV                  = os.environ.get('IV')
-    return {'code': 200, 'body': {"NOTION_ACCESS_TOKEN": NOTION_ACCESS_TOKEN, "NOTION_DATABASE_ID": NOTION_DATABASE_ID, "NOTION_IDPOOL_ID": NOTION_IDPOOL_ID, "ENCRYPTION_KEY": ENCRYPTION_KEY, "IV": IV}}
+    return {'code': 200, 'body': 'Health check OK.'}
