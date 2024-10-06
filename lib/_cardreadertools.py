@@ -1,4 +1,3 @@
-# import nfc
 import base64
 import json
 
@@ -16,24 +15,7 @@ class CardReaderTools:
     IV  = base64.b64decode(config['card']['IV'])
 
     def __init__(self):
-        # self.clf = nfc.ContactlessFrontend('usb')
         self.uid = None
-
-    # def read_card(self):
-    #     try:
-    #         self.clf.connect(rdwr={'on-connect': self._on_connect})
-    #         if self.uid:
-    #             encrypted_uid = self._encrypt_uid(self.uid)
-    #             return encrypted_uid
-    #         else:
-    #             return False
-    #     finally:
-    #         self.clf.close()
-
-    # def _on_connect(self, tag):
-    #     # カードのID（UID）を取得
-    #     self.uid = tag.identifier.hex()
-    #     return True
 
     def encrypt_uid(self, uid:str) -> str:
         # AES暗号化
