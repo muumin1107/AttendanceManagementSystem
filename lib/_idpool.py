@@ -1,7 +1,6 @@
 import json
 import os
 
-# from pathlib import Path
 from notion_client import Client
 
 class IdPool:

@@ -2,7 +2,6 @@ import json
 import os
 
 from datetime import datetime, timedelta, timezone
-# from pathlib import Path
 from notion_client import Client
 
 class TimeSheet:
