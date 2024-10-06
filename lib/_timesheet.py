@@ -2,14 +2,14 @@ import json
 import os
 
 from datetime import datetime, timedelta, timezone
-from pathlib import Path
+# from pathlib import Path
 from notion_client import Client
 
 class TimeSheet:
     # 設定ファイルの読み込み
-    current_dir = Path(__file__).resolve().parent
-    conf_path   = current_dir / '../config/config.json'
-    config      = json.load(open(conf_path, 'r', encoding='utf-8'))
+    # current_dir = Path(__file__).resolve().parent
+    # conf_path   = current_dir / '../config/config.json'
+    # config      = json.load(open(conf_path, 'r', encoding='utf-8'))
     # クラス変数
     # NOTION_ACCESS_TOKEN = config['notion']['NOTION_ACCESS_TOKEN']
     # NOTION_DATABASE_ID  = config['notion']['NOTION_DATABASE_ID']

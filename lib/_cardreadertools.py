@@ -1,16 +1,16 @@
 import base64
-import json
+# import json
 import os
 
-from pathlib import Path
+# from pathlib import Path
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 from cryptography.hazmat.backends import default_backend
 
 class CardReaderTools:
     # 設定ファイルの読み込み
-    current_dir = Path(__file__).resolve().parent
-    conf_path   = current_dir / '../config/config.json'
-    config      = json.load(open(conf_path, 'r', encoding='utf-8'))
+    # current_dir = Path(__file__).resolve().parent
+    # conf_path   = current_dir / '../config/config.json'
+    # config      = json.load(open(conf_path, 'r', encoding='utf-8'))
     # クラス変数
     # ENCRYPTION_KEY = base64.b64decode(config['card']['ENCRYPTION_KEY'])
     # IV  = base64.b64decode(config['card']['IV'])
