@@ -10,7 +10,7 @@ cardreadertools = CardReaderTools()
 
 # IDプールにID情報を登録
 @app.post('/register_id')
-def register_id(id_num:str, name:str, attribute:str, discription:str):
+def register_id(token:str, id_num:str, name:str, attribute:str, discription:str):
     try:
         result = requests.get(f'https://yleolp2v6n3y2csik6kwvnuioa0zfbik.lambda-url.ap-northeast-1.on.aws/?token={token}').json()
         if result['code'] == 200 and result['body'] == 'valid':
@@ -26,7 +26,7 @@ def register_id(id_num:str, name:str, attribute:str, discription:str):
 
 # 勤怠データを登録
 @app.post('/register_attendance')
-def register_attendance(id_num:str, next_state:str):
+def register_attendance(token:str, id_num:str, next_state:str):
     try:
         result = requests.get(f'https://yleolp2v6n3y2csik6kwvnuioa0zfbik.lambda-url.ap-northeast-1.on.aws/?token={token}').json()
         if result['code'] == 200 and result['body'] == 'valid':
