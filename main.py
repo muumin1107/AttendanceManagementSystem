@@ -51,3 +51,11 @@ def remove_data(id_num:str, mode:str, name:str):
                 return {'code': 400, 'body': 'Name is not found. / mode is invalid.'}
     except Exception as e:
                 return {'code': 500, 'body': str(e)}
+
+@app.get('/')
+def root():
+    return {'code': 200, 'body': 'Welcome to the API server.'}
+
+@app.get('/health')
+def health():
+    return {'code': 200, 'body': 'The server is running.'}
