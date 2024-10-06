@@ -62,3 +62,16 @@ $ sudo udevadm control -R # then re-attach device
 | register_attendance | token, id_num, next_state | 勤怠情報の登録用API |
 | remove_data | token, id_num, mode, name | ID/勤怠DB情報の削除用API |
 | health | - | ヘルスチェック用のAPI |
+
+- register_id
+ID管理データベースに「ID（id_num），名前（name），属性（attribute），備考（discription）」を登録するAPI
+
+- register_attendance
+勤怠管理データベースに「名前（name），区分（next_state），時間」を登録するAPI
+
+
+- remove_data
+「ID（id_num）」が登録されており，対応する名前「名前（name）」に該当するデータを，「モード指定（mode）」によってID管理データベース（id）・勤怠管理データベース（db）に対して削除処理を行う．  
+
+- health
+APIサーバーのヘルスチェックを行うAPI
