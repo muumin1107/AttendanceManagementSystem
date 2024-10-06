@@ -9,8 +9,8 @@ from cryptography.hazmat.backends import default_backend
 class CardReaderTools:
     def __init__(self):
         # 環境変数の取得
-        self.ENCRYPTION_KEY = os.environ.get('ENCRYPTION_KEY')
-        self.IV             = os.environ.get('IV')
+        self.ENCRYPTION_KEY = os.environ.get('ENCRYPTION_KEY').encode('utf-8')
+        self.IV             = os.environ.get('IV').encode('utf-8')
         # ID情報の初期化
         self.uid            = None
 
