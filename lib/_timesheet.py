@@ -7,8 +7,8 @@ from notion_client import Client
 class TimeSheet:
     def __init__(self):
         # 環境変数の取得
-        self.NOTION_ACCESS_TOKEN = os.environ.get('NOTION_ACCESS_TOKEN').encode('utf-8')
-        self.NOTION_DATABASE_ID  = os.environ.get('NOTION_DATABASE_ID').encode('utf-8')
+        self.NOTION_ACCESS_TOKEN = os.environ.get('NOTION_ACCESS_TOKEN')
+        self.NOTION_DATABASE_ID  = os.environ.get('NOTION_DATABASE_ID')
         # Notionクライアントの初期化
         self.client              = Client(auth=self.NOTION_ACCESS_TOKEN)
 
