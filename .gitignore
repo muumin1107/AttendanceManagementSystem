@@ -5,7 +5,7 @@
 **/.python-version
 
 # config
-**/config/config.json
+# **/config/config.json
 
 # material
 **/__PNG__/**
