@@ -52,6 +52,17 @@ def remove_data(id_num:str, mode:str, name:str):
     except Exception as e:
                 return {'code': 500, 'body': str(e)}
 
+@app.get('/encrypt_uid')
+def encrypt_uid(uid:str):
+    try:
+        encrypt_uid = cardreadertools.encrypt_uid(uid=uid)
+        if encrypt_uid:
+            return {'code': 200, 'body': encrypt_uid}
+        else:
+            return {'code': 400, 'body': 'Failed to encrypt UID.'}
+    except Exception as e:
+        return {'code': 500, 'body': str(e)}
+
 @app.get('/')
 def root():
     return {'code': 200, 'body': 'Welcome to the API server.'}
