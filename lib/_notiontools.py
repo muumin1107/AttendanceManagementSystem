@@ -18,8 +18,8 @@ class NotionTools:
         self.timesheet.remove_db_data(remove_name=name)
         return True
 
-    def add_id(self, id:str, name:str, attribute:str, discription:str):
-        id_data = {'id_num': id, 'name': name, 'attribute': attribute, 'discription': discription}
+    def add_id(self, id:str, name:str, attribute:str, description:str):
+        id_data = {'id_num': id, 'name': name, 'attribute': attribute, 'description': description}
         if self.idpool.check_id_data(entry_data=id_data):
             self.idpool.add_id_data(entry_data=id_data)
             return True

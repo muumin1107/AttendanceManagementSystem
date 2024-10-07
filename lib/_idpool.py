@@ -20,7 +20,7 @@ class IdPool:
                     'ID'  : {'title': [{'text': {'content': entry_data['id_num']}}]},
                     '名前': {'rich_text': [{'text': {'content': entry_data['name']}}]},
                     '属性': {'select': {'name': entry_data['attribute']}},
-                    '備考': {'rich_text': [{'text': {'content': entry_data['discription']}}]},
+                    '備考': {'rich_text': [{'text': {'content': entry_data['description']}}]},
                 }
             }
         )
@@ -45,7 +45,7 @@ class IdPool:
         data_check_list.append(isinstance(entry_data['id_num'], str))
         data_check_list.append(isinstance(entry_data['name'], str))
         data_check_list.append(entry_data['attribute'] in ['ICカード', 'スマートフォン', 'その他'])
-        data_check_list.append(isinstance(entry_data['discription'], str))
+        data_check_list.append(isinstance(entry_data['description'], str))
         if not all(data_check_list):
             return False
         # ID重複チェック
@@ -70,6 +70,6 @@ class IdPool:
             id_num      = db_json[i]['properties']['ID']['title'][0]['plain_text']
             name        = db_json[i]['properties']['名前']['rich_text'][0]['plain_text']
             attribute   = db_json[i]['properties']['属性']['select']['name']
-            discription = db_json[i]['properties']['備考']['rich_text'][0]['plain_text']
-            result.append({'id_num': id_num, 'name': name, 'attribute': attribute, 'discription': discription})
+            description = db_json[i]['properties']['備考']['rich_text'][0]['plain_text']
+            result.append({'id_num': id_num, 'name': name, 'attribute': attribute, 'description': description})
         return sorted(result, key=lambda x: x['id_num'], reverse=True)
