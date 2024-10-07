@@ -4,6 +4,9 @@
 # python-version
 **/.python-version
 
+# UI
+**/__UI__/**
+
 # test
 **/test.py
 
