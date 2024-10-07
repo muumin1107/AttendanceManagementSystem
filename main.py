@@ -8,10 +8,10 @@ cardreadertools = CardReaderTools()
 
 # IDプールにID情報を登録
 @app.post('/register_id')
-def register_id(id_num:str, name:str, attribute:str, discription:str):
+def register_id(id_num:str, name:str, attribute:str, description:str):
     try:
         id_num = cardreadertools.encrypt_uid(uid=id_num)
-        if notiontools.add_id(id=id_num, name=name, attribute=attribute, discription=discription):
+        if notiontools.add_id(id=id_num, name=name, attribute=attribute, description=description):
             return {'code': 200, 'body': 'ID registration completed.'}
         else:
             return {'code': 400, 'body': 'Failed to register ID.'}
