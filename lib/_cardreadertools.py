@@ -34,7 +34,7 @@ class CardReaderTools:
 
             # base64でエンコードして返す
             return base64.b64encode(encrypted_uid).decode('utf-8')
-        
+
         except Exception as e:
             raise ValueError(f"Error during encryption: {e}")
 
@@ -53,6 +53,6 @@ class CardReaderTools:
             unpadded_data = unpadder.update(decrypted_data) + unpadder.finalize()
 
             return unpadded_data.decode('utf-8')
-        
+
         except Exception as e:
             raise ValueError(f"Error during decryption: {e}")
