@@ -57,7 +57,7 @@ class NotionTools:
             return False
 
     # IDを検索して名前を返す
-    def search_id(self, id_num: str) -> str or None:
+    def search_id(self, id_num: str) -> str:
         try:
             name = self.idpool.search_id_data(id_num=id_num)
             if name:
