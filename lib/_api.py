@@ -32,7 +32,7 @@ class AttendanceSystemOperation:
                 return 'ID and name do not match'
             return True
         except Exception as e:
-            return f"Error in verifying ID and name: {e}"
+            return f"-> _verify_id_and_name: {e}"
 
     def register_id(self, id: str, name: str, attribute: str, description: str) -> Union[str, bool]:
         """
@@ -61,7 +61,7 @@ class AttendanceSystemOperation:
             self.notion_api_client.add_data(db_name='id', entry_data=entry_data)
             return True
         except Exception as e:
-            return f"Error in register_id: {e}"
+            return f"register_id {e}"
 
     def remove_id(self, id: str, name: str) -> Union[str, bool]:
         """
@@ -81,7 +81,7 @@ class AttendanceSystemOperation:
             self.notion_api_client.remove_data(db_name='id', name=name)
             return True
         except Exception as e:
-            return f"Error in remove_id: {e}"
+            return f"remove_id: {e}"
 
     def register_attendance(self, id: str, next_state: str) -> Union[str, bool]:
         """
@@ -113,7 +113,7 @@ class AttendanceSystemOperation:
             self.notion_api_client.add_data(db_name='attendance', entry_data=entry_data)
             return True
         except Exception as e:
-            return f"Error in register_attendance: {e}"
+            return f"register_attendance {e}"
 
     def remove_attendance(self, id: str, name: str) -> Union[str, bool]:
         """
@@ -133,4 +133,4 @@ class AttendanceSystemOperation:
             self.notion_api_client.remove_data(db_name='attendance', name=name)
             return True
         except Exception as e:
-            return f"Error in remove_attendance: {e}"
+            return f"remove_attendance {e}"
