@@ -205,6 +205,8 @@ class NotionAPIClient:
             data (list): 削除対象のデータリスト。
         """
         try:
+            if data is None or len(data) == 0:
+                return None
             for tmp in data:
                 self.client.pages.update(page_id=tmp['record_id'], archived=True)
         except Exception as e:
