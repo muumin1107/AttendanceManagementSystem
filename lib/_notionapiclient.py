@@ -323,9 +323,12 @@ class NotionAPIClient:
         try:
             return (
                 len(entry_data) == IDPOOL_COLUMNS_LENGTH    and
+                len(entry_data['id']) > 0                   and
                 isinstance(entry_data['id'], str)           and
+                len(entry_data['name']) > 0                 and
                 isinstance(entry_data['name'], str)         and
                 entry_data['attribute'] in VALID_ATTRIBUTES and
+                len(entry_data['description']) > 0          and
                 isinstance(entry_data['description'], str)
             )
         except Exception as e:
@@ -344,6 +347,7 @@ class NotionAPIClient:
         try:
             return (
                 len(entry_data) == ATTENDANCE_COLUMNS_LENGTH and
+                len(entry_data['name']) > 0                  and
                 isinstance(entry_data['name'], str)          and
                 entry_data['next_state'] in VALID_STATES
             )
