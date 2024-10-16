@@ -36,9 +36,9 @@ def register_id(id: str, name: str, attribute: str, description: str) -> dict:
     """
     try:
         result = AttendanceSystemOperation().register_id(id=id, name=name, attribute=attribute, description=description)
-        if not result:
-            return {"code": status.HTTP_400_BAD_REQUEST, "message": str(result)}
-        return {"code": status.HTTP_200_OK, "message": "ID registration successful"}
+        if result == True:
+            return {"code": status.HTTP_200_OK, "message": "ID registration successful"}
+        return {"code": status.HTTP_400_BAD_REQUEST, "message": str(result)}
     except Exception as e:
         return {"code": status.HTTP_500_INTERNAL_SERVER_ERROR, "message": str(e)}
 
@@ -57,9 +57,9 @@ def remove_id(id: str, name: str) -> dict:
     """
     try:
         result = AttendanceSystemOperation().remove_id(id=id, name=name)
-        if not result:
-            return {"code": status.HTTP_400_BAD_REQUEST, "message": str(result)}
-        return {"code": status.HTTP_200_OK, "message": "ID removal successful"}
+        if result == True:
+            return {"code": status.HTTP_200_OK, "message": "ID removal successful"}
+        return {"code": status.HTTP_400_BAD_REQUEST, "message": str(result)}
     except Exception as e:
         return {"code": status.HTTP_500_INTERNAL_SERVER_ERROR, "message": str(e)}
 
@@ -78,9 +78,9 @@ def register_attendance(id: str, next_state: str) -> dict:
     """
     try:
         result = AttendanceSystemOperation().register_attendance(id=id, next_state=next_state)
-        if not result:
-            return {"code": status.HTTP_400_BAD_REQUEST, "message": str(result)}
-        return {"code": status.HTTP_200_OK, "message": "Attendance registration successful"}
+        if result == True:
+            return {"code": status.HTTP_200_OK, "message": "Attendance registration successful"}
+        return {"code": status.HTTP_400_BAD_REQUEST, "message": str(result)}
     except Exception as e:
         return {"code": status.HTTP_500_INTERNAL_SERVER_ERROR, "message": str(e)}
 
@@ -99,8 +99,8 @@ def remove_attendance(id: str, name: str) -> dict:
     """
     try:
         result = AttendanceSystemOperation().remove_attendance(id=id, name=name)
-        if not result:
-            return {"code": status.HTTP_400_BAD_REQUEST, "message": str(result)}
-        return {"code": status.HTTP_200_OK, "message": "Attendance removal successful"}
+        if result == True:
+            return {"code": status.HTTP_200_OK, "message": "Attendance removal successful"}
+        return {"code": status.HTTP_400_BAD_REQUEST, "message": str(result)}
     except Exception as e:
         return {"code": status.HTTP_500_INTERNAL_SERVER_ERROR, "message": str(e)}

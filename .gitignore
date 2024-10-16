@@ -10,6 +10,7 @@
 # python
 **/main_ver1.0.py
 **/test.py
+**/api_test.py
 
 # config
 **/config/config.json

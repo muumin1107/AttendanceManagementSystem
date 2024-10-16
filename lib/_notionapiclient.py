@@ -26,18 +26,21 @@ class NotionAPIClient:
     def __init__(self) -> None:
         """
         Notion APIクライアントの初期化。環境変数からアクセストークンとデータベースIDを取得。
-        
+
         Raises:
             ValueError: アクセストークンやデータベースIDが設定されていない場合に発生。
         """
         try:
+            # self.NOTION_ACCESS_TOKEN  = "secret_BwVBrA563VsRztJHEEhwck1Xtik5dg6fyOkTUv91hiS"
+            # self.NOTION_IDPOOL_ID     = "1159f9f8038b8051ad0bc4397d3f3822"
+            # self.NOTION_ATTENDANCE_ID = "1149f9f8038b8070a006e438e261f8c8"
             self.NOTION_ACCESS_TOKEN  = os.environ.get('NOTION_ACCESS_TOKEN')  # Notion APIのアクセストークン
             self.NOTION_IDPOOL_ID     = os.environ.get('NOTION_IDPOOL_ID')     # IDプールのデータベースID
             self.NOTION_ATTENDANCE_ID = os.environ.get('NOTION_ATTENDANCE_ID') # 勤怠データベースID
 
             if not self.NOTION_ACCESS_TOKEN or not self.NOTION_IDPOOL_ID:
                 raise ValueError("Notion API access token and ID pool ID must be set in environment variables.")
-            
+
             self.client = Client(auth=self.NOTION_ACCESS_TOKEN)
         except Exception as e:
             raise ValueError(f"-> __init__ {e}")
@@ -51,7 +54,7 @@ class NotionAPIClient:
 
         Returns:
             list: データベースから取得したクエリ結果。
-        
+
         Raises:
             ValueError: 不明なデータベース名が指定された場合に発生。
         """
@@ -291,7 +294,7 @@ class NotionAPIClient:
 
         Returns:
             bool: 整合性が正しい場合はTrue、不正な場合はFalse。
-        
+
         Raises:
             ValueError: 不明なデータベース名が指定された場合に発生。
         """
