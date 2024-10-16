@@ -64,7 +64,6 @@ class TimeSheet:
 
         db_data = self._get_db_data(filter_name=entry_data['name'])
         current_state = db_data[0]['state'] if db_data else '未登録'
-
         # 次の状態が遷移可能か確認
         return entry_data['next_state'] in STATE_TRANSITIONS.get(current_state, [])
 
@@ -74,7 +73,6 @@ class TimeSheet:
         is_valid_length = len(entry_data) == 2
         is_valid_name = isinstance(entry_data['name'], str)
         is_valid_state = entry_data['next_state'] in VALID_STATES
-
         return is_valid_length and is_valid_name and is_valid_state
 
     # データベースからデータを取得
@@ -103,7 +101,6 @@ class TimeSheet:
             if not filtered_records:
                 return [{'name': filter_name, 'state': '未登録', 'timestamp': ''}]
             return filtered_records
-        
         return records
 
     # 現在の時刻を取得

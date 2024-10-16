@@ -12,7 +12,7 @@ class NotionTools:
     def add_db(self, name: str, next_state: str) -> bool:
         """勤怠データをタイムシートに追加"""
         entry_data = {'name': name, 'next_state': next_state}
-        
+
         # データの妥当性を確認
         if self.is_valid_timesheet_data(entry_data):
             try:
@@ -37,7 +37,7 @@ class NotionTools:
     def add_id(self, id: str, name: str, attribute: str, description: str) -> bool:
         """IDプールに新しいIDデータを追加"""
         id_data = {'id_num': id, 'name': name, 'attribute': attribute, 'description': description}
-        
+
         # IDデータの妥当性を確認
         if self.is_valid_id_data(id_data):
             try:
