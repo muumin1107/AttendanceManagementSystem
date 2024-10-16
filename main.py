@@ -35,7 +35,7 @@ def register_id(id: str, name: str, attribute: str, description: str) -> dict:
         dict: 登録結果メッセージ。
     """
     try:
-        result = AttendanceSystemOperation.register_id(id=id, name=name, attribute=attribute, description=description)
+        result = AttendanceSystemOperation().register_id(id=id, name=name, attribute=attribute, description=description)
         if not result:
             raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(result))
         return {"code": status.HTTP_200_OK, "message": "ID registration successful"}
@@ -56,7 +56,7 @@ def remove_id(id: str, name: str) -> dict:
         dict: 削除結果メッセージ。
     """
     try:
-        result = AttendanceSystemOperation.remove_id(id=id, name=name)
+        result = AttendanceSystemOperation().remove_id(id=id, name=name)
         if not result:
             raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(result))
         return {"code": status.HTTP_200_OK, "message": "ID removal successful"}
@@ -77,7 +77,7 @@ def register_attendance(id: str, next_state: str) -> dict:
         dict: 登録結果メッセージ。
     """
     try:
-        result = AttendanceSystemOperation.register_attendance(id=id, next_state=next_state)
+        result = AttendanceSystemOperation().register_attendance(id=id, next_state=next_state)
         if not result:
             raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(result))
         return {"code": status.HTTP_200_OK, "message": "Attendance registration successful"}
@@ -98,7 +98,7 @@ def remove_attendance(id: str, name: str) -> dict:
         dict: 削除結果メッセージ。
     """
     try:
-        result = AttendanceSystemOperation.remove_attendance(id=id, name=name)
+        result = AttendanceSystemOperation().remove_attendance(id=id, name=name)
         if not result:
             raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(result))
         return {"code": status.HTTP_200_OK, "message": "Attendance removal successful"}
