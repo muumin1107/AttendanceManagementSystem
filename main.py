@@ -1,5 +1,5 @@
 from lib._api import AttendanceSystemOperation
-from fastapi import FastAPI, HTTPException, status
+from fastapi import FastAPI, status
 
 app = FastAPI()
 
@@ -37,10 +37,10 @@ def register_id(id: str, name: str, attribute: str, description: str) -> dict:
     try:
         result = AttendanceSystemOperation().register_id(id=id, name=name, attribute=attribute, description=description)
         if not result:
-            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(result))
+            return {"code": status.HTTP_400_BAD_REQUEST, "message": str(result)}
         return {"code": status.HTTP_200_OK, "message": "ID registration successful"}
     except Exception as e:
-        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e))
+        return {"code": status.HTTP_500_INTERNAL_SERVER_ERROR, "message": str(e)}
 
 # ID削除エンドポイント
 @app.delete("/remove_id")
@@ -58,10 +58,10 @@ def remove_id(id: str, name: str) -> dict:
     try:
         result = AttendanceSystemOperation().remove_id(id=id, name=name)
         if not result:
-            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(result))
+            return {"code": status.HTTP_400_BAD_REQUEST, "message": str(result)}
         return {"code": status.HTTP_200_OK, "message": "ID removal successful"}
     except Exception as e:
-        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e))
+        return {"code": status.HTTP_500_INTERNAL_SERVER_ERROR, "message": str(e)}
 
 # 勤怠登録エンドポイント
 @app.post("/register_attendance")
@@ -79,10 +79,10 @@ def register_attendance(id: str, next_state: str) -> dict:
     try:
         result = AttendanceSystemOperation().register_attendance(id=id, next_state=next_state)
         if not result:
-            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(result))
+            return {"code": status.HTTP_400_BAD_REQUEST, "message": str(result)}
         return {"code": status.HTTP_200_OK, "message": "Attendance registration successful"}
     except Exception as e:
-        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e))
+        return {"code": status.HTTP_500_INTERNAL_SERVER_ERROR, "message": str(e)}
 
 # 勤怠削除エンドポイント
 @app.delete("/remove_attendance")
@@ -100,7 +100,7 @@ def remove_attendance(id: str, name: str) -> dict:
     try:
         result = AttendanceSystemOperation().remove_attendance(id=id, name=name)
         if not result:
-            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(result))
+            return {"code": status.HTTP_400_BAD_REQUEST, "message": str(result)}
         return {"code": status.HTTP_200_OK, "message": "Attendance removal successful"}
     except Exception as e:
-        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e))
+        return {"code": status.HTTP_500_INTERNAL_SERVER_ERROR, "message": str(e)}
