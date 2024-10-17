@@ -34,7 +34,7 @@ class AttendanceSystemOperation:
         except Exception as e:
             return f"-> _verify_id_and_name: {e}"
 
-    async def register_id(self, id: str, name: str, attribute: str, description: str) -> Union[str, bool]:
+    def register_id(self, id: str, name: str, attribute: str, description: str) -> Union[str, bool]:
         """
         IDプールに新しいIDを登録する。
 
@@ -54,16 +54,16 @@ class AttendanceSystemOperation:
                 'attribute': attribute,
                 'description': description
             }
-            if not await self.notion_api_client.validate_data(db_name='id', entry_data=entry_data):
+            if not self.notion_api_client.validate_data(db_name='id', entry_data=entry_data):
                 return 'Invalid entry data'
-            if await self.notion_api_client.check_duplicate_id(id=id):
+            if self.notion_api_client.check_duplicate_id(id=id):
                 return 'Duplicate ID'
             self.notion_api_client.add_data(db_name='id', entry_data=entry_data)
             return True
         except Exception as e:
             return f"register_id {e}"
 
-    async def remove_id(self, id: str, name: str) -> Union[str, bool]:
+    def remove_id(self, id: str, name: str) -> Union[str, bool]:
         """
         IDプールから指定したIDを削除する。
 
@@ -75,7 +75,7 @@ class AttendanceSystemOperation:
             Union[str, bool]: エラーが発生した場合はエラーメッセージ。正常に削除された場合はTrue。
         """
         try:
-            verification_result = await self._verify_id_and_name(id=id, name=name)
+            verification_result = self._verify_id_and_name(id=id, name=name)
             if verification_result is not True:
                 return verification_result
             self.notion_api_client.remove_data(db_name='id', name=name)
@@ -83,7 +83,7 @@ class AttendanceSystemOperation:
         except Exception as e:
             return f"remove_id: {e}"
 
-    async def register_attendance(self, id: str, next_state: str) -> Union[str, bool]:
+    def register_attendance(self, id: str, next_state: str) -> Union[str, bool]:
         """
         勤怠データベースに勤怠状態を登録する。
 
@@ -95,7 +95,7 @@ class AttendanceSystemOperation:
             Union[str, bool]: エラーが発生した場合はエラーメッセージ。正常に登録された場合はTrue。
         """
         try:
-            name_by_id = await self.notion_api_client.get_name(id=id)
+            name_by_id = self.notion_api_client.get_name(id=id)
             if name_by_id is None:
                 return 'ID not found'
 
@@ -105,9 +105,9 @@ class AttendanceSystemOperation:
                 'current_time': self.notion_api_client.get_current_time()
             }
 
-            if not await self.notion_api_client.validate_data(db_name='attendance', entry_data=entry_data):
+            if not self.notion_api_client.validate_data(db_name='attendance', entry_data=entry_data):
                 return 'Invalid entry data'
-            if not await self.notion_api_client.check_valid_state(name=name_by_id, next_state=next_state):
+            if not self.notion_api_client.check_valid_state(name=name_by_id, next_state=next_state):
                 return 'Invalid next state'
 
             self.notion_api_client.add_data(db_name='attendance', entry_data=entry_data)
@@ -115,7 +115,7 @@ class AttendanceSystemOperation:
         except Exception as e:
             return f"register_attendance {e}"
 
-    async def remove_attendance(self, id: str, name: str) -> Union[str, bool]:
+    def remove_attendance(self, id: str, name: str) -> Union[str, bool]:
         """
         勤怠データベースから指定したユーザーの勤怠データを削除する。
 
@@ -127,7 +127,7 @@ class AttendanceSystemOperation:
             Union[str, bool]: エラーが発生した場合はエラーメッセージ。正常に削除された場合はTrue。
         """
         try:
-            verification_result = await self._verify_id_and_name(id=id, name=name)
+            verification_result = self._verify_id_and_name(id=id, name=name)
             if verification_result is not True:
                 return verification_result
             self.notion_api_client.remove_data(db_name='attendance', name=name)

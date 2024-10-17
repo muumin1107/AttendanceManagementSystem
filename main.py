@@ -48,7 +48,7 @@ def health_check() -> dict:
 
 # ID登録エンドポイント
 @app.post("/register_id")
-async def register_id(request: RegisterIdRequest) -> JSONResponse:
+def register_id(request: RegisterIdRequest) -> JSONResponse:
     """
     IDを登録するエンドポイント。
 
@@ -59,7 +59,7 @@ async def register_id(request: RegisterIdRequest) -> JSONResponse:
         JSONResponse: 登録結果メッセージ。
     """
     try:
-        result = await AttendanceSystemOperation().register_id(id=request.id, name=request.name, attribute=request.attribute, description=request.description)
+        result = AttendanceSystemOperation().register_id(id=request.id, name=request.name, attribute=request.attribute, description=request.description)
         if result == True:
             return JSONResponse(content=Response(code=status.HTTP_200_OK, message="ID registration successful").dict(), status_code=status.HTTP_200_OK)
         return JSONResponse(content=Response(code=status.HTTP_400_BAD_REQUEST, message=str(result)).dict(), status_code=status.HTTP_400_BAD_REQUEST)
@@ -68,7 +68,7 @@ async def register_id(request: RegisterIdRequest) -> JSONResponse:
 
 # ID削除エンドポイント
 @app.delete("/remove_id")
-async def remove_id(request: RemoveIdRequest) -> JSONResponse:
+def remove_id(request: RemoveIdRequest) -> JSONResponse:
     """
     IDを削除するエンドポイント。
 
@@ -79,7 +79,7 @@ async def remove_id(request: RemoveIdRequest) -> JSONResponse:
         JSONResponse: 削除結果メッセージ。
     """
     try:
-        result = await AttendanceSystemOperation().remove_id(id=request.id, name=request.name)
+        result = AttendanceSystemOperation().remove_id(id=request.id, name=request.name)
         if result == True:
             return JSONResponse(content=Response(code=status.HTTP_200_OK, message="ID removal successful").dict(), status_code=status.HTTP_200_OK)
         return JSONResponse(content=Response(code=status.HTTP_400_BAD_REQUEST, message=str(result)).dict(), status_code=status.HTTP_400_BAD_REQUEST)
@@ -88,7 +88,7 @@ async def remove_id(request: RemoveIdRequest) -> JSONResponse:
 
 # 勤怠登録エンドポイント
 @app.post("/register_attendance")
-async def register_attendance(request: RegisterAttendanceRequest) -> JSONResponse:
+def register_attendance(request: RegisterAttendanceRequest) -> JSONResponse:
     """
     勤怠状態を登録するエンドポイント。
 
@@ -99,7 +99,7 @@ async def register_attendance(request: RegisterAttendanceRequest) -> JSONRespons
         JSONResponse: 登録結果メッセージ。
     """
     try:
-        result = await AttendanceSystemOperation().register_attendance(id=request.id, next_state=request.next_state)
+        result = AttendanceSystemOperation().register_attendance(id=request.id, next_state=request.next_state)
         if result == True:
             return JSONResponse(content=Response(code=status.HTTP_200_OK, message="Attendance registration successful").dict(), status_code=status.HTTP_200_OK)
         return JSONResponse(content=Response(code=status.HTTP_400_BAD_REQUEST, message=str(result)).dict(), status_code=status.HTTP_400_BAD_REQUEST)
@@ -108,7 +108,7 @@ async def register_attendance(request: RegisterAttendanceRequest) -> JSONRespons
 
 # 勤怠削除エンドポイント
 @app.delete("/remove_attendance")
-async def remove_attendance(request: RemoveAttendanceRequest) -> JSONResponse:
+def remove_attendance(request: RemoveAttendanceRequest) -> JSONResponse:
     """
     勤怠データを削除するエンドポイント。
 
@@ -119,7 +119,7 @@ async def remove_attendance(request: RemoveAttendanceRequest) -> JSONResponse:
         JSONResponse: 削除結果メッセージ。
     """
     try:
-        result = await AttendanceSystemOperation().remove_attendance(id=request.id, name=request.name)
+        result = AttendanceSystemOperation().remove_attendance(id=request.id, name=request.name)
         if result == True:
             return JSONResponse(content=Response(code=status.HTTP_200_OK, message="Attendance removal successful").dict(), status_code=status.HTTP_200_OK)
         return JSONResponse(content=Response(code=status.HTTP_400_BAD_REQUEST, message=str(result)).dict(), status_code=status.HTTP_400_BAD_REQUEST)
