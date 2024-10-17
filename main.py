@@ -48,7 +48,7 @@ def health_check() -> dict:
 
 # ID登録エンドポイント
 @app.post("/register_id")
-def register_id(request: RegisterIdRequest) -> JSONResponse:
+async def register_id(request: RegisterIdRequest) -> JSONResponse:
     """
     IDを登録するエンドポイント。
 
@@ -68,7 +68,7 @@ def register_id(request: RegisterIdRequest) -> JSONResponse:
 
 # ID削除エンドポイント
 @app.delete("/remove_id")
-def remove_id(request: RemoveIdRequest) -> JSONResponse:
+async def remove_id(request: RemoveIdRequest) -> JSONResponse:
     """
     IDを削除するエンドポイント。
 
@@ -88,7 +88,7 @@ def remove_id(request: RemoveIdRequest) -> JSONResponse:
 
 # 勤怠登録エンドポイント
 @app.post("/register_attendance")
-def register_attendance(request: RegisterAttendanceRequest) -> JSONResponse:
+async def register_attendance(request: RegisterAttendanceRequest) -> JSONResponse:
     """
     勤怠状態を登録するエンドポイント。
 
@@ -108,7 +108,7 @@ def register_attendance(request: RegisterAttendanceRequest) -> JSONResponse:
 
 # 勤怠削除エンドポイント
 @app.delete("/remove_attendance")
-def remove_attendance(request: RemoveAttendanceRequest) -> JSONResponse:
+async def remove_attendance(request: RemoveAttendanceRequest) -> JSONResponse:
     """
     勤怠データを削除するエンドポイント。
 
