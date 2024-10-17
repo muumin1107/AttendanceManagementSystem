@@ -1,10 +1,20 @@
 from lib._api import AttendanceSystemOperation
 from fastapi import FastAPI, status
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 
 # FastAPIのインスタンスを生成
 app = FastAPI()
+
+# CORS設定
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # リクエストボディのスキーマを定義
 class RegisterIdRequest(BaseModel):
