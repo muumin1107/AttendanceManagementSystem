@@ -12,7 +12,7 @@ def read_root() -> dict:
     return {"message": "Welcome to the Attendance System API"}
 
 # ヘルスチェックエンドポイント
-@app.get("/health")
+@app.get("/health", responses={200: {"message": "Service is up and running"}})
 def health_check() -> dict:
     """
     サービスの稼働状況を確認するエンドポイント。
@@ -20,7 +20,7 @@ def health_check() -> dict:
     return {"message": "Service is up and running"}
 
 # ID登録エンドポイント
-@app.post("/register_id")
+@app.post("/register_id", responses={status.HTTP_200_OK: {"message": "ID registration successful"}})
 def register_id(id: str, name: str, attribute: str, description: str) -> dict:
     """
     IDを登録するエンドポイント。
@@ -43,7 +43,7 @@ def register_id(id: str, name: str, attribute: str, description: str) -> dict:
         return {"code": status.HTTP_500_INTERNAL_SERVER_ERROR, "message": str(e)}
 
 # ID削除エンドポイント
-@app.delete("/remove_id")
+@app.delete("/remove_id", responses={status.HTTP_200_OK: {"message": "ID removal successful"}})
 def remove_id(id: str, name: str) -> dict:
     """
     IDを削除するエンドポイント。
@@ -64,7 +64,7 @@ def remove_id(id: str, name: str) -> dict:
         return {"code": status.HTTP_500_INTERNAL_SERVER_ERROR, "message": str(e)}
 
 # 勤怠登録エンドポイント
-@app.post("/register_attendance")
+@app.post("/register_attendance", responses={status.HTTP_200_OK: {"message": "Attendance registration successful"}})
 def register_attendance(id: str, next_state: str) -> dict:
     """
     勤怠状態を登録するエンドポイント。
@@ -85,7 +85,7 @@ def register_attendance(id: str, next_state: str) -> dict:
         return {"code": status.HTTP_500_INTERNAL_SERVER_ERROR, "message": str(e)}
 
 # 勤怠削除エンドポイント
-@app.delete("/remove_attendance")
+@app.delete("/remove_attendance", responses={status.HTTP_200_OK: {"message": "Attendance removal successful"}})
 def remove_attendance(id: str, name: str) -> dict:
     """
     勤怠データを削除するエンドポイント。
