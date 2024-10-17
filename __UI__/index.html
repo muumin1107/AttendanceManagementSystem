@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>勤怠管理システム / Attendance Management System</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="./__PNG__/mineno.png">
+    
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="index.css">
+    
+    <!-- JavaScript -->
+    <script src="index.js" defer></script>
+</head>
+
+<body>
+    <!-- ==============================
+         Card Container (Main Section)
+    =============================== -->
+    <div class="card" id="cardContainer">
+        <!-- Current Date -->
+        <div id="currentDate"></div>
+        
+        <!-- Current Time -->
+        <div id="currentTime"></div>
+        
+        <!-- Button Container -->
+        <div class="button-container">
+            <!-- Clock In Button -->
+            <button id="clockIn" onclick="handleButtonClick(this)">
+                <span class="button-text">
+                    <span>出勤</span>
+                    <span>Clock In</span>
+                </span>
+            </button>
+            
+            <!-- Break Start Button -->
+            <button id="breakStart" onclick="handleButtonClick(this)">
+                <span class="button-text">
+                    <span>休入</span>
+                    <span>Break Start</span>
+                </span>
+            </button>
+            
+            <!-- Break End Button -->
+            <button id="breakEnd" onclick="handleButtonClick(this)">
+                <span class="button-text">
+                    <span>休出</span>
+                    <span>Break End</span>
+                </span>
+            </button>
+            
+            <!-- Clock Out Button -->
+            <button id="clockOut" onclick="handleButtonClick(this)">
+                <span class="button-text">
+                    <span>退勤</span>
+                    <span>Clock Out</span>
+                </span>
+            </button>
+        </div>
+        
+        <!-- Register ID Link -->
+        <div class="register_id">
+            <a href="javascript:void(0)" onclick="openModal()">
+                新規IDの登録はこちら（Click here to register a new ID）
+            </a>
+        </div>
+    </div>
+    
+    <!-- ==============================
+         Modal for Registration Form
+    =============================== -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal-container" id="modalContainer">
+            <div class="form-container">
+                <!-- Form Title -->
+                <h2>新規IDの登録 (Register New ID)</h2>
+                
+                <!-- Full Name Input -->
+                <label for="fullName">名前 (Full Name)
+                    <p id="name_error" style="display: none;">Please Input Full Name</p>
+                </label>
+                <input type="text" id="fullName" placeholder="例：山田太郎">
+                
+                <!-- Attribute Select -->
+                <label for="attribute">属性 (Attribute)
+                    <p id="attribute_error" style="display: none;">Please Select Attribute</p>
+                </label>
+                <select id="attribute">
+                    <option value="" disabled selected>-- 以下から選択してください --</option>
+                    <option value="ICカード">ICカード</option>
+                    <option value="スマートフォン">スマートフォン</option>
+                    <option value="その他">その他</option>
+                </select>
+                
+                <!-- Description Input -->
+                <label for="description">説明 (Description)
+                    <p id="description_error" style="display: none;">Please Input Description</p>
+                </label>
+                <input type="text" id="description" placeholder="例：学生証">
+                
+                <!-- Register Button -->
+                <button type="button" onclick="handleRegisterClick()">Proceed to Card Touch</button>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
