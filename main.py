@@ -59,7 +59,7 @@ async def register_id(request: RegisterIdRequest) -> JSONResponse:
         JSONResponse: 登録結果メッセージ。
     """
     try:
-        result = AttendanceSystemOperation().register_id(id=request.id, name=request.name, attribute=request.attribute, description=request.description)
+        result = await AttendanceSystemOperation().register_id(id=request.id, name=request.name, attribute=request.attribute, description=request.description)
         if result == True:
             return JSONResponse(content=Response(code=status.HTTP_200_OK, message="ID registration successful").dict(), status_code=status.HTTP_200_OK)
         return JSONResponse(content=Response(code=status.HTTP_400_BAD_REQUEST, message=str(result)).dict(), status_code=status.HTTP_400_BAD_REQUEST)
@@ -79,7 +79,7 @@ async def remove_id(request: RemoveIdRequest) -> JSONResponse:
         JSONResponse: 削除結果メッセージ。
     """
     try:
-        result = AttendanceSystemOperation().remove_id(id=request.id, name=request.name)
+        result = await AttendanceSystemOperation().remove_id(id=request.id, name=request.name)
         if result == True:
             return JSONResponse(content=Response(code=status.HTTP_200_OK, message="ID removal successful").dict(), status_code=status.HTTP_200_OK)
         return JSONResponse(content=Response(code=status.HTTP_400_BAD_REQUEST, message=str(result)).dict(), status_code=status.HTTP_400_BAD_REQUEST)
@@ -99,7 +99,7 @@ async def register_attendance(request: RegisterAttendanceRequest) -> JSONRespons
         JSONResponse: 登録結果メッセージ。
     """
     try:
-        result = AttendanceSystemOperation().register_attendance(id=request.id, next_state=request.next_state)
+        result = await AttendanceSystemOperation().register_attendance(id=request.id, next_state=request.next_state)
         if result == True:
             return JSONResponse(content=Response(code=status.HTTP_200_OK, message="Attendance registration successful").dict(), status_code=status.HTTP_200_OK)
         return JSONResponse(content=Response(code=status.HTTP_400_BAD_REQUEST, message=str(result)).dict(), status_code=status.HTTP_400_BAD_REQUEST)
@@ -119,7 +119,7 @@ async def remove_attendance(request: RemoveAttendanceRequest) -> JSONResponse:
         JSONResponse: 削除結果メッセージ。
     """
     try:
-        result = AttendanceSystemOperation().remove_attendance(id=request.id, name=request.name)
+        result = await AttendanceSystemOperation().remove_attendance(id=request.id, name=request.name)
         if result == True:
             return JSONResponse(content=Response(code=status.HTTP_200_OK, message="Attendance removal successful").dict(), status_code=status.HTTP_200_OK)
         return JSONResponse(content=Response(code=status.HTTP_400_BAD_REQUEST, message=str(result)).dict(), status_code=status.HTTP_400_BAD_REQUEST)
