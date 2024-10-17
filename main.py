@@ -4,7 +4,7 @@ from fastapi import FastAPI, status
 app = FastAPI()
 
 # ルートエンドポイント
-@app.get("/")
+@app.get("/", responses={200: {"message": "Welcome to the Attendance System API"}})
 def read_root() -> dict:
     """
     APIのルートエンドポイント。ウェルカムメッセージを返す。
