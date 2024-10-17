@@ -197,7 +197,7 @@ class NotionAPIClient:
         except Exception as e:
             raise ValueError(f"-> remove_data {e}")
 
-    async def _remove_all_data(self, data: List[Dict[str, Any]]) -> None:
+    def _remove_all_data(self, data: List[Dict[str, Any]]) -> None:
         """
         指定されたデータを全て削除（アーカイブ）する。
 
@@ -253,7 +253,7 @@ class NotionAPIClient:
         except Exception as e:
             raise ValueError(f"-> _add_id_data: {e}")
 
-    async def _add_attendance_data(self, entry_data: Dict[str, Any]) -> None:
+    def _add_attendance_data(self, entry_data: Dict[str, Any]) -> None:
         """
         勤怠データベースにデータを追加する。
 
