@@ -5,7 +5,7 @@
 **/.python-version
 
 # UI
-# **/__UI__/**
+**/__UI__/react-sample-app/**
 
 # python
 **/main_ver1.0.py
