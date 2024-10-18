@@ -1,0 +1,62 @@
+.CardReading {
+    text-align: center;
+  }
+
+.CardReading-header {
+  background: linear-gradient(to bottom, #1a202c, #2d3748);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+  position: relative;
+  overflow: hidden;
+}
+
+.icon-container {
+  width: 120px;
+  height: 120px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+
+.wifi-icon {
+  width: 65px;
+  height: 65px;
+  color: white;
+}
+
+.touch-message-jp {
+  font-weight: bold;
+  margin: 5px;
+  font-size: 1.5em;
+}
+
+.touch-message-en {
+  font-weight: bold;
+  margin: 5px;
+  font-size: 1.0em;
+  color: #a0aec0;
+}
+
+.start-button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  font-size: 16px;
+  color: white;
+  background-color: #4a5568;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.start-button:hover {
+  background-color: #2d3748;
+}

@@ -1,0 +1,12 @@
+.current-datetime {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-size: 1.5em;
+    font-weight: bold;
+    text-align: center;
+}
+
+.time {
+    font-size: 1.5em;
+}
