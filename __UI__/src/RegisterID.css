@@ -125,7 +125,7 @@ button:hover {
   border-width: 3px;
   padding: 10px 20px;
   cursor: pointer;
-  font-size: calc(1vw + 0.5rem);
+  font-size: calc(0.5vw + 0.7rem);
   transition: background-color 0.3s ease;
 }
 
@@ -141,7 +141,7 @@ button:hover {
   border: none;
   padding: 10px 20px;
   cursor: pointer;
-  font-size: calc(1vw + 0.5rem);
+  font-size: calc(0.5vw + 0.7rem);
   transition: background-color 0.3s ease;
 }
 
