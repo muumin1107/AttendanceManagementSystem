@@ -1,0 +1,150 @@
+.App {
+  text-align: center;
+}
+
+.App-header {
+  background: linear-gradient(to bottom, #1a202c, #2d3748);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(8px + 1.5vmin);
+  color: white;
+  position: relative;
+  overflow: hidden;
+}
+
+.register-container {
+  max-width: 600px;
+  width: 90%;
+  margin: 0 auto;
+  padding: 30px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.registerIDform-title-jp {
+  font-weight: bold;
+  margin-top: 0;
+  margin-bottom: 10px;
+  font-size: 1.5em;
+}
+
+.registerIDform-title-en {
+  font-weight: bold;
+  margin-top: 0;
+  margin-bottom: 20px;
+  font-size: 1.0em;
+  color: #a0aec0;
+}
+
+.form-group {
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: #e2e8f0;
+  font-size: 0.9em;
+}
+
+input[type="text"],
+textarea,
+select {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #4a5568;
+  border-radius: 4px;
+  font-size: 0.9em;
+  background-color: #2d3748;
+  color: #e2e8f0;
+  box-sizing: border-box;
+}
+
+textarea {
+  height: 100px;
+  resize: vertical;
+}
+
+select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url('data:image/svg+xml;utf8,<svg fill="%23ffffff" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
+  background-repeat: no-repeat;
+  background-position-x: 98%;
+  background-position-y: 50%;
+}
+
+input::placeholder,
+textarea::placeholder {
+  font: 0.9em 'Nunito', sans-serif;
+  color: #718096;
+}
+
+button {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  font-weight: bold;
+  background-color: #4299e1;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 1em;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #3182ce;
+}
+
+.error {
+  color: #fc8181;
+  font-size: 0.8em;
+  margin-top: 5px;
+  display: block;
+}
+
+.button-group {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.back-button {
+  background-color: #ccc;
+  color: #4299e1;
+  border: 1px solid #4299e1;
+  border-width: 3px;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: calc(1vw + 0.5rem);
+  transition: background-color 0.3s ease;
+}
+
+.back-button:hover {
+  background-color: #4299e1;
+  border-color: #4299e1;
+  color: white;
+}
+
+.next-button {
+  background-color: #4299e1;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: calc(1vw + 0.5rem);
+  transition: background-color 0.3s ease;
+}
+
+.next-button:hover {
+  background-color: #3182ce;
+}

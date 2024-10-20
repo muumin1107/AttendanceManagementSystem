@@ -1,22 +1,17 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
-import { Wifi } from 'lucide-react';
+import { Wifi, X } from 'lucide-react';
 import CurrentDateTime from './CurrentDateTime';
-import Loading from './Loading';
 import './CardReading.css';
 
-function CardReading() {
-  const [isLoading, setIsLoading] = useState(false);
-
-  const handleStartLoading = () => {
-    setIsLoading(true);
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 3000);
-  };
-
-  if (isLoading) {
-    return <Loading />;
+function CardReading({ formData, attendanceData, onCancel }) {
+  // テスト用
+  if (formData) {
+    console.log('formData:', formData.fullName, formData.attribute, formData.description);
+  } else if (attendanceData) {
+    console.log('attendanceData:', attendanceData);
+  } else {
+    console.log('No data');
   }
 
   return (
@@ -39,7 +34,11 @@ function CardReading() {
         </motion.div>
         <p className="touch-message-jp">カード・デバイスをかざしてください</p>
         <p className="touch-message-en">Please tap your card or device</p>
-        <button className="start-button" onClick={handleStartLoading}>Start Loading</button>
+
+        <button className="cancel-button" onClick={onCancel}>
+          <X className="cancel-icon" />
+          <span className="cancel-text">中断<br />Cancel</span>
+        </button>
       </header>
     </div>
   );
