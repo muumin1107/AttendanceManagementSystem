@@ -65,7 +65,7 @@ function App() {
   }
 
   if (processResult) {
-    // メッセージを表示
+    // ポップアップを表示
   }
 
   if (showRegisterForm) {
