@@ -35,12 +35,12 @@ function RegisterID({ onComplete }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validateForm()) {
-      onComplete(formData);  // Pass the form data to App.js
+      onComplete(formData);
     }
   };
 
   const handleBack = () => {
-    window.location.href = '/';  // Navigates back to home (App.js)
+    window.location.href = '/';
   };
 
   return (
