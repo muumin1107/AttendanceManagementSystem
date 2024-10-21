@@ -1,25 +1,43 @@
-import React from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { Wifi, X } from 'lucide-react';
 import CurrentDateTime from './CurrentDateTime';
 import './CardReading.css';
 
-function CardReading({ formData, attendanceData, onCancel }) {
-  // テスト用
-  if (formData) {
-    console.log('formData:', formData.fullName, formData.attribute, formData.description);
-  } else if (attendanceData) {
-    console.log('attendanceData:', attendanceData);
-  } else {
-    console.log('No data');
-  }
+const CardReading = ({ formData, attendanceData, onCancel }) => {
+  const [isCardDetected, setIsCardDetected] = useState(false);
+
+  const handleCardDetection = useCallback(() => {
+    console.log('Card detected!');
+    setIsCardDetected(true);
+
+    if (formData) {
+      console.log('Form Data:', formData.fullName, formData.attribute, formData.description);
+    } else if (attendanceData) {
+      console.log('Attendance Data:', attendanceData);
+    } else {
+      console.log('No data available');
+    }
+
+    setTimeout(() => {
+      setIsCardDetected(false);
+    }, 3000);
+  }, [formData, attendanceData]);
+
+  useEffect(() => {
+    const cardDetectionTimeout = setTimeout(() => {
+      handleCardDetection();
+    }, 5000);
+
+    return () => clearTimeout(cardDetectionTimeout);
+  }, [handleCardDetection]);
 
   return (
     <div className="CardReading">
       <header className="CardReading-header">
         <CurrentDateTime />
         <motion.div
-          className="icon-container"
+          className={`icon-container ${isCardDetected ? 'card-detected' : ''}`}
           animate={{
             scale: [1, 1.1, 1],
             opacity: [0.5, 1, 0.5]
@@ -27,7 +45,7 @@ function CardReading({ formData, attendanceData, onCancel }) {
           transition={{
             duration: 2,
             repeat: Infinity,
-            ease: "easeInOut"
+            ease: 'easeInOut'
           }}
         >
           <Wifi className="wifi-icon" />
@@ -42,6 +60,6 @@ function CardReading({ formData, attendanceData, onCancel }) {
       </header>
     </div>
   );
-}
+};
 
 export default CardReading;
