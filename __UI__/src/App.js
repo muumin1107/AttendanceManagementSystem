@@ -47,7 +47,7 @@ function App() {
   }
 
   if (processResult) {
-    console.log('Process result:', processResult);
+    // メッセージを表示
   }
 
   if (showRegisterForm) {
