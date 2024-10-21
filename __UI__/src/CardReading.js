@@ -62,7 +62,7 @@ const CardReading = ({register_formData, delete_formData, attendanceData, onCanc
   useEffect(() => {
     const cardDetectionTimeout = setTimeout(() => {
       handleCardDetection();
-    }, 3000);
+    }, 1000);
 
     return () => clearTimeout(cardDetectionTimeout);
   }, [handleCardDetection]);

@@ -73,7 +73,7 @@ function App() {
     setShowPopup(true);
     setTimeout(() => {
       setShowPopup(false);
-    }, 2500);
+    }, 3000);
 
     setAttendanceType(null);
     setRegistrationData(null);
