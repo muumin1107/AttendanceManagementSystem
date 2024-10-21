@@ -15,7 +15,7 @@ RaspberryPiを使ったカードリーダー式の勤怠管理システムを作
 
 - **勤怠画面**
 
-![ホーム画面](https://github.com/user-attachments/assets/d6d2c6b1-9009-4336-9f48-6d7ce3a461c3)
+![スクリーンショット 2024-10-21 113408](https://github.com/user-attachments/assets/b42a4a17-4704-49aa-8b9f-da681d2f5fba)
 
 ![入力フォーム](https://github.com/user-attachments/assets/254fab70-aec4-468a-b115-f822b46bf780)
 
