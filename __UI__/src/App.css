@@ -1,9 +1,11 @@
 .App {
   text-align: center;
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
 }
 
 .App-header {
-  background: linear-gradient(to bottom, #1a202c, #2d3748);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -15,21 +17,27 @@
   overflow: hidden;
   padding: 20px;
   box-sizing: border-box;
+  z-index: 1;
 }
 
 .register-link {
+  background: none;
+  border: none;
   color: white;
   cursor: pointer;
   margin: 20px 0;
   text-decoration: underline;
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   font-size: calc(1vw + 0.5rem);
   font-weight: bold;
+  padding: 0;
 }
 
 .register-link:hover {
   color: #c3c5c7;
+  text-decoration: underline;
 }
 
 .register-icon {

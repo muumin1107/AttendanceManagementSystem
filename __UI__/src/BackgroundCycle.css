@@ -1,0 +1,56 @@
+.background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  transition: background-color 1s ease;
+  z-index: -1;
+}
+
+.background.morning {
+  background: linear-gradient(to bottom, #FF7F50, #87CEEB);
+}
+
+.background.day {
+  background: linear-gradient(to bottom, #87CEEB, #B0E0E6);
+}
+
+.background.evening {
+  background: linear-gradient(to bottom, #FF7F50, #4B0082);
+}
+
+.background.night {
+  background: linear-gradient(to bottom, #171766, #000038);
+}
+
+.celestial-body {
+  position: absolute;
+  height: 25%;
+  aspect-ratio: 1/1;
+  border-radius: 50%;
+  transition: left 1s linear, bottom 1s linear, background-color 1s ease;
+  z-index: -1;
+}
+
+.celestial-body.sun {
+  background-color: #FFFF00;
+  box-shadow: 0 0 50px #FFFF00;
+  left: 5%;
+  top: 5%;
+}
+
+.celestial-body.moon {
+  background-color: #F0F0F0;
+  box-shadow: 0 0 30px #F0F0F0;
+  left: 5%;
+  top: 5%;
+}
+
+.background.morning .celestial-body.sun {
+  background-color: #FFD700;
+}
+
+.background.evening .celestial-body.moon {
+  background-color: #FFA500;
+}

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import CurrentDateTime from './CurrentDateTime';
 import RegisterID from './RegisterID';
 import CardReading from './CardReading';
+import BackgroundCycle from './BackgroundCycle';
 import { UserPlus } from 'lucide-react';
 import './App.css';
 
@@ -9,7 +10,7 @@ function App() {
   const [showRegisterForm, setShowRegisterForm] = useState(false);
   const [attendanceType, setAttendanceType] = useState(null);
   const [registrationData, setRegistrationData] = useState(null);
-  const [attendanceData, setAttendanceData] = useState(null);  // 勤怠データを追加
+  const [attendanceData, setAttendanceData] = useState(null);
 
   const handleStartRegistration = () => {
     setShowRegisterForm(true);
@@ -53,6 +54,7 @@ function App() {
 
   return (
     <div className="App">
+      <BackgroundCycle />
       <header className="App-header">
         <CurrentDateTime />
         <div className="attendance-buttons">
@@ -81,12 +83,12 @@ function App() {
             退勤<br />Clock Out
           </button>
         </div>
-        <a className="register-link" onClick={handleStartRegistration}>
+        <button className="register-link" onClick={handleStartRegistration}>
           <UserPlus className="register-icon" />
           <span>
             <strong>新規カード・デバイス登録（New card/device registration）</strong>
           </span>
-        </a>
+        </button>
       </header>
     </div>
   );

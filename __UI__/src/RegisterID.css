@@ -1,8 +1,8 @@
-.App {
+.RegisterID {
   text-align: center;
 }
 
-.App-header {
+.RegisterID-header {
   background: linear-gradient(to bottom, #1a202c, #2d3748);
   min-height: 100vh;
   display: flex;
@@ -99,10 +99,6 @@ button {
   font-size: 1em;
   cursor: pointer;
   transition: background-color 0.3s;
-}
-
-button:hover {
-  background-color: #3182ce;
 }
 
 .error {

@@ -44,8 +44,8 @@ function RegisterID({ onComplete }) {
   };
 
   return (
-    <div className="App">
-      <div className="App-header">
+    <div className="RegisterID">
+      <div className="RegisterID-header">
         <div className="register-container">
           <p className="registerIDform-title-jp">カード・デバイス登録</p>
           <p className="registerIDform-title-en">Card/Device registration</p>
@@ -89,7 +89,6 @@ function RegisterID({ onComplete }) {
               {errors.description && <span className="error">{errors.description}</span>}
             </div>
 
-            {/* Buttons for Back and Next */}
             <div className="button-group">
               <button type="button" className="back-button" onClick={handleBack}>
                 戻る（Back）
