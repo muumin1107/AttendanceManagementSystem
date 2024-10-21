@@ -9,19 +9,19 @@
 }
 
 .background.morning {
-  background: linear-gradient(to bottom, #FF7F50, #87CEEB);
+  background: linear-gradient(to bottom, #3b2c63, #b4747c, #e07a5f, #e8c26b);
 }
 
 .background.day {
-  background: linear-gradient(to bottom, #87CEEB, #B0E0E6);
+  background: linear-gradient(to bottom, #e8c26b, #d4a373, #6b8c9a, #90a4ae);
 }
 
 .background.evening {
-  background: linear-gradient(to bottom, #FF7F50, #4B0082);
+  background: linear-gradient(to bottom, #6b8c9a, #d5725b, #b35872, #3f285e, #2b2d42);
 }
 
 .background.night {
-  background: linear-gradient(to bottom, #171766, #000038);
+  background: linear-gradient(to bottom, #2b2d42, #2c3e50, #121212);
 }
 
 .celestial-body {

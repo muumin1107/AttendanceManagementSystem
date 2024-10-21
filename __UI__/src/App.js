@@ -4,7 +4,7 @@ import RegisterID from './RegisterID';
 import DeleteID from './DeleteID';
 import CardReading from './CardReading';
 import BackgroundCycle from './BackgroundCycle';
-import { UserPlus, UserMinus } from 'lucide-react';
+import { UserPlus, UserMinus, CircleAlert, CircleCheck } from 'lucide-react';
 import './App.css';
 
 function App() {
@@ -15,6 +15,9 @@ function App() {
   const [deleteData, setDeleteData] = useState(null);
   const [attendanceData, setAttendanceData] = useState(null);
   const [processResult, setProcessResult] = useState(null);
+  const [showPopup, setShowPopup] = useState(false);
+  const [popupMessage, setPopupMessage] = useState({jp: '', en: ''});
+  const [popupType, setPopupType] = useState('success');
 
   const handleStartRegistration = () => {
     setShowRegisterForm(true);
@@ -32,7 +35,6 @@ function App() {
     setDeleteData(null);
     setAttendanceData(type);
     setShowRegisterForm(false);
-    setRegistrationData(null);
     setShowDeleteForm(false);
   };
 
@@ -57,16 +59,27 @@ function App() {
   };
 
   const handleProcessResult = (result) => {
-    setProcessResult(result);
+    if (result === 'success') {
+      setPopupMessage({ jp: '完了しました', en: 'Success' });
+      setPopupType('success');
+    } else if (result === 'client_error') {
+      setPopupMessage({ jp: '入力内容が不正です', en: 'The input is invalid' });
+      setPopupType('error');
+    } else if (result === 'network_error') {
+      setPopupMessage({ jp: '予期せぬエラーが発生しました', en: 'An unexpected error has occurred' });
+      setPopupType('error');
+    }
+
+    setShowPopup(true);
+    setTimeout(() => {
+      setShowPopup(false);
+    }, 2500);
+
     setAttendanceType(null);
     setRegistrationData(null);
     setAttendanceData(null);
     setShowRegisterForm(false);
-  }
-
-  if (processResult) {
-    // ポップアップを表示
-  }
+  };
 
   if (showRegisterForm) {
     return <RegisterID onComplete={handleRegistrationComplete} />;
@@ -91,6 +104,15 @@ function App() {
 
   return (
     <div className="App">
+      {showPopup && (
+        <div className={`popup ${popupType}`}>
+          {popupType === 'success' ? <CircleCheck className="popup-icon" /> : <CircleAlert className="popup-icon" />}
+          <div>
+            <strong>{popupMessage.jp}</strong><br />
+            {popupMessage.en}
+          </div>
+        </div>
+      )}
       <BackgroundCycle />
       <header className="App-header">
         <CurrentDateTime />
