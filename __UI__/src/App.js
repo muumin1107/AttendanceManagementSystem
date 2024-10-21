@@ -11,6 +11,7 @@ function App() {
   const [attendanceType, setAttendanceType] = useState(null);
   const [registrationData, setRegistrationData] = useState(null);
   const [attendanceData, setAttendanceData] = useState(null);
+  const [processResult, setProcessResult] = useState(null);
 
   const handleStartRegistration = () => {
     setShowRegisterForm(true);
@@ -37,6 +38,18 @@ function App() {
     setAttendanceData(null);
   };
 
+  const handleProcessResult = (result) => {
+    setProcessResult(result);
+    setAttendanceType(null);
+    setRegistrationData(null);
+    setAttendanceData(null);
+    setShowRegisterForm(false);
+  }
+
+  if (processResult) {
+    console.log('Process result:', processResult);
+  }
+
   if (showRegisterForm) {
     return <RegisterID onComplete={handleRegistrationComplete} />;
   }
@@ -48,6 +61,7 @@ function App() {
         formData={registrationData}
         attendanceData={attendanceData}
         onCancel={handleCancel}
+        onProcessResult={handleProcessResult}
       />
     );
   }

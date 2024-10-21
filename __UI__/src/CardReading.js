@@ -5,7 +5,7 @@ import CurrentDateTime from './CurrentDateTime';
 import Loading from './Loading';
 import './CardReading.css';
 
-const CardReading = ({ formData, attendanceData, onCancel }) => {
+const CardReading = ({ formData, attendanceData, onCancel, onProcessResult }) => {
   const [isCardDetected, setIsCardDetected] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -18,13 +18,17 @@ const CardReading = ({ formData, attendanceData, onCancel }) => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
       });
-      if (!response.ok) {
-        throw new Error(`API Error: ${response.status}`);
+      if (response.status === 200) {
+        onProcessResult('success');
+      } else {
+        onProcessResult('client_error');
       }
     } catch (error) {
-      console.error('APIエラー:', error);
+      onProcessResult('network_error');
+    } finally {
+      setIsLoading(false);
+      onCancel();
     }
-    setIsLoading(false);
   };
 
   const handleCardDetection = useCallback(async () => {
@@ -42,7 +46,7 @@ const CardReading = ({ formData, attendanceData, onCancel }) => {
         id: test_id, next_state: attendanceData
       });
     } else {
-      alert('No data available');
+      alert('データがありません');
     }
 
     setTimeout(() => {
@@ -59,7 +63,7 @@ const CardReading = ({ formData, attendanceData, onCancel }) => {
   }, [handleCardDetection]);
 
   if (isLoading) {
-      return <Loading />;
+    return <Loading />;
   }
 
   return (
@@ -68,15 +72,8 @@ const CardReading = ({ formData, attendanceData, onCancel }) => {
         <CurrentDateTime />
         <motion.div
           className={`icon-container ${isCardDetected ? 'card-detected' : ''}`}
-          animate={{
-            scale: [1, 1.1, 1],
-            opacity: [0.5, 1, 0.5]
-          }}
-          transition={{
-            duration: 2,
-            repeat: Infinity,
-            ease: 'easeInOut'
-          }}
+          animate={{ scale: [1, 1.1, 1], opacity: [0.5, 1, 0.5] }}
+          transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
         >
           <Wifi className="wifi-icon" />
         </motion.div>
