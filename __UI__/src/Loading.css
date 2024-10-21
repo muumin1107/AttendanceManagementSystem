@@ -1,8 +1,8 @@
-.App {
+.Loading {
     text-align: center;
 }
 
-.App-header {
+.Loading-header {
     background: linear-gradient(to bottom, #1a202c, #2d3748);
     min-height: 100vh;
     display: flex;

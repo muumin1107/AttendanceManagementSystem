@@ -3,8 +3,8 @@ import './Loading.css';
 
 function Loading() {
     return (
-        <div className="App">
-        <header className="App-header">
+        <div className="Loading">
+        <header className="Loading-header">
             <div className="loading-container">
             <div className="loading-spinner"></div>
             <p className="loading-text-jp">読み込み中...</p>

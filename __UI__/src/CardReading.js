@@ -2,36 +2,32 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { Wifi, X } from 'lucide-react';
 import CurrentDateTime from './CurrentDateTime';
+import Loading from './Loading';
 import './CardReading.css';
 
 const CardReading = ({ formData, attendanceData, onCancel }) => {
   const [isCardDetected, setIsCardDetected] = useState(false);
-  const [message, setMessage] = useState(null); // フィードバックメッセージ
+  const [isLoading, setIsLoading] = useState(false);
 
   // API呼び出しの共通関数
   const callApi = async (url, data) => {
+    setIsLoading(true);
     try {
       const response = await fetch(url, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
       });
-
       if (!response.ok) {
         throw new Error(`API Error: ${response.status}`);
       }
-
-      const result = await response.json();
-      console.log('API呼び出し成功:', result);
-      setMessage('登録が成功しました！');
     } catch (error) {
       console.error('APIエラー:', error);
-      setMessage('エラーが発生しました。もう一度お試しください。');
     }
+    setIsLoading(false);
   };
 
   const handleCardDetection = useCallback(async () => {
-    console.log('Card detected!');
     setIsCardDetected(true);
 
     const test_id = 'test'; // 実際のカードIDをここで取得
@@ -51,17 +47,20 @@ const CardReading = ({ formData, attendanceData, onCancel }) => {
 
     setTimeout(() => {
       setIsCardDetected(false);
-      setMessage(null); // メッセージをリセット
     }, 3000);
   }, [formData, attendanceData]);
 
   useEffect(() => {
     const cardDetectionTimeout = setTimeout(() => {
       handleCardDetection();
-    }, 5000);
+    }, 3000);
 
     return () => clearTimeout(cardDetectionTimeout);
   }, [handleCardDetection]);
+
+  if (isLoading) {
+      return <Loading />;
+  }
 
   return (
     <div className="CardReading">
@@ -83,8 +82,6 @@ const CardReading = ({ formData, attendanceData, onCancel }) => {
         </motion.div>
         <p className="touch-message-jp">カード・デバイスをかざしてください</p>
         <p className="touch-message-en">Please tap your card or device</p>
-
-        {message && <p className="message">{message}</p>} {/* フィードバックメッセージの表示 */}
 
         <button className="cancel-button" onClick={onCancel}>
           <X className="cancel-icon" />
