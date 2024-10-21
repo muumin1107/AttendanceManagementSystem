@@ -6,21 +6,52 @@ import './CardReading.css';
 
 const CardReading = ({ formData, attendanceData, onCancel }) => {
   const [isCardDetected, setIsCardDetected] = useState(false);
+  const [message, setMessage] = useState(null); // フィードバックメッセージ
 
-  const handleCardDetection = useCallback(() => {
+  // API呼び出しの共通関数
+  const callApi = async (url, data) => {
+    try {
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+
+      if (!response.ok) {
+        throw new Error(`API Error: ${response.status}`);
+      }
+
+      const result = await response.json();
+      console.log('API呼び出し成功:', result);
+      setMessage('登録が成功しました！');
+    } catch (error) {
+      console.error('APIエラー:', error);
+      setMessage('エラーが発生しました。もう一度お試しください。');
+    }
+  };
+
+  const handleCardDetection = useCallback(async () => {
     console.log('Card detected!');
     setIsCardDetected(true);
 
+    const test_id = 'test'; // 実際のカードIDをここで取得
+
     if (formData) {
-      console.log('Form Data:', formData.fullName, formData.attribute, formData.description);
+      const { fullName, attribute, description } = formData;
+      await callApi('https://fast-gnni-shizuokauniversity-8f675ed2.koyeb.app/register_id', {
+        id: test_id, name: fullName, attribute, description
+      });
     } else if (attendanceData) {
-      console.log('Attendance Data:', attendanceData);
+      await callApi('https://fast-gnni-shizuokauniversity-8f675ed2.koyeb.app/register_attendance', {
+        id: test_id, next_state: attendanceData
+      });
     } else {
-      console.log('No data available');
+      alert('No data available');
     }
 
     setTimeout(() => {
       setIsCardDetected(false);
+      setMessage(null); // メッセージをリセット
     }, 3000);
   }, [formData, attendanceData]);
 
@@ -52,6 +83,8 @@ const CardReading = ({ formData, attendanceData, onCancel }) => {
         </motion.div>
         <p className="touch-message-jp">カード・デバイスをかざしてください</p>
         <p className="touch-message-en">Please tap your card or device</p>
+
+        {message && <p className="message">{message}</p>} {/* フィードバックメッセージの表示 */}
 
         <button className="cancel-button" onClick={onCancel}>
           <X className="cancel-icon" />
