@@ -1,9 +1,11 @@
 import os
 from notion_client import Client
 from datetime import datetime, timedelta, timezone
+import json
 from typing import List, Dict, Any
 
 # 定数の定義
+CONFIG_PATH                 = './config/config.json'
 IDPOOL_COLUMNS_LENGTH       = 4
 ATTENDANCE_COLUMNS_LENGTH   = 3
 VALID_ATTRIBUTES            = ['ICカード', 'スマートフォン', 'その他']
@@ -18,6 +20,26 @@ STATE_TRANSITIONS = {
     '退勤': ['出勤']
 }
 
+class ConfigError(Exception):
+    """設定ファイルやキーに関するエラーを処理する例外クラス"""
+    pass
+
+class ConfigLoader:
+    """設定ファイルの読み込みとキーの取得を行うクラス"""
+
+    @staticmethod
+    def load_config(path: str = CONFIG_PATH) -> dict:
+        if not os.path.exists(path):
+            raise ConfigError(f'Config file not found: {path}')
+        
+        with open(path, 'r', encoding='utf-8') as f:
+            config = json.load(f)
+        
+        if 'NOTION_ACCESS_TOKEN' not in config['NOTION'] or 'NOTION_IDPOOL_ID' not in config['NOTION'] or 'NOTION_ATTENDANCE_ID' not in config['NOTION']:
+            raise ConfigError("Missing 'NOTION_ACCESS_TOKEN' or 'NOTION_IDPOOL_ID' or 'NOTION_ATTENDANCE_ID' in config file.")
+        
+        return config
+
 class NotionAPIClient:
     """
     Notion APIクライアントを管理し、IDプールと勤怠データベースを操作するクラス
@@ -31,12 +53,10 @@ class NotionAPIClient:
             ValueError: アクセストークンやデータベースIDが設定されていない場合に発生。
         """
         try:
-            # self.NOTION_ACCESS_TOKEN  = "secret_BwVBrA563VsRztJHEEhwck1Xtik5dg6fyOkTUv91hiS"
-            # self.NOTION_IDPOOL_ID     = "1159f9f8038b8051ad0bc4397d3f3822"
-            # self.NOTION_ATTENDANCE_ID = "1149f9f8038b8070a006e438e261f8c8"
-            self.NOTION_ACCESS_TOKEN  = os.environ.get('NOTION_ACCESS_TOKEN')  # Notion APIのアクセストークン
-            self.NOTION_IDPOOL_ID     = os.environ.get('NOTION_IDPOOL_ID')     # IDプールのデータベースID
-            self.NOTION_ATTENDANCE_ID = os.environ.get('NOTION_ATTENDANCE_ID') # 勤怠データベースID
+            config = ConfigLoader.load_config()
+            self.NOTION_ACCESS_TOKEN  = config['NOTION']['NOTION_ACCESS_TOKEN']
+            self.NOTION_IDPOOL_ID     = config['NOTION']['NOTION_IDPOOL_ID']
+            self.NOTION_ATTENDANCE_ID = config['NOTION']['NOTION_ATTENDANCE_ID']
 
             if not self.NOTION_ACCESS_TOKEN or not self.NOTION_IDPOOL_ID:
                 raise ValueError("Notion API access token and ID pool ID must be set in environment variables.")

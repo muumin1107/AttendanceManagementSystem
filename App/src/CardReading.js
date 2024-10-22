@@ -38,7 +38,7 @@ const CardReading = ({register_formData, delete_formData, attendanceData, onCanc
   const fetchCardUid = async () => {
     if (isCancelled) return null; // 中断されていたらUID取得しない
     try {
-      const response = await fetch('http://127.0.0.1:8000/get_uid');
+      const response = await fetch('http://card-reader:8000/get_uid');
       if (response.status === 200) {
         const data = await response.json();
         return data.uid;
@@ -65,23 +65,43 @@ const CardReading = ({register_formData, delete_formData, attendanceData, onCanc
       return; // エラーが発生した場合や中断時は処理を中断
     }
 
+    // ローカルAPIを使う場合
     if (register_formData) {
       const { fullName, attribute, description } = register_formData;
-      await callApi('https://fast-gnni-shizuokauniversity-8f675ed2.koyeb.app/register_id', 'POST', {
-        id: uid, name: fullName, attribute, description
+      await callApi('http://card-reader:8000/register_id', 'POST', {
+        id: uid, name: fullName, attribute: attribute, description: description
       });
     } else if (delete_formData) {
       const { fullName } = delete_formData;
-      await callApi('https://fast-gnni-shizuokauniversity-8f675ed2.koyeb.app/remove_id', 'DELETE', {
+      await callApi('http://card-reader:8000/remove_id', 'DELETE', {
         id: uid, name: fullName
       });
     } else if (attendanceData) {
-      await callApi('https://fast-gnni-shizuokauniversity-8f675ed2.koyeb.app/register_attendance', 'POST', {
+      await callApi('http://card-reader:8000/register_attendance', 'POST', {
         id: uid, next_state: attendanceData
       });
     } else {
       alert('データがありません');
     }
+
+    // グローバルAPIを使う場合
+    // if (register_formData) {
+    //   const { fullName, attribute, description } = register_formData;
+    //   await callApi('https://fast-gnni-shizuokauniversity-8f675ed2.koyeb.app/register_id', 'POST', {
+    //     id: uid, name: fullName, attribute: attribute, description: description
+    //   });
+    // } else if (delete_formData) {
+    //   const { fullName } = delete_formData;
+    //   await callApi('https://fast-gnni-shizuokauniversity-8f675ed2.koyeb.app/remove_id', 'DELETE', {
+    //     id: uid, name: fullName
+    //   });
+    // } else if (attendanceData) {
+    //   await callApi('https://fast-gnni-shizuokauniversity-8f675ed2.koyeb.app/register_attendance', 'POST', {
+    //     id: uid, next_state: attendanceData
+    //   });
+    // } else {
+    //   alert('データがありません');
+    // }
 
     setTimeout(() => {
       setIsCardDetected(false);
