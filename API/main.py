@@ -38,7 +38,6 @@ class RemoveAttendanceRequest(BaseModel):
     id: str
     name: str
 
-# レスポンスボディのスキーマを定義
 class Response(BaseModel):
     code: int
     message: str
@@ -91,6 +90,26 @@ def get_uid() -> JSONResponse:
     except Exception as e:
         return JSONResponse(content=Response(code=status.HTTP_500_INTERNAL_SERVER_ERROR, message=str(e)).dict(), status_code=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
+# ID登録エンドポイント
+@app.post("/register_id")
+def register_id(request: RegisterIdRequest) -> JSONResponse:
+    """
+    IDを登録するエンドポイント。
+
+    Args:
+        request (RegisterIdRequest): リクエストボディ。
+
+    Returns:
+        JSONResponse: 登録結果メッセージ。
+    """
+    try:
+        result = AttendanceSystemOperation().register_id(id=request.id, name=request.name, attribute=request.attribute, description=request.description)
+        if result == True:
+            return JSONResponse(content=Response(code=status.HTTP_200_OK, message="ID registration successful").dict(), status_code=status.HTTP_200_OK)
+        return JSONResponse(content=Response(code=status.HTTP_400_BAD_REQUEST, message=str(result)).dict(), status_code=status.HTTP_400_BAD_REQUEST)
+    except Exception as e:
+        return JSONResponse(content=Response(code=status.HTTP_500_INTERNAL_SERVER_ERROR, message=str(e)).dict(), status_code=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
 # 勤怠登録エンドポイント
 @app.post("/register_attendance")
 def register_attendance(request: RegisterAttendanceRequest) -> JSONResponse:
@@ -107,6 +126,26 @@ def register_attendance(request: RegisterAttendanceRequest) -> JSONResponse:
         result = AttendanceSystemOperation().register_attendance(id=request.id, next_state=request.next_state)
         if result == True:
             return JSONResponse(content=Response(code=status.HTTP_200_OK, message="Attendance registration successful").dict(), status_code=status.HTTP_200_OK)
+        return JSONResponse(content=Response(code=status.HTTP_400_BAD_REQUEST, message=str(result)).dict(), status_code=status.HTTP_400_BAD_REQUEST)
+    except Exception as e:
+        return JSONResponse(content=Response(code=status.HTTP_500_INTERNAL_SERVER_ERROR, message=str(e)).dict(), status_code=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+# ID削除エンドポイント
+@app.delete("/remove_id")
+def remove_id(request: RemoveIdRequest) -> JSONResponse:
+    """
+    IDを削除するエンドポイント。
+
+    Args:
+        request (RemoveIdRequest): リクエストボディ。
+
+    Returns:
+        JSONResponse: 削除結果メッセージ。
+    """
+    try:
+        result = AttendanceSystemOperation().remove_id(id=request.id, name=request.name)
+        if result == True:
+            return JSONResponse(content=Response(code=status.HTTP_200_OK, message="ID removal successful").dict(), status_code=status.HTTP_200_OK)
         return JSONResponse(content=Response(code=status.HTTP_400_BAD_REQUEST, message=str(result)).dict(), status_code=status.HTTP_400_BAD_REQUEST)
     except Exception as e:
         return JSONResponse(content=Response(code=status.HTTP_500_INTERNAL_SERVER_ERROR, message=str(e)).dict(), status_code=status.HTTP_500_INTERNAL_SERVER_ERROR)
