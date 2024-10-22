@@ -66,18 +66,14 @@ $ sudo sh -c 'echo SUBSYSTEM==\"usb\", ACTION==\"add\", ATTRS{idVendor}==\"054c\
 $ sudo udevadm control -R # then re-attach device
 ```
 
-以下は、あなたが提供したコードを基に作成したAPI仕様書です。
+## API仕様書
 
----
-
-# API仕様書
-
-## 基本URL
+### 基本URL
 **`/`** - APIのルートパス
 
 ---
 
-## エンドポイント一覧
+### エンドポイント一覧
 
 | メソッド | URL                    | 概要                              |
 | -------- | ---------------------- | --------------------------------- |
@@ -91,9 +87,9 @@ $ sudo udevadm control -R # then re-attach device
 
 ---
 
-## エンドポイント詳細
+### エンドポイント詳細
 
-### 1. ルートエンドポイント
+#### 1. ルートエンドポイント
 - **メソッド**: `GET`
 - **URL**: `/`
 - **概要**: APIからのウェルカムメッセージを返します。
@@ -107,7 +103,7 @@ $ sudo udevadm control -R # then re-attach device
 
 ---
 
-### 2. ヘルスチェックエンドポイント
+#### 2. ヘルスチェックエンドポイント
 - **メソッド**: `GET`
 - **URL**: `/health`
 - **概要**: サービスの稼働状況を確認するためのエンドポイントです。
@@ -121,7 +117,7 @@ $ sudo udevadm control -R # then re-attach device
 
 ---
 
-### 3. UID取得エンドポイント
+#### 3. UID取得エンドポイント
 - **メソッド**: `GET`
 - **URL**: `/get_uid`
 - **概要**: カードリーダーからUIDを取得し、暗号化して返します。
@@ -149,7 +145,7 @@ $ sudo udevadm control -R # then re-attach device
 
 ---
 
-### 4. ID登録エンドポイント
+#### 4. ID登録エンドポイント
 - **メソッド**: `POST`
 - **URL**: `/register_id`
 - **概要**: IDを登録します。
@@ -187,7 +183,7 @@ $ sudo udevadm control -R # then re-attach device
 
 ---
 
-### 5. 勤怠登録エンドポイント
+#### 5. 勤怠登録エンドポイント
 - **メソッド**: `POST`
 - **URL**: `/register_attendance`
 - **概要**: 勤怠状態を登録します。
@@ -223,7 +219,7 @@ $ sudo udevadm control -R # then re-attach device
 
 ---
 
-### 6. ID削除エンドポイント
+#### 6. ID削除エンドポイント
 - **メソッド**: `DELETE`
 - **URL**: `/remove_id`
 - **概要**: IDを削除します。
@@ -259,7 +255,7 @@ $ sudo udevadm control -R # then re-attach device
 
 ---
 
-### 7. 勤怠削除エンドポイント
+#### 7. 勤怠削除エンドポイント
 - **メソッド**: `DELETE`
 - **URL**: `/remove_attendance`
 - **概要**: 勤怠データを削除します。
@@ -295,9 +291,9 @@ $ sudo udevadm control -R # then re-attach device
 
 ---
 
-## リクエスト/レスポンスボディ
+### リクエスト/レスポンスボディ
 
-### モデル
+#### モデル
 
 | モデル名               | 内容                                    |
 | ---------------------- | --------------------------------------- |
@@ -309,7 +305,7 @@ $ sudo udevadm control -R # then re-attach device
 
 ---
 
-### 1. `RegisterIdRequest`
+#### 1. `RegisterIdRequest`
 ```json
 {
     "id": "string",
@@ -319,7 +315,7 @@ $ sudo udevadm control -R # then re-attach device
 }
 ```
 
-### 2. `RemoveIdRequest`
+#### 2. `RemoveIdRequest`
 ```json
 {
     "id": "string",
@@ -327,7 +323,7 @@ $ sudo udevadm control -R # then re-attach device
 }
 ```
 
-### 3. `RegisterAttendanceRequest`
+#### 3. `RegisterAttendanceRequest`
 ```json
 {
     "id": "string",
@@ -335,7 +331,7 @@ $ sudo udevadm control -R # then re-attach device
 }
 ```
 
-### 4. `RemoveAttendanceRequest`
+#### 4. `RemoveAttendanceRequest`
 ```json
 {
     "id": "string",
@@ -343,14 +339,10 @@ $ sudo udevadm control -R # then re-attach device
 }
 ```
 
-### 5. `Response`
+#### 5. `Response`
 ```json
 {
     "code": 200,
     "message": "string"
 }
 ```
-
----
-
-この仕様書は、エンドポイントごとのリクエストとレスポンスの構造を説明しています。また、各モデルのリクエストボディとレスポンスボディも併せて記載しています。
