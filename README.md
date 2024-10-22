@@ -66,255 +66,291 @@ $ sudo sh -c 'echo SUBSYSTEM==\"usb\", ACTION==\"add\", ATTRS{idVendor}==\"054c\
 $ sudo udevadm control -R # then re-attach device
 ```
 
-## API 使用説明書
-
-### 概要
-このAPIは、Notion APIを使用して勤怠管理システムのIDと勤怠データを管理します。以下の機能を提供し、IDの登録・削除、勤怠状態の登録・削除、システムのヘルスチェックを行います。APIはFastAPIを使用して実装されており、リクエストとレスポンスはJSON形式で行われます。
-
-APIは、Notion API経由でデータベース操作を行い、各操作に対してデータの検証や重複チェックなどが行われます。
+以下は、あなたが提供したコードを基に作成したAPI仕様書です。
 
 ---
 
-### エンドポイント一覧
+# API仕様書
 
-| エンドポイント               | メソッド  | 機能                                         |
-|-----------------------------|-----------|----------------------------------------------|
-| `/`                         | `GET`     | APIのルートエンドポイント。ウェルカムメッセージを返します。 |
-| `/docs`                     | `GET`     | 各APIのドキュメントを返却（表示）します。 |
-| `/health`                   | `GET`     | サービスのヘルスチェックを行います。                  |
-| `/register_id`              | `POST`    | IDを登録します。                             |
-| `/remove_id`                | `DELETE`  | 登録されたIDを削除します。                   |
-| `/register_attendance`      | `POST`    | 勤怠情報を登録します。                       |
-| `/remove_attendance`        | `DELETE`  | 勤怠情報を削除します。                       |
-
+## 基本URL
+**`/`** - APIのルートパス
 
 ---
 
-### エンドポイント詳細
+## エンドポイント一覧
 
-#### 1. ルートエンドポイント
+| メソッド | URL                    | 概要                              |
+| -------- | ---------------------- | --------------------------------- |
+| `GET`    | `/`                    | APIのウェルカムメッセージを返す    |
+| `GET`    | `/health`              | サービスの稼働状況を確認する       |
+| `GET`    | `/get_uid`             | UIDを取得して暗号化する            |
+| `POST`   | `/register_id`         | IDを登録する                      |
+| `POST`   | `/register_attendance` | 勤怠状態を登録する                 |
+| `DELETE` | `/remove_id`           | IDを削除する                      |
+| `DELETE` | `/remove_attendance`   | 勤怠データを削除する               |
 
-**エンドポイント:**  
-`GET /`
+---
 
-**説明:**  
-APIのルートエンドポイントです。システムにアクセスする際にウェルカムメッセージを返します。
+## エンドポイント詳細
 
-**レスポンス例:**  
+### 1. ルートエンドポイント
+- **メソッド**: `GET`
+- **URL**: `/`
+- **概要**: APIからのウェルカムメッセージを返します。
+- **レスポンス**:  
+  - **200 OK**
+    ```json
+    {
+        "message": "Hello API Server!"
+    }
+    ```
+
+---
+
+### 2. ヘルスチェックエンドポイント
+- **メソッド**: `GET`
+- **URL**: `/health`
+- **概要**: サービスの稼働状況を確認するためのエンドポイントです。
+- **レスポンス**:  
+  - **200 OK**
+    ```json
+    {
+        "message": "Service is up and running"
+    }
+    ```
+
+---
+
+### 3. UID取得エンドポイント
+- **メソッド**: `GET`
+- **URL**: `/get_uid`
+- **概要**: カードリーダーからUIDを取得し、暗号化して返します。
+- **レスポンス**:  
+  - **200 OK** - 成功時
+    ```json
+    {
+        "message": "UID successfully read",
+        "uid": "<encrypted_uid>"
+    }
+    ```
+  - **400 Bad Request** - 失敗時
+    ```json
+    {
+        "message": "Failed to read and encrypt UID"
+    }
+    ```
+  - **500 Internal Server Error** - エラー発生時
+    ```json
+    {
+        "code": 500,
+        "message": "<error_message>"
+    }
+    ```
+
+---
+
+### 4. ID登録エンドポイント
+- **メソッド**: `POST`
+- **URL**: `/register_id`
+- **概要**: IDを登録します。
+- **リクエストボディ**:
+    ```json
+    {
+        "id": "string",
+        "name": "string",
+        "attribute": "string",
+        "description": "string"
+    }
+    ```
+- **レスポンス**:  
+  - **200 OK** - 登録成功時
+    ```json
+    {
+        "code": 200,
+        "message": "ID registration successful"
+    }
+    ```
+  - **400 Bad Request** - 登録失敗時
+    ```json
+    {
+        "code": 400,
+        "message": "<error_message>"
+    }
+    ```
+  - **500 Internal Server Error** - エラー発生時
+    ```json
+    {
+        "code": 500,
+        "message": "<error_message>"
+    }
+    ```
+
+---
+
+### 5. 勤怠登録エンドポイント
+- **メソッド**: `POST`
+- **URL**: `/register_attendance`
+- **概要**: 勤怠状態を登録します。
+- **リクエストボディ**:
+    ```json
+    {
+        "id": "string",
+        "next_state": "string"
+    }
+    ```
+- **レスポンス**:  
+  - **200 OK** - 登録成功時
+    ```json
+    {
+        "code": 200,
+        "message": "Attendance registration successful"
+    }
+    ```
+  - **400 Bad Request** - 登録失敗時
+    ```json
+    {
+        "code": 400,
+        "message": "<error_message>"
+    }
+    ```
+  - **500 Internal Server Error** - エラー発生時
+    ```json
+    {
+        "code": 500,
+        "message": "<error_message>"
+    }
+    ```
+
+---
+
+### 6. ID削除エンドポイント
+- **メソッド**: `DELETE`
+- **URL**: `/remove_id`
+- **概要**: IDを削除します。
+- **リクエストボディ**:
+    ```json
+    {
+        "id": "string",
+        "name": "string"
+    }
+    ```
+- **レスポンス**:  
+  - **200 OK** - 削除成功時
+    ```json
+    {
+        "code": 200,
+        "message": "ID removal successful"
+    }
+    ```
+  - **400 Bad Request** - 削除失敗時
+    ```json
+    {
+        "code": 400,
+        "message": "<error_message>"
+    }
+    ```
+  - **500 Internal Server Error** - エラー発生時
+    ```json
+    {
+        "code": 500,
+        "message": "<error_message>"
+    }
+    ```
+
+---
+
+### 7. 勤怠削除エンドポイント
+- **メソッド**: `DELETE`
+- **URL**: `/remove_attendance`
+- **概要**: 勤怠データを削除します。
+- **リクエストボディ**:
+    ```json
+    {
+        "id": "string",
+        "name": "string"
+    }
+    ```
+- **レスポンス**:  
+  - **200 OK** - 削除成功時
+    ```json
+    {
+        "code": 200,
+        "message": "Attendance removal successful"
+    }
+    ```
+  - **400 Bad Request** - 削除失敗時
+    ```json
+    {
+        "code": 400,
+        "message": "<error_message>"
+    }
+    ```
+  - **500 Internal Server Error** - エラー発生時
+    ```json
+    {
+        "code": 500,
+        "message": "<error_message>"
+    }
+    ```
+
+---
+
+## リクエスト/レスポンスボディ
+
+### モデル
+
+| モデル名               | 内容                                    |
+| ---------------------- | --------------------------------------- |
+| **RegisterIdRequest**   | ID登録リクエスト用                     |
+| **RemoveIdRequest**     | ID削除リクエスト用                     |
+| **RegisterAttendanceRequest** | 勤怠登録リクエスト用              |
+| **RemoveAttendanceRequest**   | 勤怠削除リクエスト用              |
+| **Response**            | 一般的なレスポンスフォーマット         |
+
+---
+
+### 1. `RegisterIdRequest`
 ```json
 {
-  "message": "Welcome to the Attendance System API"
+    "id": "string",
+    "name": "string",
+    "attribute": "string",
+    "description": "string"
+}
+```
+
+### 2. `RemoveIdRequest`
+```json
+{
+    "id": "string",
+    "name": "string"
+}
+```
+
+### 3. `RegisterAttendanceRequest`
+```json
+{
+    "id": "string",
+    "next_state": "string"
+}
+```
+
+### 4. `RemoveAttendanceRequest`
+```json
+{
+    "id": "string",
+    "name": "string"
+}
+```
+
+### 5. `Response`
+```json
+{
+    "code": 200,
+    "message": "string"
 }
 ```
 
 ---
 
-#### 2. ヘルスチェックエンドポイント
-
-**エンドポイント:**  
-`GET /health`
-
-**説明:**  
-サービスの稼働状況を確認するためのエンドポイントです。正常に稼働している場合は、稼働中のメッセージを返します。
-
-**レスポンス例:**  
-```json
-{
-  "message": "Service is up and running"
-}
-```
-
----
-
-#### 3. ID登録エンドポイント
-
-**エンドポイント:**  
-`POST /register_id`
-
-**説明:**  
-Notion APIを通じてID管理データベースに新しいIDを登録します。
-
-**リクエストパラメータ:**
-
-| パラメータ      | 型     | 説明                              |
-|----------------|--------|-----------------------------------|
-| `id`           | `str`  | 登録するユーザーのID                 |
-| `name`         | `str`  | 登録するユーザーの名前               |
-| `attribute`    | `str`  | 属性（例: ICカード, スマートフォン） |
-| `description`  | `str`  | 備考                              |
-
-**処理の流れ:**
-1. データの検証（Notion APIを使用して、データが有効であるか確認）。
-2. IDの重複チェック（すでに登録済みのIDか確認）。
-3. 登録処理（重複していない場合、IDを登録）。
-
-**レスポンス例:**  
-- 成功時:
-```json
-{
-  "code": 200,
-  "message": "ID registration successful"
-}
-```
-- 失敗時:
-```json
-{
-  "code": 400,
-  "message": "Duplicate ID"
-}
-```
-
----
-
-#### 4. ID削除エンドポイント
-
-**エンドポイント:**  
-`DELETE /remove_id`
-
-**説明:**  
-Notion APIを通じて、ID管理データベースから指定されたIDを削除します。
-
-**リクエストパラメータ:**
-
-| パラメータ      | 型     | 説明               |
-|----------------|--------|--------------------|
-| `id`           | `str`  | 削除するユーザーのID   |
-| `name`         | `str`  | 削除対象のユーザー名   |
-
-**処理の流れ:**
-1. IDと名前の照合（IDと名前が一致するか確認）。
-2. 一致した場合に削除処理を行う。
-
-**レスポンス例:**  
-- 成功時:
-```json
-{
-  "code": 200,
-  "message": "ID removal successful"
-}
-```
-- 失敗時:
-```json
-{
-  "code": 400,
-  "message": "ID not found"
-}
-```
-
----
-
-#### 5. 勤怠登録エンドポイント
-
-**エンドポイント:**  
-`POST /register_attendance`
-
-**説明:**  
-Notion APIを通じて勤怠管理データベースに勤怠情報を登録します。
-
-**リクエストパラメータ:**
-
-| パラメータ      | 型     | 説明               |
-|----------------|--------|--------------------|
-| `id`           | `str`  | 勤怠情報を登録するユーザーのID |
-| `next_state`   | `str`  | 次の勤怠状態（例: 出勤, 退勤）  |
-
-**処理の流れ:**
-1. IDに基づいて名前を取得（IDが存在するか確認）。
-2. 勤怠状態の検証（次の状態が有効であるかを確認）。
-3. 勤怠情報の登録（時間情報も含めて登録）。
-
-**レスポンス例:**  
-- 成功時:
-```json
-{
-  "code": 200,
-  "message": "Attendance registration successful"
-}
-```
-- 失敗時:
-```json
-{
-  "code": 400,
-  "message": "Invalid state transition"
-}
-```
-
----
-
-#### 6. 勤怠削除エンドポイント
-
-**エンドポイント:**  
-`DELETE /remove_attendance`
-
-**説明:**  
-Notion APIを通じて勤怠管理データベースから指定された勤怠データを削除します。
-
-**リクエストパラメータ:**
-
-| パラメータ      | 型     | 説明                 |
-|----------------|--------|----------------------|
-| `id`           | `str`  | 削除する勤怠データのID  |
-| `name`         | `str`  | 削除対象のユーザー名     |
-
-**処理の流れ:**
-1. IDと名前の照合（IDと名前が一致するか確認）。
-2. 一致した場合に勤怠データを削除。
-
-**レスポンス例:**  
-- 成功時:
-```json
-{
-  "code": 200,
-  "message": "Attendance removal successful"
-}
-```
-- 失敗時:
-```json
-{
-  "code": 400,
-  "message": "Attendance data not found"
-}
-```
-
----
-
-### 内部機能
-
-APIの実装は、`AttendanceSystemOperation` クラスによって操作が管理されています。このクラスは、Notion APIを介してデータの追加、削除、検証を行います。以下は主要な内部関数です。
-
-1. **`_verify_id_and_name(id: str, name: str)`**
-   - 指定されたIDと名前が一致するかを検証します。
-   - 一致しない場合、エラーメッセージを返します。
-
-2. **`register_id(id: str, name: str, attribute: str, description: str)`**
-   - IDをNotionデータベースに登録します。
-   - データの検証や重複チェックを行います。
-
-3. **`remove_id(id: str, name: str)`**
-   - 指定されたIDをNotionデータベースから削除します。
-   - IDと名前が一致することを確認後、削除処理を実行します。
-
-4. **`register_attendance(id: str, next_state: str)`**
-   - 勤怠データベースに新しい勤怠情報を登録します。
-   - 勤怠状態が正しいかを検証し、データをNotionに追加します。
-
-5. **`remove_attendance(id: str, name: str)`**
-   - 勤怠データベースから指定された勤怠情報を削除します。
-
----
-
-### エラーレスポンス
-各エンドポイントでエラーが発生した場合、適切なHTTPステータスコードとともにエラーメッセージが返されます。
-
-**エラーレスポンス例:**  
-```json
-{
-  "code": 500,
-  "message": "Internal server error"
-}
-```
-
----
-
-### 備考
-APIは、Notion APIと連携してデータベース操作を行います。運用環境では、必要に応じて認証機構（例: OAuth2, JWT）やパフォーマンス最適化を考慮してください。また、データベース構造やデータの管理方法に応じて適切なエラーハンドリングを行うことを推奨します。
+この仕様書は、エンドポイントごとのリクエストとレスポンスの構造を説明しています。また、各モデルのリクエストボディとレスポンスボディも併せて記載しています。
