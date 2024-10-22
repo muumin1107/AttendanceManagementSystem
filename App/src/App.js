@@ -16,7 +16,7 @@ function App() {
   const [attendanceData, setAttendanceData] = useState(null);
   const [processResult, setProcessResult] = useState(null);
   const [showPopup, setShowPopup] = useState(false);
-  const [popupMessage, setPopupMessage] = useState({jp: '', en: ''});
+  const [popupMessage, setPopupMessage] = useState({ jp: '', en: '' });
   const [popupType, setPopupType] = useState('success');
 
   const handleStartRegistration = () => {
@@ -27,7 +27,7 @@ function App() {
   const handleStartDelete = () => {
     setShowDeleteForm(true);
     setAttendanceData(null);
-  }
+  };
 
   const handleAttendanceClick = (type) => {
     setAttendanceType(type);
@@ -50,7 +50,7 @@ function App() {
     setAttendanceType('削除');
     setAttendanceData(null);
     setShowDeleteForm(false);
-  }
+  };
 
   const handleCancel = () => {
     setAttendanceType(null);
@@ -66,7 +66,10 @@ function App() {
       setPopupMessage({ jp: '入力内容が不正です', en: 'The input is invalid' });
       setPopupType('error');
     } else if (result === 'network_error') {
-      setPopupMessage({ jp: '予期せぬエラーが発生しました', en: 'An unexpected error has occurred' });
+      setPopupMessage({ jp: 'ネットワークエラーが発生しました', en: 'An unexpected error has occurred' });
+      setPopupType('error');
+    } else if (result === 'reader_error') {
+      setPopupMessage({ jp: 'カード読み取りに失敗しました', en: 'Card reading failed' });
       setPopupType('error');
     }
 
@@ -79,6 +82,7 @@ function App() {
     setRegistrationData(null);
     setAttendanceData(null);
     setShowRegisterForm(false);
+    setShowDeleteForm(false);
   };
 
   if (showRegisterForm) {
