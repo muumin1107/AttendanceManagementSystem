@@ -1,14 +1,19 @@
 import React, { useState } from 'react';
-import './RegisterID.css';
+import './RegisterID.css'; // CSSファイルのインポート
 
+// RegisterIDコンポーネントを定義
 function RegisterID({ onComplete }) {
+  // フォームのデータを管理するstate
   const [formData, setFormData] = useState({
     fullName: '',
     attribute: '',
     description: ''
   });
+  
+  // エラーメッセージを管理するstate
   const [errors, setErrors] = useState({});
 
+  // フォームの入力が変更されたときにstateを更新する関数
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prevState => ({
@@ -17,6 +22,7 @@ function RegisterID({ onComplete }) {
     }));
   };
 
+  // フォームのバリデーションを行う関数
   const validateForm = () => {
     let newErrors = {};
     if (!formData.fullName.trim()) {
@@ -29,16 +35,18 @@ function RegisterID({ onComplete }) {
       newErrors.description = '説明を入力してください。';
     }
     setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
+    return Object.keys(newErrors).length === 0; // エラーがなければtrueを返す
   };
 
+  // フォームが送信されたときに呼び出される関数
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validateForm()) {
-      onComplete(formData);
+      onComplete(formData); // バリデーションが成功したらonCompleteを呼び出す
     }
   };
 
+  // 戻るボタンを押したときの処理
   const handleBack = () => {
     window.location.href = '/';
   };
@@ -50,6 +58,7 @@ function RegisterID({ onComplete }) {
           <p className="registerIDform-title-jp">カード・デバイス登録</p>
           <p className="registerIDform-title-en">Card/Device registration</p>
           <form onSubmit={handleSubmit}>
+            {/* 名前入力フィールド */}
             <div className="form-group">
               <label htmlFor="fullName">名前（Full Name）</label>
               <input
@@ -62,6 +71,8 @@ function RegisterID({ onComplete }) {
               />
               {errors.fullName && <span className="error">{errors.fullName}</span>}
             </div>
+
+            {/* 属性選択フィールド */}
             <div className="form-group">
               <label htmlFor="attribute">属性（Attribute）</label>
               <select
@@ -77,6 +88,8 @@ function RegisterID({ onComplete }) {
               </select>
               {errors.attribute && <span className="error">{errors.attribute}</span>}
             </div>
+
+            {/* 説明入力フィールド */}
             <div className="form-group">
               <label htmlFor="description">説明（Description）</label>
               <textarea
@@ -89,6 +102,7 @@ function RegisterID({ onComplete }) {
               {errors.description && <span className="error">{errors.description}</span>}
             </div>
 
+            {/* ボタン群 */}
             <div className="button-group">
               <button type="button" className="back-button" onClick={handleBack}>
                 戻る（Back）
@@ -104,4 +118,4 @@ function RegisterID({ onComplete }) {
   );
 }
 
-export default RegisterID;
+export default RegisterID; // コンポーネントをエクスポート

@@ -8,6 +8,7 @@ import { UserPlus, UserMinus, CircleAlert, CircleCheck } from 'lucide-react';
 import './App.css';
 
 function App() {
+  // 各フォームの表示フラグとデータ管理用のstate
   const [showRegisterForm, setShowRegisterForm] = useState(false);
   const [showDeleteForm, setShowDeleteForm] = useState(false);
   const [attendanceType, setAttendanceType] = useState(null);
@@ -19,16 +20,19 @@ function App() {
   const [popupMessage, setPopupMessage] = useState({ jp: '', en: '' });
   const [popupType, setPopupType] = useState('success');
 
+  // 新規登録フォームの表示
   const handleStartRegistration = () => {
     setShowRegisterForm(true);
     setAttendanceData(null);
   };
 
+  // 削除フォームの表示
   const handleStartDelete = () => {
     setShowDeleteForm(true);
     setAttendanceData(null);
   };
 
+  // 勤怠ボタンがクリックされた時の処理
   const handleAttendanceClick = (type) => {
     setAttendanceType(type);
     setRegistrationData(null);
@@ -38,6 +42,7 @@ function App() {
     setShowDeleteForm(false);
   };
 
+  // 登録処理が完了したときの処理
   const handleRegistrationComplete = (register_formData) => {
     setRegistrationData(register_formData);
     setAttendanceType('登録');
@@ -45,6 +50,7 @@ function App() {
     setShowRegisterForm(false);
   };
 
+  // 削除処理が完了したときの処理
   const handleDeleteComplete = (delete_formData) => {
     setDeleteData(delete_formData);
     setAttendanceType('削除');
@@ -52,12 +58,14 @@ function App() {
     setShowDeleteForm(false);
   };
 
+  // キャンセルボタンが押された時の処理
   const handleCancel = () => {
     setAttendanceType(null);
     setRegistrationData(null);
     setAttendanceData(null);
   };
 
+  // 処理結果に応じてポップアップを表示
   const handleProcessResult = (result) => {
     if (result === 'success') {
       setPopupMessage({ jp: '完了しました', en: 'Success' });
@@ -78,6 +86,7 @@ function App() {
       setShowPopup(false);
     }, 3000);
 
+    // フォームのリセット
     setAttendanceType(null);
     setRegistrationData(null);
     setAttendanceData(null);
@@ -85,6 +94,7 @@ function App() {
     setShowDeleteForm(false);
   };
 
+  // フォーム表示処理
   if (showRegisterForm) {
     return <RegisterID onComplete={handleRegistrationComplete} />;
   }
@@ -108,6 +118,7 @@ function App() {
 
   return (
     <div className="App">
+      {/* 成功やエラーのポップアップ表示 */}
       {showPopup && (
         <div className={`popup ${popupType}`}>
           {popupType === 'success' ? <CircleCheck className="popup-icon" /> : <CircleAlert className="popup-icon" />}
@@ -163,4 +174,4 @@ function App() {
   );
 }
 
-export default App;
+export default App; // Appコンポーネントをエクスポート

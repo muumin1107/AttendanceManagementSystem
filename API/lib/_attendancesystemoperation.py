@@ -54,22 +54,27 @@ class AttendanceSystemOperation:
                 'attribute': attribute,
                 'description': description
             }
+            # データが有効かどうかを検証
             if not self.notion_api_client.validate_data(db_name='id', entry_data=entry_data):
                 return 'Invalid entry data'
+            
+            # IDが重複していないか確認
             if self.notion_api_client.check_duplicate_id(id=id):
                 return 'Duplicate ID'
+            
+            # データをNotion APIに追加
             self.notion_api_client.add_data(db_name='id', entry_data=entry_data)
             return True
         except Exception as e:
-            return f"register_id {e}"
+            return f"register_id: {e}"
 
     def remove_id(self, id: str, name: str) -> Union[str, bool]:
         """
-        IDプールから指定したIDを削除する。
+        IDプールから指定されたIDを削除する。
 
         Args:
             id (str): 削除するID。
-            name (str): ユーザーの名前。
+            name (str): 削除対象の名前。
 
         Returns:
             Union[str, bool]: エラーが発生した場合はエラーメッセージ。正常に削除された場合はTrue。
@@ -78,6 +83,8 @@ class AttendanceSystemOperation:
             verification_result = self._verify_id_and_name(id=id, name=name)
             if verification_result is not True:
                 return verification_result
+            
+            # データベースからデータを削除
             self.notion_api_client.remove_data(db_name='id', name=name)
             return True
         except Exception as e:
@@ -95,21 +102,27 @@ class AttendanceSystemOperation:
             Union[str, bool]: エラーが発生した場合はエラーメッセージ。正常に登録された場合はTrue。
         """
         try:
+            # IDから名前を取得
             name_by_id = self.notion_api_client.get_name(id=id)
             if name_by_id is None:
                 return 'ID not found'
 
+            # 勤怠データを作成
             entry_data = {
                 'name': name_by_id,
                 'next_state': next_state,
                 'current_time': self.notion_api_client.get_current_time()
             }
 
+            # データの検証
             if not self.notion_api_client.validate_data(db_name='attendance', entry_data=entry_data):
                 return 'Invalid entry data'
+            
+            # 状態遷移が有効かどうかをチェック
             if not self.notion_api_client.check_valid_state(name=name_by_id, next_state=next_state):
                 return 'Invalid next state'
 
+            # 勤怠データベースにデータを追加
             self.notion_api_client.add_data(db_name='attendance', entry_data=entry_data)
             return True
         except Exception as e:
@@ -130,6 +143,8 @@ class AttendanceSystemOperation:
             verification_result = self._verify_id_and_name(id=id, name=name)
             if verification_result is not True:
                 return verification_result
+            
+            # 勤怠データベースからデータを削除
             self.notion_api_client.remove_data(db_name='attendance', name=name)
             return True
         except Exception as e:

@@ -1,38 +1,42 @@
+/* 背景のスタイル */
 .background {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  transition: background-color 1s ease;
+  transition: background-color 1s ease; /* 背景色のスムーズな変化 */
   z-index: -1;
 }
 
+/* 時間帯ごとの背景色の変化 */
 .background.morning {
-  background: linear-gradient(to bottom, #3b2c63, #b4747c, #e07a5f, #e8c26b);
+  background: linear-gradient(to bottom, #3b2c63, #b4747c, #e07a5f, #e8c26b); /* 朝 */
 }
 
 .background.day {
-  background: linear-gradient(to bottom, #e8c26b, #d4a373, #6b8c9a, #90a4ae);
+  background: linear-gradient(to bottom, #e8c26b, #d4a373, #6b8c9a, #90a4ae); /* 昼 */
 }
 
 .background.evening {
-  background: linear-gradient(to bottom, #6b8c9a, #d5725b, #b35872, #3f285e, #2b2d42);
+  background: linear-gradient(to bottom, #6b8c9a, #d5725b, #b35872, #3f285e, #2b2d42); /* 夕方 */
 }
 
 .background.night {
-  background: linear-gradient(to bottom, #2b2d42, #2c3e50, #121212);
+  background: linear-gradient(to bottom, #2b2d42, #2c3e50, #121212); /* 夜 */
 }
 
+/* 天体（太陽または月）のスタイル */
 .celestial-body {
   position: absolute;
   height: 25%;
-  aspect-ratio: 1/1;
-  border-radius: 50%;
-  transition: left 1s linear, bottom 1s linear, background-color 1s ease;
+  aspect-ratio: 1/1; /* 正方形を維持 */
+  border-radius: 50%; /* 丸くする */
+  transition: left 1s linear, bottom 1s linear, background-color 1s ease; /* スムーズな動きと色変化 */
   z-index: -1;
 }
 
+/* 太陽のスタイル */
 .celestial-body.sun {
   background-color: #FFFF00;
   box-shadow: 0 0 50px #FFFF00;
@@ -40,6 +44,7 @@
   top: 5%;
 }
 
+/* 月のスタイル */
 .celestial-body.moon {
   background-color: #F0F0F0;
   box-shadow: 0 0 30px #F0F0F0;
@@ -47,10 +52,12 @@
   top: 5%;
 }
 
+/* 朝の太陽の色 */
 .background.morning .celestial-body.sun {
   background-color: #FFD700;
 }
 
+/* 夕方の月の色 */
 .background.evening .celestial-body.moon {
   background-color: #FFA500;
 }

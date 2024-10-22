@@ -1,9 +1,11 @@
+/* DeleteIDコンポーネントの全体スタイル */
 .DeleteID {
   text-align: center;
 }
 
+/* ヘッダー部分のスタイル */
 .DeleteID-header {
-  background: linear-gradient(to bottom, #1a202c, #2d3748);
+  background: linear-gradient(to bottom, #1a202c, #2d3748); /* 背景のグラデーション */
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -15,16 +17,18 @@
   overflow: hidden;
 }
 
+/* 削除フォームのコンテナ */
 .delete-container {
   max-width: 600px;
   width: 90%;
   margin: 0 auto;
   padding: 30px;
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: rgba(255, 255, 255, 0.1); /* 半透明の背景 */
   border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* 影をつけて浮かせる効果 */
 }
 
+/* フォームのタイトル（日本語） */
 .deleteIDform-title-jp {
   font-weight: bold;
   margin-top: 0;
@@ -32,19 +36,22 @@
   font-size: 1.5em;
 }
 
+/* フォームのタイトル（英語） */
 .deleteIDform-title-en {
   font-weight: bold;
   margin-top: 0;
   margin-bottom: 20px;
   font-size: 1.0em;
-  color: #a0aec0;
+  color: #a0aec0; /* 少し淡いグレー */
 }
 
+/* フォームグループのスタイル */
 .form-group {
   margin-bottom: 20px;
   text-align: left;
 }
 
+/* ラベルのスタイル */
 label {
   display: block;
   margin-bottom: 5px;
@@ -53,9 +60,8 @@ label {
   font-size: 0.9em;
 }
 
-input[type="text"],
-textarea,
-select {
+/* テキスト入力フィールドのスタイル */
+input[type="text"] {
   width: 100%;
   padding: 8px;
   border: 1px solid #4a5568;
@@ -66,41 +72,13 @@ select {
   box-sizing: border-box;
 }
 
-textarea {
-  height: 100px;
-  resize: vertical;
-}
-
-select {
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  background-image: url('data:image/svg+xml;utf8,<svg fill="%23ffffff" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
-  background-repeat: no-repeat;
-  background-position-x: 98%;
-  background-position-y: 50%;
-}
-
-input::placeholder,
-textarea::placeholder {
+/* プレースホルダーテキストのスタイル */
+input::placeholder {
   font: 0.9em 'Nunito', sans-serif;
   color: #718096;
 }
 
-button {
-  display: block;
-  width: 100%;
-  padding: 10px;
-  font-weight: bold;
-  background-color: #4299e1;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  font-size: 1em;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
+/* エラーメッセージのスタイル */
 .error {
   color: #fc8181;
   font-size: 0.8em;
@@ -108,12 +86,14 @@ button {
   display: block;
 }
 
+/* ボタン群のスタイル */
 .button-group {
   display: flex;
   justify-content: space-between;
   gap: 20px;
 }
 
+/* 戻るボタンのスタイル */
 .back-button {
   background-color: #ccc;
   color: #4299e1;
@@ -131,6 +111,7 @@ button {
   color: white;
 }
 
+/* 次へボタンのスタイル */
 .next-button {
   background-color: #4299e1;
   color: white;

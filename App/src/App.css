@@ -1,3 +1,4 @@
+/* App全体のスタイル */
 .App {
   text-align: center;
   position: relative;
@@ -5,6 +6,7 @@
   overflow: hidden;
 }
 
+/* ヘッダー部分のスタイル */
 .App-header {
   min-height: 100vh;
   display: flex;
@@ -20,6 +22,7 @@
   z-index: 1;
 }
 
+/* 勤怠ボタンのリンク */
 .register-link, .delete-link {
   background: none;
   border: none;
@@ -36,17 +39,20 @@
   padding: 0;
 }
 
+/* リンクがホバーされたときのスタイル */
 .register-link:hover, .delete-link:hover {
   color: #c3c5c7;
   text-decoration: underline;
 }
 
+/* アイコンのスタイル */
 .register-icon, .delete-icon {
   margin-right: 12px;
   width: 35px;
   height: 35px;
 }
 
+/* 勤怠ボタン群のスタイル */
 .attendance-buttons {
   display: flex;
   justify-content: center;
@@ -58,6 +64,7 @@
   max-width: 1200px;
 }
 
+/* 各勤怠ボタンのスタイル */
 .attendance-button {
   width: calc(25% - 1.5vw);
   aspect-ratio: 1 / 1;
@@ -78,11 +85,13 @@
   max-width: 250px;
 }
 
+/* 勤怠ボタンがホバーされたときのスタイル */
 .attendance-button:hover {
   transform: translateY(-2px);
   box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
 }
 
+/* 出勤ボタンのスタイル */
 .clock-in {
   background-color: #e53e3e;
 }
@@ -91,6 +100,7 @@
   background-color: #c53030;
 }
 
+/* 休憩開始・終了ボタンのスタイル */
 .break-start, .break-end {
   background-color: #38a169;
 }
@@ -99,6 +109,7 @@
   background-color: #2f855a;
 }
 
+/* 退勤ボタンのスタイル */
 .clock-out {
   background-color: #3182ce;
 }
@@ -107,6 +118,7 @@
   background-color: #2c5282;
 }
 
+/* ポップアップのスタイル */
 .popup {
   position: fixed;
   top: 10px;
@@ -125,21 +137,24 @@
   align-items: center;
 }
 
+/* ポップアップのアイコンスタイル */
 .popup-icon {
-  /* 大きさを変更する */
   height: calc(2vw + 0.5rem);
   width: calc(2vw + 0.5rem);
   margin-right: 30px;
 }
 
+/* 成功時のポップアップ */
 .popup.success {
   background-color: #38a169;
 }
 
+/* エラー時のポップアップ */
 .popup.error {
   background-color: #e53e3e;
 }
 
+/* ポップアップのフェードイン・アウトアニメーション */
 @keyframes fadeInOut {
   0%, 100% {
     opacity: 0;
@@ -149,16 +164,7 @@
   }
 }
 
-@keyframes fadeInOut {
-  0%, 100% {
-    opacity: 0;
-  }
-  10%, 90% {
-    opacity: 1;
-  }
-}
-
-
+/* メディアクエリ: 最大幅768pxの場合 */
 @media (max-width: 768px) {
   .attendance-buttons {
     gap: 3vw;
@@ -170,6 +176,7 @@
   }
 }
 
+/* メディアクエリ: 最大幅480pxの場合 */
 @media (max-width: 480px) {
   .attendance-buttons {
     flex-direction: column;

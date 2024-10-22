@@ -1,25 +1,28 @@
 import React, { useEffect, useState } from 'react';
-import './BackgroundCycle.css';
+import './BackgroundCycle.css'; // CSSファイルのインポート
 
 const BackgroundCycle = () => {
-    const [time, setTime] = useState(new Date());
-    const [backgroundClass, setBackgroundClass] = useState('');
-    const [celestialBody, setCelestialBody] = useState('sun');
+    const [time, setTime] = useState(new Date()); // 現在の時刻を管理するstate
+    const [backgroundClass, setBackgroundClass] = useState(''); // 背景クラスを管理するstate
+    const [celestialBody, setCelestialBody] = useState('sun'); // 天体のクラス（太陽・月）を管理するstate
 
+    // 毎秒時刻を更新するためのuseEffect
     useEffect(() => {
         const timer = setInterval(() => {
-            setTime(new Date());
+            setTime(new Date()); // 現在の時刻を更新
         }, 1000);
 
-        return () => clearInterval(timer);
+        return () => clearInterval(timer); // コンポーネントがアンマウントされる際にタイマーをクリア
     }, []);
 
+    // 背景と天体を時刻に基づいて更新するuseEffect
     useEffect(() => {
         const updateBackground = () => {
             const hours = time.getHours();
             const minutes = time.getMinutes();
             const totalMinutes = hours * 60 + minutes;
 
+            // 背景と天体を時間帯に応じて切り替える
             let newBackgroundClass = '';
             let newCelestialBody = 'sun';
 
@@ -37,23 +40,23 @@ const BackgroundCycle = () => {
                 newCelestialBody = 'moon';
             }
 
-            setBackgroundClass(newBackgroundClass);
-            setCelestialBody(newCelestialBody);
+            setBackgroundClass(newBackgroundClass); // 背景クラスを更新
+            setCelestialBody(newCelestialBody); // 天体クラスを更新
         };
 
-        updateBackground();
-        const intervalId = setInterval(updateBackground, 60000); // 毎分更新
+        updateBackground(); // 初期レンダリング時に呼び出す
+        const intervalId = setInterval(updateBackground, 60000); // 毎分背景を更新
 
-        return () => clearInterval(intervalId);
+        return () => clearInterval(intervalId); // コンポーネントがアンマウントされる際にクリア
     }, [time]);
 
     return (
         <div className={`background ${backgroundClass}`}>
             <div 
                 className={`celestial-body ${celestialBody}`} 
-            ></div>
+            ></div> {/* 天体を表示 */}
         </div>
     );
 };
 
-export default BackgroundCycle;
+export default BackgroundCycle; // コンポーネントをエクスポート

@@ -1,10 +1,12 @@
+/* RegisterIDコンポーネントの全体スタイル */
 .RegisterID {
   text-align: center;
 }
 
+/* ヘッダー部分のスタイル */
 .RegisterID-header {
-  background: linear-gradient(to bottom, #1a202c, #2d3748);
-  min-height: 100vh;
+  background: linear-gradient(to bottom, #1a202c, #2d3748); /* 背景のグラデーション */
+  min-height: 100vh; /* 画面全体をカバー */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -15,16 +17,18 @@
   overflow: hidden;
 }
 
+/* 登録フォームのコンテナ */
 .register-container {
   max-width: 600px;
   width: 90%;
   margin: 0 auto;
   padding: 30px;
-  background-color: rgba(255, 255, 255, 0.1);
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  background-color: rgba(255, 255, 255, 0.1); /* 半透明の背景色 */
+  border-radius: 8px; /* 角を丸くする */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* 影をつけて浮かせる */
 }
 
+/* フォームのタイトル（日本語） */
 .registerIDform-title-jp {
   font-weight: bold;
   margin-top: 0;
@@ -32,19 +36,22 @@
   font-size: 1.5em;
 }
 
+/* フォームのタイトル（英語） */
 .registerIDform-title-en {
   font-weight: bold;
   margin-top: 0;
   margin-bottom: 20px;
   font-size: 1.0em;
-  color: #a0aec0;
+  color: #a0aec0; /* 少し淡い色 */
 }
 
+/* フォームグループのスタイル */
 .form-group {
   margin-bottom: 20px;
   text-align: left;
 }
 
+/* ラベルのスタイル */
 label {
   display: block;
   margin-bottom: 5px;
@@ -53,6 +60,7 @@ label {
   font-size: 0.9em;
 }
 
+/* テキスト入力フィールド、テキストエリア、セレクトボックスのスタイル */
 input[type="text"],
 textarea,
 select {
@@ -66,11 +74,13 @@ select {
   box-sizing: border-box;
 }
 
+/* テキストエリアのスタイル */
 textarea {
   height: 100px;
-  resize: vertical;
+  resize: vertical; /* 縦方向のサイズ変更を許可 */
 }
 
+/* セレクトボックスのスタイル */
 select {
   appearance: none;
   -webkit-appearance: none;
@@ -81,12 +91,14 @@ select {
   background-position-y: 50%;
 }
 
+/* プレースホルダーテキストのスタイル */
 input::placeholder,
 textarea::placeholder {
   font: 0.9em 'Nunito', sans-serif;
   color: #718096;
 }
 
+/* ボタンのスタイル */
 button {
   display: block;
   width: 100%;
@@ -101,6 +113,7 @@ button {
   transition: background-color 0.3s;
 }
 
+/* エラーメッセージのスタイル */
 .error {
   color: #fc8181;
   font-size: 0.8em;
@@ -108,12 +121,14 @@ button {
   display: block;
 }
 
+/* ボタン群のスタイル */
 .button-group {
   display: flex;
   justify-content: space-between;
   gap: 20px;
 }
 
+/* 戻るボタンのスタイル */
 .back-button {
   background-color: #ccc;
   color: #4299e1;
@@ -131,6 +146,7 @@ button {
   color: white;
 }
 
+/* 次へボタンのスタイル */
 .next-button {
   background-color: #4299e1;
   color: white;
