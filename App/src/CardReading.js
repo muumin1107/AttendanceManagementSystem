@@ -70,7 +70,7 @@ const CardReading = ({ register_formData, delete_formData, attendanceData, onCan
     // 登録処理
     if (register_formData) {
       const { fullName, attribute, description } = register_formData;
-      await callApi('http://card-reader:8000/register_id', 'POST', {
+      await callApi('http://localhost:8000/register_id', 'POST', {
         id: uid, name: fullName, attribute: attribute, description: description
       });
     } else if (delete_formData) {
