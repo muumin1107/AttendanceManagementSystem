@@ -119,14 +119,17 @@ class AttendanceSystemOperation:
                 return 'Invalid entry data'
 
             # 状態遷移が有効かどうかをチェック
-            if not self.notion_api_client.check_valid_state(name=name_by_id, next_state=next_state):
+            is_valid, record_id = self.notion_api_client.check_valid_state(name=name_by_id, next_state=next_state)
+            if not is_valid:
                 return 'Invalid next state'
 
             # 勤怠記録データベースにデータを追加
             self.notion_api_client.add_data(db_name='attendance', entry_data=entry_data)
             # 勤怠状況データベースの状態を更新
-            self.notion_api_client.remove_data(db_name='state', name=name_by_id)
-            self.notion_api_client.add_data(db_name='state', entry_data=entry_data)
+            if record_id is not None:
+                self.notion_api_client.update_state_data(entry_data=entry_data, record_id=record_id)
+            else:
+                self.notion_api_client.add_data(db_name='state', entry_data=entry_data)
             return True
         except Exception as e:
             return f"register_attendance {e}"

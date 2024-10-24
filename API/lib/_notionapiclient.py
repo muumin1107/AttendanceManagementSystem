@@ -35,11 +35,6 @@ class ConfigLoader:
         with open(path, 'r', encoding='utf-8') as f:
             config = json.load(f)
 
-        print('NOTION_ACCESS_TOKEN' not in config['NOTION'])
-        print('NOTION_IDPOOL_ID' not in config['NOTION'])
-        print('NOTION_ATTENDANCE_ID' not in config['NOTION'])
-        print('NOTION_ATTENDANCE_STATE_ID' not in config['NOTION'])
-
         if  'NOTION_ACCESS_TOKEN' not in config['NOTION']   or\
             'NOTION_IDPOOL_ID' not in config['NOTION']      or\
             'NOTION_ATTENDANCE_ID' not in config['NOTION']  or\
@@ -228,11 +223,6 @@ class NotionAPIClient:
                 attendance_data = self._extract_data(db_name='attendance', db_results=attendance_data)
                 attendance_data = self._filter_data(data=attendance_data, filter_name=name)
                 self._remove_all_data(attendance_data)
-            elif db_name == 'state':
-                state_data = self._query_database(db_name='state')
-                state_data = self._extract_data(db_name='state', db_results=state_data)
-                state_data = self._filter_data(data=state_data, filter_name=name)
-                self._remove_all_data(state_data)
             else:
                 raise ValueError(f"Unknown database name: {db_name}")
         except Exception as e:
@@ -314,13 +304,13 @@ class NotionAPIClient:
             )
         except Exception as e:
             raise ValueError(f"-> _add_attendance_data: {e}")
-
+    
     def _add_state_data(self, entry_data: Dict[str, Any]) -> None:
         """
-        勤怠状況データベースの状態を更新する。
+        勤怠状況データベースにデータを追加する。
 
         Args:
-            entry_data (dict): 更新する状態データ。
+            entry_data (dict): 追加する状態データ。
         """
         try:
             self.client.pages.create(
@@ -328,11 +318,31 @@ class NotionAPIClient:
                 properties={
                     '名前': {'title': [{'text': {'content': entry_data['name']}}]},
                     '区分': {'select': {'name': entry_data['next_state']}},
-                    '時間': {'date'  : {'start': entry_data['current_time']}}
+                    '時間': {'date': {'start': entry_data['current_time']}}
                 }
             )
         except Exception as e:
-            raise ValueError(f"-> update_state: {e}")
+            raise ValueError(f"-> _add_state_data: {e}")
+
+    def update_state_data(self, entry_data: Dict[str, Any], record_id) -> None:
+        """
+        勤怠状況データベースの状態を更新する。
+
+        Args:
+            entry_data (dict): 更新する状態データ。
+        """
+        try:
+            self.client.pages.update(
+                page_id=record_id,
+                properties={
+                    '名前': {'title': [{'text': {'content': entry_data['name']}}]},
+                    '区分': {'select': {'name': entry_data['next_state']}},
+                    '時間': {'date': {'start': entry_data['current_time']}}
+                }
+            )
+            return True
+        except Exception as e:
+            raise ValueError(f"-> update_state_data: {e}")
 
     def get_current_time(self) -> str:
         """
@@ -448,8 +458,8 @@ class NotionAPIClient:
             state_data = self._extract_data(db_name='state', db_results=state_data)
             state_data = self._filter_data(data=state_data, filter_name=name)
             if state_data is None or len(state_data) == 0:
-                return '未登録'
-            return state_data[0]['current_state']
+                return '未登録', None
+            return state_data[0]['current_state'], state_data[0]['record_id']
         except Exception as e:
             raise ValueError(f"-> _get_latest_state {e}")
 
@@ -465,7 +475,7 @@ class NotionAPIClient:
             bool: 正しい状態遷移の場合はTrue、不正な場合はFalse。
         """
         try:
-            latest_state = self._get_latest_state(name=name)
-            return next_state in STATE_TRANSITIONS[latest_state]
+            latest_state, record_id = self._get_latest_state(name=name)
+            return next_state in STATE_TRANSITIONS[latest_state], record_id
         except Exception as e:
             raise ValueError(f"-> check_valid_state {e}")
