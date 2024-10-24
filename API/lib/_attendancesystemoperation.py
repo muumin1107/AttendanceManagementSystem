@@ -57,11 +57,11 @@ class AttendanceSystemOperation:
             # データが有効かどうかを検証
             if not self.notion_api_client.validate_data(db_name='id', entry_data=entry_data):
                 return 'Invalid entry data'
-            
+
             # IDが重複していないか確認
             if self.notion_api_client.check_duplicate_id(id=id):
                 return 'Duplicate ID'
-            
+
             # データをNotion APIに追加
             self.notion_api_client.add_data(db_name='id', entry_data=entry_data)
             return True
@@ -117,13 +117,16 @@ class AttendanceSystemOperation:
             # データの検証
             if not self.notion_api_client.validate_data(db_name='attendance', entry_data=entry_data):
                 return 'Invalid entry data'
-            
+
             # 状態遷移が有効かどうかをチェック
             if not self.notion_api_client.check_valid_state(name=name_by_id, next_state=next_state):
                 return 'Invalid next state'
 
-            # 勤怠データベースにデータを追加
+            # 勤怠記録データベースにデータを追加
             self.notion_api_client.add_data(db_name='attendance', entry_data=entry_data)
+            # 勤怠状況データベースの状態を更新
+            self.notion_api_client.remove_data(db_name='state', name=name_by_id)
+            self.notion_api_client.add_data(db_name='state', entry_data=entry_data)
             return True
         except Exception as e:
             return f"register_attendance {e}"
@@ -143,7 +146,7 @@ class AttendanceSystemOperation:
             verification_result = self._verify_id_and_name(id=id, name=name)
             if verification_result is not True:
                 return verification_result
-            
+
             # 勤怠データベースからデータを削除
             self.notion_api_client.remove_data(db_name='attendance', name=name)
             return True

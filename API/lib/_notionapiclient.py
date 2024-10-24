@@ -31,13 +31,20 @@ class ConfigLoader:
     def load_config(path: str = CONFIG_PATH) -> dict:
         if not os.path.exists(path):
             raise ConfigError(f'Config file not found: {path}')
-        
+
         with open(path, 'r', encoding='utf-8') as f:
             config = json.load(f)
-        
-        if 'NOTION_ACCESS_TOKEN' not in config['NOTION'] or 'NOTION_IDPOOL_ID' not in config['NOTION'] or 'NOTION_ATTENDANCE_ID' not in config['NOTION']:
-            raise ConfigError("Missing 'NOTION_ACCESS_TOKEN' or 'NOTION_IDPOOL_ID' or 'NOTION_ATTENDANCE_ID' in config file.")
-        
+
+        print('NOTION_ACCESS_TOKEN' not in config['NOTION'])
+        print('NOTION_IDPOOL_ID' not in config['NOTION'])
+        print('NOTION_ATTENDANCE_ID' not in config['NOTION'])
+        print('NOTION_ATTENDANCE_STATE_ID' not in config['NOTION'])
+
+        if  'NOTION_ACCESS_TOKEN' not in config['NOTION']   or\
+            'NOTION_IDPOOL_ID' not in config['NOTION']      or\
+            'NOTION_ATTENDANCE_ID' not in config['NOTION']  or\
+            'NOTION_ATTENDANCE_STATE_ID' not in config['NOTION']:
+            raise ConfigError("Notion API access token and database ID must be set in config file.")
         return config
 
 class NotionAPIClient:
@@ -54,12 +61,10 @@ class NotionAPIClient:
         """
         try:
             config = ConfigLoader.load_config()
-            self.NOTION_ACCESS_TOKEN  = config['NOTION']['NOTION_ACCESS_TOKEN']
-            self.NOTION_IDPOOL_ID     = config['NOTION']['NOTION_IDPOOL_ID']
-            self.NOTION_ATTENDANCE_ID = config['NOTION']['NOTION_ATTENDANCE_ID']
-
-            if not self.NOTION_ACCESS_TOKEN or not self.NOTION_IDPOOL_ID:
-                raise ValueError("Notion API access token and ID pool ID must be set in environment variables.")
+            self.NOTION_ACCESS_TOKEN        = config['NOTION']['NOTION_ACCESS_TOKEN']
+            self.NOTION_IDPOOL_ID           = config['NOTION']['NOTION_IDPOOL_ID']
+            self.NOTION_ATTENDANCE_ID       = config['NOTION']['NOTION_ATTENDANCE_ID']
+            self.NOTION_ATTENDANCE_STATE_ID = config['NOTION']['NOTION_ATTENDANCE_STATE_ID']
 
             self.client = Client(auth=self.NOTION_ACCESS_TOKEN)
         except Exception as e:
@@ -83,6 +88,8 @@ class NotionAPIClient:
                 return self.client.databases.query(database_id=self.NOTION_IDPOOL_ID)['results']
             elif db_name == 'attendance':
                 return self.client.databases.query(database_id=self.NOTION_ATTENDANCE_ID)['results']
+            elif db_name == 'state':
+                return self.client.databases.query(database_id=self.NOTION_ATTENDANCE_STATE_ID)['results']
             else:
                 raise ValueError(f"Unknown database name '{db_name}'")
         except Exception as e:
@@ -120,6 +127,15 @@ class NotionAPIClient:
                         'name'          : tmp['properties']['名前']['title'][0]['plain_text'],
                         'next_state'    : tmp['properties']['区分']['select']['name'],
                         'current_time'  : tmp['properties']['時間']['date']['start'],
+                        'record_id'     : tmp['id']
+                    }
+                    for tmp in db_results
+                ]
+            elif db_name == 'state':
+                return [
+                    {
+                        'name'          : tmp['properties']['名前']['title'][0]['plain_text'],
+                        'current_state' : tmp['properties']['区分']['select']['name'],
                         'record_id'     : tmp['id']
                     }
                     for tmp in db_results
@@ -212,6 +228,11 @@ class NotionAPIClient:
                 attendance_data = self._extract_data(db_name='attendance', db_results=attendance_data)
                 attendance_data = self._filter_data(data=attendance_data, filter_name=name)
                 self._remove_all_data(attendance_data)
+            elif db_name == 'state':
+                state_data = self._query_database(db_name='state')
+                state_data = self._extract_data(db_name='state', db_results=state_data)
+                state_data = self._filter_data(data=state_data, filter_name=name)
+                self._remove_all_data(state_data)
             else:
                 raise ValueError(f"Unknown database name: {db_name}")
         except Exception as e:
@@ -248,6 +269,8 @@ class NotionAPIClient:
                 self._add_id_data(entry_data)
             elif db_name == 'attendance':
                 self._add_attendance_data(entry_data)
+            elif db_name == 'state':
+                self._add_state_data(entry_data)
             else:
                 raise ValueError(f"Unknown database name '{db_name}'")
         except Exception as e:
@@ -291,6 +314,25 @@ class NotionAPIClient:
             )
         except Exception as e:
             raise ValueError(f"-> _add_attendance_data: {e}")
+
+    def _add_state_data(self, entry_data: Dict[str, Any]) -> None:
+        """
+        勤怠状況データベースの状態を更新する。
+
+        Args:
+            entry_data (dict): 更新する状態データ。
+        """
+        try:
+            self.client.pages.create(
+                parent={'database_id': self.NOTION_ATTENDANCE_STATE_ID},
+                properties={
+                    '名前': {'title': [{'text': {'content': entry_data['name']}}]},
+                    '区分': {'select': {'name': entry_data['next_state']}},
+                    '時間': {'date'  : {'start': entry_data['current_time']}}
+                }
+            )
+        except Exception as e:
+            raise ValueError(f"-> update_state: {e}")
 
     def get_current_time(self) -> str:
         """
@@ -402,13 +444,12 @@ class NotionAPIClient:
             str: 最新の状態。該当するデータがない場合は'未登録'を返す。
         """
         try:
-            attendance_data = self._query_database(db_name='attendance')
-            attendance_data = self._extract_data(db_name='attendance', db_results=attendance_data)
-            attendance_data = self._filter_data(data=attendance_data, filter_name=name)
-            attendance_data = self._sort_data(data=attendance_data, key='current_time')
-            if attendance_data is None:
+            state_data = self._query_database(db_name='state')
+            state_data = self._extract_data(db_name='state', db_results=state_data)
+            state_data = self._filter_data(data=state_data, filter_name=name)
+            if state_data is None or len(state_data) == 0:
                 return '未登録'
-            return attendance_data[0]['next_state']
+            return state_data[0]['current_state']
         except Exception as e:
             raise ValueError(f"-> _get_latest_state {e}")
 
