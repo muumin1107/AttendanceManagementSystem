@@ -83,7 +83,7 @@ class AttendanceSystemOperation:
             verification_result = self._verify_id_and_name(id=id, name=name)
             if verification_result is not True:
                 return verification_result
-            
+
             # データベースからデータを削除
             self.notion_api_client.remove_data(db_name='id', name=name)
             return True
@@ -124,7 +124,7 @@ class AttendanceSystemOperation:
                 return 'Invalid next state'
 
             # 勤怠記録データベースにデータを追加
-            self.notion_api_client.add_data(db_name='attendance', entry_data=entry_data)
+            # self.notion_api_client.add_data(db_name='attendance', entry_data=entry_data)
             # 勤怠状況データベースの状態を更新
             if record_id is not None:
                 self.notion_api_client.update_state_data(entry_data=entry_data, record_id=record_id)
@@ -133,6 +133,33 @@ class AttendanceSystemOperation:
             return True
         except Exception as e:
             return f"register_attendance {e}"
+
+    def register_all_attendance(self, next_state: str) -> Union[str, bool]:
+        """
+        勤怠データベースの全ユーザーに同じ勤怠状態を登録する。
+
+        Returns:
+            Union[str, bool]: エラーが発生した場合はエラーメッセージ。正常に登録された場合はTrue。
+        """
+        try:
+            data = self.notion_api_client._query_database(db_name='id')
+            data = self.notion_api_client._extract_data(db_name='id', db_results=data)
+            # データが空でないか確認
+            if not data:
+                return 'No data found'
+            # 各ユーザーに対して勤怠状態を登録
+            pre_name = ""
+            for tmp in data:
+                # 前回の名前と同じ場合はスキップ
+                if pre_name == tmp["name"]:
+                    continue
+                # 勤怠情報を登録
+                self.register_attendance(id=tmp["id"], next_state=next_state)
+                # 勤怠情報を登録した後、前回の名前を更新
+                pre_name = tmp["name"]
+            return True
+        except Exception as e:
+            return f"register_all_attendance {e}"
 
     def remove_attendance(self, id: str, name: str) -> Union[str, bool]:
         """
@@ -155,3 +182,18 @@ class AttendanceSystemOperation:
             return True
         except Exception as e:
             return f"remove_attendance {e}"
+
+    def remove_all_attendance(self) -> Union[str, bool]:
+        """
+        勤怠データベースから全ての勤怠データを削除する。
+
+
+        Returns:
+            Union[str, bool]: エラーが発生した場合はエラーメッセージ。正常に削除された場合はTrue。
+        """
+        try:
+            # 勤怠データベースからデータを削除
+            self.notion_api_client.remove_data(db_name='attendance', name="all")
+            return True
+        except Exception as e:
+            return f"remove_all_attendance {e}"

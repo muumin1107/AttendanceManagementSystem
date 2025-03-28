@@ -9,7 +9,7 @@ from typing import Optional
 
 # 定数の定義
 CONFIG_PATH = './config/config.json'
-UID_TIMEOUT_SECONDS = 3
+UID_TIMEOUT_SECONDS = 30
 DEFAULT_TIMEOUT_SECONDS = 30
 
 class ConfigError(Exception):
@@ -43,14 +43,14 @@ class ConfigLoader:
         """
         if not os.path.exists(path):
             raise ConfigError(f'Config file not found: {path}')
-        
+
         with open(path, 'r', encoding='utf-8') as f:
             config = json.load(f)
-        
+
         # 必須キーが存在しない場合はエラーを投げる
         if 'ENCRYPT_KEY' not in config['CARD_READER'] or 'ENCRYPT_IV' not in config['CARD_READER']:
             raise ConfigError("Missing 'ENCRYPT_KEY' or 'ENCRYPT_IV' in config file.")
-        
+
         return config
 
 class UIDEncryptor:
@@ -121,8 +121,7 @@ class NFCReader:
         clf = nfc.ContactlessFrontend('usb')
         try:
             start_time = time.time()
-            tag = clf.connect(rdwr={'targets':['212F'], 'on-connect': lambda tag: False},
-                              terminate=lambda: time.time() - start_time > timeout)
+            tag = clf.connect(rdwr={'targets':['212F'], 'on-connect': lambda tag: False}, terminate=lambda: time.time() - start_time > timeout)
             return tag.identifier.hex()
         except Exception as e:
             raise NFCError(f"Error reading UID or timeout occurred: {e}")

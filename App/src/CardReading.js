@@ -39,7 +39,7 @@ const CardReading = ({ register_formData, delete_formData, attendanceData, onCan
   const fetchCardUid = async () => {
     if (isCancelled) return null; // 中断されていたらUID取得しない
     try {
-      const response = await fetch('http://card-reader:8000/get_uid');
+      const response = await fetch('{APIサーバーIP:ポート番号}/get_uid');
       if (response.status === 200) {
         const data = await response.json();
         return data.uid;
@@ -70,16 +70,16 @@ const CardReading = ({ register_formData, delete_formData, attendanceData, onCan
     // 登録処理
     if (register_formData) {
       const { fullName, attribute, description } = register_formData;
-      await callApi('http://localhost:8000/register_id', 'POST', {
+      await callApi('{APIサーバーIP:ポート番号}/register_id', 'POST', {
         id: uid, name: fullName, attribute: attribute, description: description
       });
     } else if (delete_formData) {
       const { fullName } = delete_formData;
-      await callApi('http://card-reader:8000/remove_id', 'DELETE', {
+      await callApi('{APIサーバーIP:ポート番号}/remove_id', 'DELETE', {
         id: uid, name: fullName
       });
     } else if (attendanceData) {
-      await callApi('http://card-reader:8000/register_attendance', 'POST', {
+      await callApi('{APIサーバーIP:ポート番号}/register_attendance', 'POST', {
         id: uid, next_state: attendanceData
       });
     } else {

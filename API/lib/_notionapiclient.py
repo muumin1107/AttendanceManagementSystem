@@ -5,7 +5,7 @@ import json
 from typing import List, Dict, Any
 
 # 定数の定義
-CONFIG_PATH                 = './config/config.json'
+CONFIG_PATH                 = '/home/pi/attendance_system/API/config/config.json'
 IDPOOL_COLUMNS_LENGTH       = 4
 ATTENDANCE_COLUMNS_LENGTH   = 3
 VALID_ATTRIBUTES            = ['ICカード', 'スマートフォン', 'その他']
@@ -201,30 +201,36 @@ class NotionAPIClient:
         except Exception as e:
             raise ValueError(f"-> get_name {e}")
 
-    def remove_data(self, db_name: str, name: str) -> None:
+    def remove_data(self, db_name: str="attendance", name: str="all") -> None:
         """
         指定した名前のデータを削除する。
 
         Args:
             db_name (str): 'id' または 'attendance' データベース名を指定。
-            name (str): 削除対象の名前。
+            name (str): 削除対象の名前（全て削除する場合は'all'を指定）。
 
         Raises:
             ValueError: 不明なデータベース名が指定された場合に発生。
         """
         try:
-            if db_name == 'id':
-                id_data = self._query_database(db_name='id')
-                id_data = self._extract_data(db_name='id', db_results=id_data)
-                id_data = self._filter_data(data=id_data, filter_name=name)
-                self._remove_all_data(id_data)
-            elif db_name == 'attendance':
-                attendance_data = self._query_database(db_name='attendance')
-                attendance_data = self._extract_data(db_name='attendance', db_results=attendance_data)
-                attendance_data = self._filter_data(data=attendance_data, filter_name=name)
-                self._remove_all_data(attendance_data)
-            else:
-                raise ValueError(f"Unknown database name: {db_name}")
+            data = self._query_database(db_name=db_name)
+            data = self._extract_data(db_name=db_name, db_results=data)
+            # MEMO: '全て'を指定した場合はフィルタリングしない
+            if not(db_name == "attendance" and name == "all"):
+                data = self._filter_data(data=data, filter_name=name)
+            self._remove_all_data(data)
+            # if db_name == 'id':
+            #     id_data = self._query_database(db_name='id')
+            #     id_data = self._extract_data(db_name='id', db_results=id_data)
+            #     id_data = self._filter_data(data=id_data, filter_name=name)
+            #     self._remove_all_data(id_data)
+            # elif db_name == 'attendance':
+            #     attendance_data = self._query_database(db_name='attendance')
+            #     attendance_data = self._extract_data(db_name='attendance', db_results=attendance_data)
+            #     attendance_data = self._filter_data(data=attendance_data, filter_name=name)
+            #     self._remove_all_data(attendance_data)
+            # else:
+            #     raise ValueError(f"Unknown database name: {db_name}")
         except Exception as e:
             raise ValueError(f"-> remove_data {e}")
 
@@ -304,7 +310,7 @@ class NotionAPIClient:
             )
         except Exception as e:
             raise ValueError(f"-> _add_attendance_data: {e}")
-    
+
     def _add_state_data(self, entry_data: Dict[str, Any]) -> None:
         """
         勤怠状況データベースにデータを追加する。
