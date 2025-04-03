@@ -27,11 +27,10 @@ if __name__ == "__main__":
                 "id": Codec.base64_encode(Codec._hash(nfc_id))
             }
         )
-
         # レスポンスを解析
-        if not response.json().get("statusCode") == 200:
-            # ステータスコードが200でない場合はエラーとみなす
-            Exception(f"Failed to register user: {response.json().get('message')}")
+        if response.status_code != 200:
+            ErrorHandler(log_file="/home/pi/attendance_system/API/logs/get_user.log").log_error(f"Error: {response.json()}")
+        # レスポンスを表示
         print(response.json())
     except Exception as e:
         ErrorHandler(log_file="/home/pi/attendance_system/API/logs/get_user.log").handle_error(e)

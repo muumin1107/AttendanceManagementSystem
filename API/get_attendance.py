@@ -28,7 +28,7 @@ if __name__ == "__main__":
         # レスポンスを解析
         if not response.json().get("statusCode") == 200:
             # ステータスコードが200でない場合はエラーとみなす
-            Exception(f"Failed to register user: {response.json().get('message')}")
+            Exception(f"Failed to get attendance: {response.json().get('body')}")
 
     except Exception as e:
         ErrorHandler(log_file="/home/pi/attendance_system/API/logs/get_attendance.log").handle_error(e)
