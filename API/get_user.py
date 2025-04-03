@@ -32,5 +32,6 @@ if __name__ == "__main__":
             ErrorHandler(log_file="/home/pi/attendance_system/API/logs/get_user.log").log_error(f"Error: {response.json()}")
         # レスポンスを表示
         print(response.json())
+
     except Exception as e:
         ErrorHandler(log_file="/home/pi/attendance_system/API/logs/get_user.log").handle_error(e)
