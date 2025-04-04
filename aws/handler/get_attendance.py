@@ -1,11 +1,9 @@
 import os
 from dotenv import load_dotenv
-from lib import APIClient, Codec, ErrorHandler
+from lib import APIClient, ErrorHandler
 
 if __name__ == "__main__":
     try:
-        nfc_id = "test"
-
         # 環境変数の読み込み
         load_dotenv()
 
@@ -21,17 +19,15 @@ if __name__ == "__main__":
 
         # APIリクエストの送信
         response = api_client.send_request(
-            stage_name = "v1/user",
-            method     = "GET",
-            params     = {
-                "id": Codec.base64_encode(Codec._hash(nfc_id))
-            }
+            stage_name = "v1/attendance",
+            method     = "GET"
         )
+
         # レスポンスを解析
         if response.status_code != 200:
-            ErrorHandler(log_file="/home/pi/attendance_system/API/logs/get_user.log").log_error(f"Error: {response.json()}")
+            ErrorHandler(log_file="/home/pi/attendance_system/logs/get_attendance.log").log_error(f"Error: {response.json()}")
         # レスポンスを表示
         print(response.json())
 
     except Exception as e:
-        ErrorHandler(log_file="/home/pi/attendance_system/API/logs/get_user.log").handle_error(e)
+        ErrorHandler(log_file="/home/pi/attendance_system/logs/get_attendance.log").handle_error(e)

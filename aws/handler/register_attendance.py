@@ -31,9 +31,9 @@ if __name__ == "__main__":
         )
         # レスポンスを解析
         if response.json().get("statusCode") != 200:
-            ErrorHandler(log_file="/home/pi/attendance_system/API/logs/register_attendance.log").log_error(f"Error: {response.json()}")
+            ErrorHandler(log_file="/home/pi/attendance_system/logs/register_attendance.log").log_error(f"Error: {response.json()}")
         # レスポンスを表示
         print(response.json())
 
     except Exception as e:
-        ErrorHandler(log_file="/home/pi/attendance_system/API/logs/register_attendance.log").handle_error(e)
+        ErrorHandler(log_file="/home/pi/attendance_system/logs/register_attendance.log").handle_error(e)
