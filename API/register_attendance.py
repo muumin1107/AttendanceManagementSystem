@@ -4,8 +4,8 @@ from lib import APIClient, Codec, ErrorHandler
 
 if __name__ == "__main__":
     try:
-        name   = "test"
-        status = "clock_"
+        name   = "test2"
+        status = "clock_in"
 
         # 環境変数の読み込み
         load_dotenv()
@@ -22,7 +22,7 @@ if __name__ == "__main__":
 
         # APIリクエストの送信
         response = api_client.send_request(
-            stage_name = "minelab-attendance-api/attendance",
+            stage_name = "v1/attendance",
             method     = "POST",
             data       = {
                 "name"  : Codec.base64_encode(name),

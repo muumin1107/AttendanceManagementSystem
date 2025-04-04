@@ -22,7 +22,7 @@ if __name__ == "__main__":
 
         # APIリクエストの送信
         response = api_client.send_request(
-            stage_name = "minelab-attendance-api/user",
+            stage_name = "v1/user",
             method     = "POST",
             data       = {
                 "id"  : Codec.base64_encode(Codec._hash(nfc_id)),
