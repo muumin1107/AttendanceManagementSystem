@@ -25,7 +25,7 @@ if __name__ == "__main__":
             stage_name = "v1/user",
             method     = "POST",
             data       = {
-                "id"  : Codec.base64_encode(Codec._hash(nfc_id)),
+                "id"  : Codec.base64_encode(nfc_id),
                 "name": Codec.base64_encode(name)
             }
         )

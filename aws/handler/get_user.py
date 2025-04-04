@@ -24,7 +24,7 @@ if __name__ == "__main__":
             stage_name = "v1/user",
             method     = "GET",
             params     = {
-                "id": Codec.base64_encode(Codec._hash(nfc_id))
+                "id": Codec.base64_encode(nfc_id)
             }
         )
         # レスポンスを解析
