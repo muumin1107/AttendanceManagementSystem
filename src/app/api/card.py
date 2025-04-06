@@ -8,6 +8,7 @@ router = APIRouter()
 async def read_card():
     try:
         hashed_id = read_card_uid()
-        return {"status": "success", "nfc_id": hashed_id}
+        return {"statusCode": 200, "nfc_id": hashed_id}
+
     except Exception as e:
-        return {"status": "error", "message": str(e)}
+        return {"statusCode": 500, "message": str(e)}

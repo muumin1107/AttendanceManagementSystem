@@ -1,5 +1,5 @@
 from pydantic import BaseModel
 
 class AttendanceRequest(BaseModel):
-    nfc_id: str
+    id    : str
     status: str

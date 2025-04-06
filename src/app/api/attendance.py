@@ -14,12 +14,12 @@ async def register_attendance(request: AttendanceRequest):
         enqueue_task(
             job_type = "register_attendance",
             params   = {
-                "nfc_id": request.nfc_id,
+                "id"    : request.id,
                 "status": request.status,
             }
         )
-        return {"status": "accepted", "message": "Task enqueued"}
+        return {"statusCode": 200, "message": "Task enqueued"}
 
     except Exception as e:
         logger.log_error(f"Attendance task enqueue failed: {e}")
-        return {"status": "error", "message": "Failed to enqueue attendance task"}
+        return {"statusCode": 500, "message": "Failed to enqueue attendance task"}

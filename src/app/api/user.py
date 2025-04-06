@@ -14,12 +14,12 @@ async def register_user(request: UserRequest):
         enqueue_task(
             job_type = "register_user",
             params   = {
-                "nfc_id": request.nfc_id,
-                "name"  : request.name
+                "id"  : request.id,
+                "name": request.name
             }
         )
-        return {"status": "accepted", "message": "Task enqueued"}
+        return {"statusCode": 200, "message": "Task enqueued"}
 
     except Exception as e:
         logger.log_error(f"User task enqueue failed: {e}")
-        return {"status": "error", "message": "Failed to enqueue user registration task"}
+        return {"statusCode": 500, "message": "Failed to enqueue user registration task"}

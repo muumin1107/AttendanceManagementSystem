@@ -9,6 +9,7 @@ LOG_PATHS = {
     "register_user"      : Path(BASE_DIR) / "logs" / "register_user.log",
     "card_reader"        : Path(BASE_DIR) / "logs" / "card_reader.log",
     "aws_client"         : Path(BASE_DIR) / "logs" / "aws_client.log",
+    "worker"            : Path(BASE_DIR) / "logs" / "worker.log",
 }
 
 # SQLiteデータベースのパス
