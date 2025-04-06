@@ -4,7 +4,7 @@ if __name__ == "__main__":
     # テストデータ
     test_nfc_id = "test_nfc_id"
     test_name   = "test_name"
-    test_status = "clock_in"
+    test_status = "clock_out"
 
     print("ユーザー登録")
     try:
