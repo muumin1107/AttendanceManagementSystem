@@ -17,7 +17,7 @@
 │   ├── schemas/                        # Pydanticスキーマ定義
 │   │   ├── __init__.py
 │   │   ├── attendance.py               # 勤怠データ用スキーマ
-│   │   └── user.py                      # ユーザー情報用スキーマ
+│   │   └── user.py                     # ユーザー情報用スキーマ
 │   └── services/                       # アプリケーションロジック
 │       └── card_service.py             # カードサービスの処理
 │
