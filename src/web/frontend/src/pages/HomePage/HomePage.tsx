@@ -1,43 +1,66 @@
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useCurrentTime } from '../../hooks/useCurrentTime';
+import { useEffect, useState } from 'react';
 import './HomePage.css';
 
-/**
- * ホーム画面コンポーネント
- * 勤怠操作とユーザー登録の入口
- */
+const statusMap: Record<string, string> = {
+	'出勤': 'clock_in',
+	'休入': 'break_in',
+	'休出': 'break_out',
+	'退勤': 'clock_out'
+};
+
 const HomePage = () => {
 	const navigate = useNavigate();
-	const currentTime = useCurrentTime();
+	const location = useLocation();
+	const { date, time } = useCurrentTime();
 
-	/**
-	 * 勤怠ボタンが押されたときの遷移処理
-	 * @param type 勤怠種別（出勤 / 休入 / 休出 / 退勤）
-	 */
-	const handleAttendanceClick = (type: string) => {
-		navigate('/register-attendance/waiting', { state: { type } });
+	const [toast, setToast] = useState<string | null>(null);
+
+	useEffect(() => {
+		if (location.state?.toast) {
+			setToast(location.state.toast);
+			const timer = setTimeout(() => setToast(null), 3000);
+			return () => clearTimeout(timer);
+		}
+	}, [location.state]);
+
+	const handleAttendanceClick = (label: string) => {
+		const status = statusMap[label];
+		navigate('/register-attendance/waiting', { state: { type: status } });
 	};
 
-	/**
-	 * ユーザー登録ボタンが押されたときの遷移処理
-	 */
 	const handleRegisterClick = () => {
 		navigate('/register-user');
 	};
 
 	return (
 		<div id="home-page">
-			<div id="clock">{currentTime}</div>
+			{/* トースト表示 */}
+			{toast && <div className="toast">{toast}</div>}
+
+			<div id="clock">
+				<div className="clock-date">{date}</div>
+				<div className="clock-time">{time}</div>
+			</div>
 
 			<div id="attendance-buttons">
-				<button onClick={() => handleAttendanceClick('出勤')}>出勤</button>
-				<button onClick={() => handleAttendanceClick('休入')}>休入</button>
-				<button onClick={() => handleAttendanceClick('休出')}>休出</button>
-				<button onClick={() => handleAttendanceClick('退勤')}>退勤</button>
+				<button onClick={() => handleAttendanceClick('出勤')}>
+					出勤<br /><small>Clock In</small>
+				</button>
+				<button onClick={() => handleAttendanceClick('休入')}>
+					休入<br /><small>Break Start</small>
+				</button>
+				<button onClick={() => handleAttendanceClick('休出')}>
+					休出<br /><small>Break End</small>
+				</button>
+				<button onClick={() => handleAttendanceClick('退勤')}>
+					退勤<br /><small>Clock Out</small>
+				</button>
 			</div>
 
 			<button onClick={handleRegisterClick} id="user-register-button">
-				ユーザー登録
+				ユーザー登録<br /><small>User Registration</small>
 			</button>
 		</div>
 	);

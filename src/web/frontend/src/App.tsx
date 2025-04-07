@@ -5,6 +5,7 @@ import UserNameSelectPage from './pages/RegisterUser/UserNameSelectPage';
 import UserCardWaitPage from './pages/RegisterUser/UserCardWaitPage';
 import AttendanceCardWaitPage from './pages/RegisterAttendance/AttendanceCardWaitPage';
 
+// アプリケーションのルーティングを定義するコンポーネント
 function App() {
 	return (
 		<Router>

@@ -1,38 +1,37 @@
 import { useEffect, useState } from 'react';
 
-// 曜日表示に使う定数（外に出すことで再利用性と明示性アップ）
-const JAPANESE_WEEKDAYS = ['日', '月', '火', '水', '木', '金', '土'];
+// 英語の曜日を使用（短縮形）
+const ENGLISH_WEEKDAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
-/**
- * 現在時刻を "YYYY年MM月DD日（曜） HH:MM:SS" の形式で1秒ごとに返すカスタムフック
- */
-export const useCurrentTime = (): string => {
-	const [formattedTime, setFormattedTime] = useState(() => formatDateTime(new Date()));
+// 現在の日時を "YYYY-MM-DD (Weekday) HH:MM:SS" 形式で返すカスタムフック
+export const useCurrentTime = (): { date: string; time: string } => {
+	const [current, setCurrent] = useState(() => formatDateTime(new Date()));
 
 	useEffect(() => {
 		const intervalId = setInterval(() => {
-			const now = new Date();
-			setFormattedTime(formatDateTime(now));
+			setCurrent(formatDateTime(new Date()));
 		}, 1000);
-
 		return () => clearInterval(intervalId);
 	}, []);
 
-	return formattedTime;
+	return current;
 };
 
-/**
- * Dateオブジェクトを "YYYY年MM月DD日（曜） HH:MM:SS" の形式に整形する
- */
-const formatDateTime = (date: Date): string => {
-	const year    = date.getFullYear();
-	const month   = String(date.getMonth() + 1).padStart(2, '0');
-	const day 	  = String(date.getDate()).padStart(2, '0');
-	const weekday = JAPANESE_WEEKDAYS[date.getDay()];
+// 日付と時刻をフォーマットする関数
+const formatDateTime = (date: Date): { date: string; time: string } => {
+	const weekdays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
-	const hours   = String(date.getHours()).padStart(2, '0');
+	const year = date.getFullYear();
+	const month = String(date.getMonth() + 1).padStart(2, '0');
+	const day = String(date.getDate()).padStart(2, '0');
+	const weekday = weekdays[date.getDay()];
+
+	const hours = String(date.getHours()).padStart(2, '0');
 	const minutes = String(date.getMinutes()).padStart(2, '0');
 	const seconds = String(date.getSeconds()).padStart(2, '0');
 
-	return `${year}年${month}月${day}日（${weekday}） ${hours}:${minutes}:${seconds}`;
+	return {
+		date: `${year}-${month}-${day} (${weekday})`,
+		time: `${hours}:${minutes}:${seconds}`
+	};
 };
