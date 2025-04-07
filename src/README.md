@@ -4,54 +4,89 @@
 
 ```bash
 .
-├── app/                                # アプリケーション本体
+├── app/                                # アプリケーション本体（FastAPI）
 │   ├── __init__.py
-│   ├── main.py                         # FastAPIアプリ起動エントリーポイント
-│   ├── api/                            # APIルーティング定義
+│   ├── main.py                         # FastAPI アプリのエントリーポイント
+│   ├── api/                            # API エンドポイント定義
 │   │   ├── __init__.py
-│   │   ├── attendance.py               # 勤怠登録API
-│   │   ├── card.py                     # NFCカード読み取りAPI
-│   │   └── user.py                     # ユーザー登録API
-│   ├── hardware/                       # ハードウェア制御
+│   │   ├── attendance.py               # 勤怠登録 API
+│   │   ├── card.py                     # NFCカード読み取り API
+│   │   └── user.py                     # ユーザー登録 API
+│   ├── hardware/
 │   │   └── card_reader.py              # NFCカードリーダー操作
-│   ├── schemas/                        # Pydanticスキーマ定義
+│   ├── schemas/                        # リクエスト/レスポンス用スキーマ
 │   │   ├── __init__.py
-│   │   ├── attendance.py               # 勤怠データ用スキーマ
-│   │   └── user.py                     # ユーザー情報用スキーマ
-│   └── services/                       # アプリケーションロジック
-│       └── card_service.py             # カードサービスの処理
+│   │   ├── attendance.py
+│   │   └── user.py
+│   └── services/
+│       └── card_service.py             # ハードウェア連携ロジック
 │
-├── data/                               # データベース関連
-│   ├── .init_db.py                     # SQLite初期化スクリプト
-│   └── tasks.db                        # タスクキュー用SQLiteデータベース
+├── data/                               # ローカルデータベース・初期化スクリプト
+│   ├── .cleanup_tasks.py               # 古いタスクの自動削除スクリプト
+│   ├── .init_db.py                     # SQLite DB初期化スクリプト
+│   └── tasks.db                        # タスクキュー用データベース
 │
-├── logs/                               # ログファイル出力用（空ディレクトリ）
+├── logs/                               # ログファイル出力ディレクトリ
+│   ├─ ...
 │
-├── shared/                             # 共通モジュール
+├── shared/                             # 共通処理・設定・ユーティリティ
 │   ├── __init__.py
-│   ├── api_client.py                   # ローカルAPI呼び出しクライアント
-│   ├── aws_client.py                   # AWS APIクライアント
-│   ├── codec.py                        # データ変換・エンコード処理
-│   ├── config.py                       # 環境設定管理
-│   ├── error_handler.py                # 例外・エラー処理
-│   └── task_queue.py                   # タスクキューの操作（enqueue / dequeue）
+│   ├── api_client.py                   # ローカル API 呼び出し用
+│   ├── aws_client.py                   # AWS Lambda 呼び出し用
+│   ├── codec.py                        # NFC ID エンコード/デコード
+│   ├── config.py                       # 設定・環境変数読み込み
+│   ├── error_handler.py                # ログ付き例外処理
+│   └── task_queue.py                   # タスク登録・取得・状態管理
 │
-├── web/                                # Web UI（未実装）
-│   └── (未実装)
+├── web/                                # フロントエンド（React + TypeScript）
+│   ├── .env                            # フロント用環境変数（API URL等）
+│   ├── public/
+│   │   └── ...                         # 静的ファイル（favicon, index.html等）
+│   ├── src/
+│   │   ├── api/                        # APIクライアント（fetchラッパー）
+│   │   │   ├── attendance.ts
+│   │   │   ├── cardReader.ts
+│   │   │   └── user.ts
+│   │   ├── hooks/                      # カスタムフック
+│   │   │   ├── useCardReader.ts
+│   │   │   ├── useCurrentTime.ts
+│   │   │   ├── useRegisterAttendance.ts
+│   │   │   ├── useRegisterUser.ts
+│   │   │   └── useTimeOfDay.ts
+│   │   ├── pages/                      # ページごとのコンポーネント
+│   │   │   ├── HomePage/
+│   │   │   │   ├── HomePage.tsx
+│   │   │   │   └── HomePage.css
+│   │   │   ├── RegisterAttendance/
+│   │   │   │   ├── AttendanceCardWaitPage.tsx
+│   │   │   │   └── AttendanceCardWaitPage.css
+│   │   │   └── RegisterUser/
+│   │   │       ├── UserCardWaitPage.tsx
+│   │   │       ├── UserCardWaitPage.css
+│   │   │       ├── UserNameSelectPage.tsx
+│   │   │       └── UserNameSelectPage.css
+│   │   ├── App.tsx
+│   │   ├── App.css
+│   │   └── index.tsx / index.css      # エントリーポイント
+│   ├── package.json
+│   └── tsconfig.json
 │
-├── worker/                             # バックグラウンド処理（ワーカー）
+├── worker/                             # バックグラウンドタスク実行（非同期処理）
 │   ├── __init__.py
-│   ├── job_handler.py                  # 各タスク種別の処理定義
-│   └── worker_runner.py                # ワーカープロセスの起動とループ
+│   ├── job_handler.py                  # タスク種別ごとの処理
+│   └── worker_runner.py                # 無限ループで待機・実行
 │
-├── .env                                # 環境変数定義ファイル
-├── requirements.txt                    # 必要なPythonパッケージ
-├── start_api_server.sh                 # APIサーバー起動用スクリプト
-├── start_web_server.sh                 # Webサーバー起動用スクリプト
-├── start_worker.sh                     # ワーカースクリプト起動用
+├── .env                                # バックエンド用環境変数（DynamoDB設定など）
+├── requirements.txt                    # Python依存パッケージ一覧
 │
-├── test_aws_client.py                  # AWSクライアントのユニットテスト
-├── test_post_attendance.py             # 勤怠API POSTのテスト
-├── test_post_user.py                   # ユーザー登録APIのテスト
-└── test_task_queue.py                  # タスクキュー関連のテスト
+├── start_api_server.sh                 # APIサーバー起動
+├── start_web_server.sh                 # Webフロント起動（React）
+├── start_worker.sh                     # ワーカー起動
+├── start_cleanup_tasks.sh              # 古いタスク削除スクリプト実行
+│
+├── test_aws_client.py                  # AWSクライアントのテスト
+├── test_post_attendance.py             # 勤怠登録のテスト
+├── test_post_user.py                   # ユーザー登録のテスト
+├── test_task_handler.py                # ワーカータスク処理のテスト
+└── test_task_queue.py                  # タスクキュー操作のテスト
 ```
