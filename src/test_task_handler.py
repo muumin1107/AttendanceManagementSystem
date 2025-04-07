@@ -16,7 +16,7 @@ if __name__ == "__main__":
     task = {
         "job_type": "register_attendance",
         "params": {
-            "id"    : "test_ser",
+            "id"    : "test_user",
             "status": "clock_in"
         }
     }

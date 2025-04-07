@@ -23,6 +23,7 @@ def worker_run():
 
         # タスクを処理
         try:
+            logger.log_info(f"タスク取得: ID={task['id']}, タイプ={task['job_type']}, パラメータ={task['params']}")
             res = handle_task(task)
             # レスポンスエラーの場合ログ出力
             if res["statusCode"] == 200:
