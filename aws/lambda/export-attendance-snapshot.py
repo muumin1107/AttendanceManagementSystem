@@ -4,6 +4,7 @@ import csv
 import io
 from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
+from boto3.dynamodb.conditions import Attr
 
 # リソース定義
 dynamodb       = boto3.resource("dynamodb")
@@ -12,22 +13,32 @@ s3             = boto3.client("s3")
 s3_bucket      = os.environ["EXPORT_BUCKET_NAME"]
 
 def lambda_handler(event, context):
-    # スキャンで全件取得
-    response = snapshot_table.scan()
-    items    = response.get("Items", [])
     # JSTの日付（昨日分）
-    now        = datetime.now(ZoneInfo("Asia/Tokyo"))
+    now = datetime.now(ZoneInfo("Asia/Tokyo"))
     export_day = (now - timedelta(days=1)).strftime("%Y-%m-%d")
-    # 日付でフィルタ（昨日分）
-    filtered = [item for item in items if item.get("Date") == export_day]
-    if not filtered:
+
+    # DynamoDB側で日付フィルタしてスキャン（ページネーション対応）
+    items = []
+    response = snapshot_table.scan(
+        FilterExpression=Attr("Date").eq(export_day)
+    )
+    items.extend(response.get("Items", []))
+
+    while "LastEvaluatedKey" in response:
+        response = snapshot_table.scan(
+            FilterExpression=Attr("Date").eq(export_day),
+            ExclusiveStartKey=response["LastEvaluatedKey"]
+        )
+        items.extend(response.get("Items", []))
+
+    if not items:
         return {"statusCode": 200, "message": f"No data found for {export_day}"}
 
-    # CSV文字列生成
-    output = io.StringIO()
+    # CSV生成
+    output = io.StringIO(newline='')
     writer = csv.DictWriter(output, fieldnames=["Name", "Timestamp", "Status", "Date", "Hour", "Weekday"])
     writer.writeheader()
-    for row in filtered:
+    for row in items:
         writer.writerow({
             "Name"     : row.get("Name", ""),
             "Timestamp": row.get("Timestamp", ""),
@@ -37,13 +48,13 @@ def lambda_handler(event, context):
             "Weekday"  : row.get("Weekday", "")
         })
 
-    # S3キーを設定してアップロード
+    # S3アップロード
     key = f"snapshot/{export_day}.csv"
     s3.put_object(
         Bucket=s3_bucket,
         Key=key,
-        Body=output.getvalue().encode("utf-8"),
-        ContentType="text/csv"
+        Body='\ufeff' + output.getvalue(),
+        ContentType="text/csv; charset=utf-8"
     )
 
-    return {"statusCode": 200, "message": f"Exported {len(filtered)} records for {export_day} to s3://{s3_bucket}/{key}"}
+    return {"statusCode": 200, "message": f"Exported {len(items)} records for {export_day} to s3://{s3_bucket}/{key}"}
