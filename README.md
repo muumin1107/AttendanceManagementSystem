@@ -2,7 +2,7 @@
 
 ## システム概要図
 
-![システム概要図](https://github.com/user-attachments/assets/99cdd524-ed69-4db6-be43-d5c5015c9964)
+![システム概要図](https://github.com/user-attachments/assets/4042ead0-46ba-4919-bc67-36e50953ce16)
 
 ## クラウド環境
 
@@ -36,7 +36,8 @@
 - バッファ改良
   - リトライ機能
 - UI/UX改善
-  - 背景追加
+  - ジョブ処理状況可視化
   - サウンド追加
 - セキュリティ強化
-  - ローカルAPIサーバーの認証
+  - ローカルAPIサーバーの認証系
+  - Web Socketのタイムアウト
