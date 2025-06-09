@@ -7,6 +7,7 @@ export const useAttendanceSocket = (initialUsers: User[]): UseAttendanceSocketRe
     const socketRef         = useRef<WebSocket | null>(null);
 
     useEffect(() => {
+        // 初期ユーザーが設定されていない場合は何もしない
         if (!initialUsers) {
             return;
         }
