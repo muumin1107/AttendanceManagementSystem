@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import type { User, UserStatus, UseGetAttendanceReturn } from '../types/attendance';
+import { useState, useEffect }               from 'react';
+import type { User, UseGetAttendanceReturn } from '../types/attendance';
 
 export const useGetAttendance   = (): UseGetAttendanceReturn => {
     const [users, setUsers]         = useState<User[] | null>(null);

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation, useNavigate }  from "react-router-dom";
+import { useLocation, useNavigate }   from "react-router-dom";
 import type { User, UserStatus }      from '../../types/attendance';
-import { useAttendanceSocket } from '../../hooks/useAttendanceSocket';
+import { useAttendanceSocket }        from '../../hooks/useAttendanceSocket';
 import './HomePage.css';
 
 // 表示する列の定義
@@ -43,10 +43,8 @@ const HomePage: React.FC = () => {
 
     // 初期状態として渡されたユーザー情報を取得
     const initialUsers = passedState?.users || [];
-    
-    // ▼▼▼ 修正点1: フックから返されるオブジェクトを正しく分割代入する ▼▼▼
+    // WebSocketを使用してリアルタイムの在室状況を取得
     const { users, error: socketError } = useAttendanceSocket(initialUsers);
-
     // ページが読み込まれたときの初期化処理useEffect
     useEffect(() => {
         // stateがない場合はホームページにリダイレクト
@@ -58,7 +56,7 @@ const HomePage: React.FC = () => {
         return () => clearInterval(timerId);
     }, [passedState, navigate]);
 
-    // ▼▼▼ 修正点2: WebSocketのエラーを監視し、エラーページに遷移させるuseEffectを追加 ▼▼▼
+    // WebSocketのエラーが発生した場合の処理
     useEffect(() => {
         if (socketError) {
             navigate('/error', {
