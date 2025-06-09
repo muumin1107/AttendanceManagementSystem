@@ -16,7 +16,7 @@ useEffect(() => {
     // 例えば、APIの呼び出しやデータの取得など
 
     // viewsページにリダイレクト
-    navigate("/views", { replace: true });
+    navigate("/", { replace: true });
 }, [navigate]);
 
 return (

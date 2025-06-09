@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import './HomePage.css';
 
@@ -44,6 +44,18 @@ switch (status) {
 const HomePage: React.FC = () => {
 // useStateに型<User[]>を適用し，ユーザーリストを状態として管理
 const [users, setUsers] = useState<User[]>(mockUsers);
+
+const navigate = useNavigate();
+
+useEffect(() => {
+    const alreadyVisited = sessionStorage.getItem("hasVisited");
+
+    if (!alreadyVisited) {
+        sessionStorage.setItem("hasVisited", "true");
+        // ページにリダイレクト
+        navigate("/", { replace: true });
+    }
+}, [navigate]);
 
 return (
     <div className="attendance-board">
