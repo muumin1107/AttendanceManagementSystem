@@ -1,13 +1,13 @@
 import { useState, useEffect } from 'react';
 
-// 型定義 (変更なし)
+// 型定義
 type UserStatus = '在室' | '一時不在' | '退室';
 interface User {
 name: string;
 status: UserStatus;
 }
 
-// カスタムフックが返す値の型定義 (変更なし)
+// カスタムフックが返す値の型定義
 interface UseGetAttendanceReturn {
 users: User[] | null;
 isLoading: boolean;
@@ -25,26 +25,19 @@ useEffect(() => {
         const basePath = "https://q67wnmiw86.execute-api.ap-northeast-1.amazonaws.com";
         const url = `${basePath}/v1/attendance`;
 
-        // ▼▼▼ 認証キーとヘッダー設定のコードをここから削除 ▼▼▼
-        // const apiKey          = ...
-        // const accessKey       = ...
-        // const secretAccessKey = ...
-        // const headers = new Headers();
-        // ...
-        // ▲▲▲ ここまで削除 ▲▲▲
-
-        // ▼▼▼ fetchからheadersの指定を削除 ▼▼▼
-        // GETリクエストなので、オプション指定も不要
         const response = await fetch(url);
 
         if (!response.ok) {
         throw new Error(`API response not OK: ${response.status}`);
         }
 
-        const data = await response.json();
-        const parsedBody = JSON.parse(data.body);
-
-        setUsers(parsedBody);
+        // ▼▼▼ 修正箇所 ▼▼▼
+        // response.json()で既にデータがJavaScriptの配列に変換されている
+        const data = await response.json(); 
+        
+        // 不要なJSON.parseを削除し、変換後のデータを直接セットする
+        // const parsedBody = JSON.parse(data.body); // この行を削除
+        setUsers(data); // dataを直接セット
 
     } catch (err) {
         console.error("Failed to fetch attendance:", err);
