@@ -1,0 +1,129 @@
+.home-page-container {
+    height        : 100vh;
+    display       : flex;
+    flex-direction: column;
+    padding       : 24px 32px;
+    box-sizing    : border-box;
+}
+
+.home-header {
+    flex-shrink    : 0;
+    display        : flex;
+    justify-content: space-between;
+    align-items    : center;
+    margin-bottom  : 24px;
+    padding-bottom : 16px;
+    border-bottom  : 1px solid #dee2e6;
+}
+
+.board-title {
+    font-size  : 2rem;
+    font-weight: 700;
+    color      : #2c3e50;
+    margin     : 0;
+}
+
+.current-time {
+    font-size  : 1rem;
+    color      : #7f8c8d;
+    font-weight: 500;
+    margin     : 0;
+}
+
+.table-container {
+    background-color: #ffffff;
+    border-radius   : 12px;
+    box-shadow      : 0 8px 30px rgba(0, 0, 0, 0.05);
+    border          : 1px solid #e9ecef;
+    flex-grow       : 1;
+    overflow        : hidden;
+    display         : flex;
+}
+
+.attendance-table {
+    width         : 100%;
+    display       : flex;
+    flex-direction: column;
+}
+
+.attendance-table thead,
+.attendance-table tbody {
+    display: block;
+}
+
+.attendance-table thead {
+    flex-shrink: 0;
+}
+
+.attendance-table tbody {
+    flex-grow     : 1;
+    display       : flex;
+    flex-direction: column;
+}
+
+.attendance-table tr {
+    display      : flex;
+    border-bottom: 1px solid #ecf0f1;
+}
+
+.attendance-table tbody tr {
+    flex: 1;
+}
+
+.attendance-table tbody tr:last-child {
+    border-bottom: none;
+}
+
+.attendance-table th,
+.attendance-table td {
+    display     : flex;
+    align-items : center;
+    padding     : 10px 24px;
+    border-right: 1px solid #ecf0f1;
+}
+.attendance-table th:last-child,
+.attendance-table td:last-child {
+    border-right: none;
+}
+
+.attendance-table th:nth-child(1),
+.attendance-table td:nth-child(1) {
+    flex           : 0 0 40%;
+    justify-content: flex-start;
+}
+.attendance-table th:nth-child(n+2),
+.attendance-table td:nth-child(n+2) {
+    flex           : 1 1 20%;
+    justify-content: center;
+}
+
+.attendance-table thead th {
+    font-size       : 0.9rem;
+    font-weight     : 600;
+    color           : #495057;
+    background-color: #f8f9fa;
+}
+
+.status-marker {
+    display       : inline-block;
+    width         : 20px;
+    height        : 20px;
+    border-radius : 50%;
+    vertical-align: middle;
+}
+
+.status-marker.present {
+    background-color: #e74c3c;
+}
+
+.status-marker.away {
+    background-color: #27ae60;
+}
+
+.status-marker.left {
+    background-color: #3d8bfd;
+}
+
+.status-marker.unknown {
+    background-color: #95a5a6;
+}

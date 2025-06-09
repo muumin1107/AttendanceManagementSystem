@@ -1,41 +1,36 @@
 .loading-container {
-    display: flex;
-    flex-direction: column;
+    display        : flex;
+    flex-direction : column;
     justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background: linear-gradient(135deg, #f9f9f9, #e0e7ff);
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    text-align: center;
+    align-items    : center;
+    height         : 100vh;
+    text-align     : center;
 }
 
 .loading-container h1 {
-    font-size: 1.8rem;
-    color: #333;
-    margin-bottom: 0.5rem;
+    font-size    : 1.8rem;
+    font-weight  : 600;
+    color        : #34495e;
+    margin-bottom: 8px;
 }
 
 .loading-container p {
-    font-size: 1rem;
-    color: #666;
-    margin-bottom: 2rem;
+    font-size    : 1rem;
+    color        : #7f8c8d;
+    margin-bottom: 40px;
 }
 
 .spinner {
-    width: 48px;
-    height: 48px;
-    border: 4px solid #ccc;
-    border-top: 4px solid #0077cc;
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
+    width           : 56px;
+    height          : 56px;
+    border          : 6px solid #ecf0f1;
+    border-top-color: #3d8bfd;
+    border-radius   : 50%;
+    animation       : spin 1s linear infinite;
 }
 
-/* スピナーアニメーション */
 @keyframes spin {
-    0% {
-    transform: rotate(0deg);
-    }
-    100% {
-    transform: rotate(360deg);
+    to {
+        transform: rotate(360deg);
     }
 }
