@@ -4,23 +4,35 @@ import type { User, UserStatus }      from '../../types/attendance';
 import { useAttendanceSocket } from '../../hooks/useAttendanceSocket';
 import './HomePage.css';
 
-// ユーザーの状態に応じた表示テキストとクラス名を取得する関数
-const getStatusInfo = (status: UserStatus): { text: string; className: string } => {
-    switch (status) {
+// 表示する列の定義
+type DisplayStatus = '在室' | '休憩中' | '退室';
+const STATUS_COLUMNS: DisplayStatus[] = ['在室', '休憩中', '退室'];
+
+// APIから受け取ったstatusを、表示用のstatusに変換する関数
+const mapApiStatusToDisplayStatus = (apiStatus: UserStatus): DisplayStatus | null => {
+    switch (apiStatus) {
         case 'clock_in':
         case 'break_out':
-            return { text: '在室', className: 'present' };
+            return '在室';
         case 'break_in':
-            return { text: '休憩中', className: 'away' };
+            return '休憩中';
         case 'clock_out':
-            return { text: '退室', className: 'left' };
+            return '退室';
         default:
-            return { text: '不明', className: 'unknown' };
+            return null;
     }
 };
 
-// 表示する列の定義
-const STATUS_COLUMNS: ('在室' | '休憩中' | '退室')[] = ['在室', '休憩中', '退室'];
+// 表示用のstatusに応じてCSSクラス名を返す関数
+const getStatusColorClass = (status: DisplayStatus): string => {
+    switch (status) {
+        case '在室'  : return 'present';
+        case '休憩中': return 'away';
+        case '退室'  : return 'left';
+        default: // このケースは発生しないはずですが、型安全のために記述
+            return 'unknown';
+    }
+};
 
 // ホームページコンポーネント
 const HomePage: React.FC = () => {
@@ -31,20 +43,30 @@ const HomePage: React.FC = () => {
 
     // 初期状態として渡されたユーザー情報を取得
     const initialUsers = passedState?.users || [];
-    // カスタムフックを使用してWebSocketからリアルタイムに更新されるユーザー情報を取得
-    const users = useAttendanceSocket(initialUsers);
+    
+    // ▼▼▼ 修正点1: フックから返されるオブジェクトを正しく分割代入する ▼▼▼
+    const { users, error: socketError } = useAttendanceSocket(initialUsers);
 
-    // ページが読み込まれたときに、渡された状態がない場合はホームにリダイレクト
+    // ページが読み込まれたときの初期化処理useEffect
     useEffect(() => {
+        // stateがない場合はホームページにリダイレクト
         if (!passedState) {
             navigate('/', { replace: true });
         }
+        // 時刻を更新するタイマー
         const timerId = setInterval(() => setCurrentTime(new Date()), 1000);
         return () => clearInterval(timerId);
     }, [passedState, navigate]);
 
-    // ▼▼▼ 修正点：重複していた以下の行を削除 ▼▼▼
-    // const users = passedState?.users || [];
+    // ▼▼▼ 修正点2: WebSocketのエラーを監視し、エラーページに遷移させるuseEffectを追加 ▼▼▼
+    useEffect(() => {
+        if (socketError) {
+            navigate('/error', {
+                replace: true,
+                state: { message: `リアルタイム接続エラー: ${socketError.message}` }
+            });
+        }
+    }, [socketError, navigate]);
 
     return (
         <div className="home-page-container">
@@ -92,29 +114,6 @@ const HomePage: React.FC = () => {
             </main>
         </div>
     );
-};
-
-// ▼▼▼ 修正点：HomePage.tsx内に不足していたヘルパー関数を追加 ▼▼▼
-const mapApiStatusToDisplayStatus = (apiStatus: UserStatus): '在室' | '休憩中' | '退室' | null => {
-    switch (apiStatus) {
-        case 'clock_in':
-        case 'break_out':
-            return '在室';
-        case 'break_in':
-            return '休憩中';
-        case 'clock_out':
-            return '退室';
-        default:
-            return null;
-    }
-};
-
-const getStatusColorClass = (status: '在室' | '休憩中' | '退室'): string => {
-    switch (status) {
-        case '在室'  : return 'present';
-        case '休憩中': return 'away';
-        case '退室'  : return 'left';
-    }
 };
 
 export default HomePage;

@@ -11,3 +11,8 @@ export interface UseGetAttendanceReturn {
     isLoading: boolean;
     error    : Error | null;
 }
+// useAttendanceSocketフックが返す値の型
+export interface UseAttendanceSocketReturn {
+    users: User[];
+    error: Error | null;
+}
