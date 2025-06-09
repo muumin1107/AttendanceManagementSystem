@@ -1,3 +1,4 @@
+import os
 import boto3
 
 # 環境変数の取得
