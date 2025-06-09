@@ -14,7 +14,6 @@ const LoadingPage = () => {
         }
         // エラーが発生した場合，エラーページに遷移させる
         if (error) {
-            console.error("Error fetching attendance data:", error);
             navigate("/error", {
                 replace: true,
                 state  : { message: error.message }

@@ -27,7 +27,6 @@ export const useGetAttendance   = (): UseGetAttendanceReturn => {
                 const data = await response.json();
                 setUsers(data);
             } catch (err) {
-                console.error("Failed to fetch attendance:", err);
                 if (err instanceof Error) {
                     setError(err);
                 } else {

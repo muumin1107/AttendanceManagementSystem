@@ -1,7 +1,10 @@
 import boto3
 
+# 環境変数の取得
+CONNECTION_TABLE_NAME = os.environ['CONNECTION_TABLE_NAME']
+
 dynamodb = boto3.resource("dynamodb")
-table    = dynamodb.Table("ConnectionTable")
+table    = dynamodb.Table(CONNECTION_TABLE_NAME)
 
 def lambda_handler(event, context):
     try:

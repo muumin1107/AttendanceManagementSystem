@@ -1,15 +1,29 @@
+import os
 import boto3
 import time
 
+# 環境変数を取得
+CONNECTION_TABLE_NAME = os.environ['CONNECTION_TABLE_NAME']
+VALID_API_KEY         = os.environ['VALID_API_KEY']
+
 dynamodb = boto3.resource("dynamodb")
-table    = dynamodb.Table("ConnectionTable")
+table    = dynamodb.Table(CONNECTION_TABLE_NAME)
 
 def lambda_handler(event, context):
     try:
+        # クライアントから送られてきたAPIキーをクエリパラメータから取得
+        query_params = event.get('queryStringParameters', {})
+        client_api_key = query_params.get('apiKey')
+        # 正しいAPIキーと一致するか検証
+        if client_api_key != VALID_API_KEY:
+            print("API Key validation failed.")
+            return {"statusCode": 403, "body": "Forbidden"}
+
+        # 既存の接続処理
         connection_id = event["requestContext"]["connectionId"]
         timestamp = int(time.time())
 
-        # 保存
+        # DynamoDBに保存
         table.put_item(Item={
             "connectionId": connection_id,
             "timestamp"   : timestamp
@@ -18,7 +32,7 @@ def lambda_handler(event, context):
         return {"statusCode": 200, "body": "Connected!"}
 
     except KeyError as e:
-        print(f"Missing expected key: {e}")
+        print(f"Missing expected key in event payload: {e}")
         return {"statusCode": 400, "body": "Bad Request"}
 
     except Exception as e:
