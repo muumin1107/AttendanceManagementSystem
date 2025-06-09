@@ -14,59 +14,76 @@
     font-weight: 600;
 }
 
-/* ユーザーカードをグリッド表示 */
-.user-grid {
-    display: grid;
-    /* 最小200pxのカードを可能な限り配置し，均等に広げる */
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 16px;
-}
-
-/* 各ユーザーの情報カード */
-.user-card {
+/* テーブルを囲むコンテナ */
+.table-container {
     background-color: #ffffff;
     border-radius: 8px;
-    padding: 20px 16px;
-    text-align: center;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
-    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    overflow-x: auto;
+    /* コンテナに枠線を追加して角丸と合わせる */
+    border: 1px solid #e9ecef;
 }
 
-.user-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+/* テーブル本体のスタイル */
+.attendance-table {
+    width: 100%;
+    border-collapse: collapse; /* 枠線を1本にまとめる */
+    text-align: left;
+    table-layout: fixed;
 }
 
-.user-name {
-    font-size: 1.1rem;
+/* ▼▼▼ この部分を修正 ▼▼▼ */
+/* テーブルのヘッダーとセルのスタイル */
+.attendance-table th,
+.attendance-table td {
+    padding: 14px 18px;
+    /* border-bottom を border に変更して上下左右に線を引く */
+    border: 1px solid #e9ecef;
+    white-space: nowrap;
+}
+/* ▲▲▲ ここまで修正 ▲▲▲ */
+
+/* ヘッダー行のスタイル */
+.attendance-table thead th {
+    background-color: #f8f9fa;
     font-weight: 600;
-    color: #444;
-    margin-bottom: 12px;
-    display: block;
-}
-
-/* 在室状況を示すバッジ */
-.status-badge {
-    display: inline-block;
-    padding: 6px 16px;
-    border-radius: 16px;
+    color: #495057;
     font-size: 0.9rem;
-    font-weight: 600;
-    color: #fff;
-    min-width: 80px;
 }
 
-/* 状態ごとの色分け */
-.status-present {
-    background-color: #28a745; /* 緑: 在室 */
+/* ボディの行のスタイル */
+.attendance-table tbody tr:hover {
+    background-color: #f1f7ff;
 }
-.status-away {
-    background-color: #ffc107; /* 黄: 一時不在 */
-    color: #212529;
+
+/* 「名前」列の幅を広く設定 */
+.name-col {
+    width: 40%;
 }
-.status-left {
-    background-color: #6c757d; /* グレー: 退室 */
+
+/* 「状態」列のスタイル */
+.status-col {
+    text-align: center;
+    width: 20%;
 }
-.status-unknown {
-    background-color: #dc3545; /* 赤: 不明 */
+
+/* 状態マーカーが入るセルのスタイル */
+.status-cell {
+    text-align: center;
+    vertical-align: middle;
 }
+
+/* 状態を示す円形のマーカー */
+.status-marker {
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    vertical-align: middle;
+}
+
+/* 状態ごとのマーカーの色 */
+.status-marker.present { background-color: #dc3545; } /* 赤: 在室 */
+.status-marker.away { background-color: #28a745; } /* 緑: 一時不在 */
+.status-marker.left { background-color: #0d6efd; } /* 青: 退室 */
+.status-marker.unknown { background-color: #6c757d; } /* グレー: 不明 */
