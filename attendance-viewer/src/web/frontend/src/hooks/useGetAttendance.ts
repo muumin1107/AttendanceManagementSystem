@@ -11,7 +11,7 @@ export const useGetAttendance   = (): UseGetAttendanceReturn => {
             try {
                 const basePath = process.env.REACT_APP_API_BASE_PATH;
                 const url      = `${basePath}/v1/attendance`;
-                const apiKey   = process.env.secrets.REACT_APP_API_KEY;
+                const apiKey   = process.env.REACT_APP_API_KEY;
 
                 if (!apiKey) {
                     throw new Error("APIキーが.envファイルに設定されていません．");
