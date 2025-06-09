@@ -66,6 +66,14 @@
     border-bottom: 1px solid #ecf0f1;
 }
 
+.attendance-table tbody tr:nth-child(odd) {
+    background-color: #f9f9f9;
+}
+
+.attendance-table tbody tr:nth-child(even) {
+    background-color: #ffffff;
+}
+
 .attendance-table tbody tr {
     flex: 1;
 }
