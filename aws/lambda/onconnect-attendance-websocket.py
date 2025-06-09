@@ -9,6 +9,7 @@ def lambda_handler(event, context):
         connection_id = event["requestContext"]["connectionId"]
         timestamp = int(time.time())
 
+        # 保存
         table.put_item(Item={
             "connectionId": connection_id,
             "timestamp"   : timestamp

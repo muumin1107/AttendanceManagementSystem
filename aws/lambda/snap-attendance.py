@@ -1,15 +1,15 @@
 import os
 import boto3
 from datetime import datetime
-import pytz
+from zoneinfo import ZoneInfo
 
 dynamodb         = boto3.resource("dynamodb")
 attendance_table = dynamodb.Table(os.environ["ATTENDANCE_TABLE_NAME"])
-snapshot_table   = dynamodb.Tabel(os.environ["SNAPSHOT_TABLE_NAME"])
+snapshot_table   = dynamodb.Table(os.environ["SNAPSHOT_TABLE_NAME"])
 
 def lambda_handler(event, context):
-    now      = datetime.now(pytz.timezone("Asia/Tokyo"))
-    iso_ts   = now.isofotmat()
+    now      = datetime.now(ZoneInfo("Asia/Tokyo"))
+    iso_ts   = now.isoformat()
     date_str = now.strftime("%Y-%m-%d")
     hour     = now.hour
     weekday  = now.strftime("%A")
