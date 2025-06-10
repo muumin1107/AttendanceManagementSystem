@@ -29,9 +29,9 @@ const LoadingPage = () => {
             return;
         }
 
-        // データが正常に取得できた場合は、/viewページにリダイレクト
+        // データが正常に取得できた場合は、/viewsページにリダイレクト
         if (attendanceUsers && allUsers) {
-            navigate("/view", {
+            navigate("/views", {
                 replace: true,
                 state: {
                     attendanceUsers: attendanceUsers,
