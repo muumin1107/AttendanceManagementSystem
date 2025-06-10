@@ -2,7 +2,7 @@
 
 ## システム概要図
 
-![システム概要図](https://github.com/user-attachments/assets/4042ead0-46ba-4919-bc67-36e50953ce16)
+![システム概要図](https://github.com/user-attachments/assets/f15153ce-f3b0-4868-95df-2c3c16735003)
 
 ## クラウド環境
 
