@@ -54,7 +54,7 @@
 │   ├── error_handler.py                # ログ付き例外処理
 │   └── task_queue.py                   # タスク登録・取得・状態管理
 │
-├── web/                                # フロントエンド（React + TypeScript）
+├── web/frontend                        # フロントエンド（React + TypeScript）
 │   ├── .env                            # フロント用環境変数（API URL等）
 │   ├── public/
 │   │   └── ...                         # 静的ファイル（favicon, index.html等）
