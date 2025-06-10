@@ -5,9 +5,20 @@ export interface User {
     name  : string;
     status: UserStatus;
 }
+// ユーザー情報の型
+export interface UserIdentifier {
+    name : string;
+    grade: string;
+}
 // useGetAttendanceフックが返す値の型
 export interface UseGetAttendanceReturn {
     users    : User[] | null;
+    isLoading: boolean;
+    error    : Error | null;
+}
+// useGetUserフックが返す値の型
+export interface UseGetUserReturn {
+    users    : UserIdentifier[] | null;
     isLoading: boolean;
     error    : Error | null;
 }

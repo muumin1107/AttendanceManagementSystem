@@ -1,33 +1,50 @@
 import { useEffect }        from "react";
 import { useNavigate }      from "react-router-dom";
 import { useGetAttendance } from "../../hooks/useGetAttendance";
+import { useGetUser }       from "../../hooks/useGetUser";
 import './LoadingPage.css';
 
 const LoadingPage = () => {
-    const navigate                    = useNavigate();
-    const { users, isLoading, error } = useGetAttendance();
+    const navigate = useNavigate();
+
+    // useGetAttendanceフックを使用して、出席者のデータを取得
+    // useGetUserフックを使用して、全ユーザーのデータを取得
+    const { users: attendanceUsers, isLoading: isLoadingAttendance, error: attendanceError } = useGetAttendance();
+    const { users: allUsers, isLoading: isLoadingAllUsers, error: allUsersError }            = useGetUser();
 
     useEffect(() => {
-        // ローディング中は何もしない
-        if (isLoading) {
+        // 読み込み状態を確認
+        const isStillLoading = isLoadingAttendance || isLoadingAllUsers;
+        if (isStillLoading) {
             return;
         }
-        // エラーが発生した場合，エラーページに遷移させる
-        if (error) {
+
+        // エラーが発生した場合はエラーページにリダイレクト
+        const combinedError = attendanceError || allUsersError;
+        if (combinedError) {
             navigate("/error", {
                 replace: true,
-                state  : { message: error.message }
+                state: { message: combinedError.message }
             });
             return;
         }
-        // データが正常に取得できた場合，ホームページに遷移
-        if (users) {
-            navigate("/views", {
+
+        // データが正常に取得できた場合は、/viewページにリダイレクト
+        if (attendanceUsers && allUsers) {
+            navigate("/view", {
                 replace: true,
-                state  : { users: users }
+                state: {
+                    attendanceUsers: attendanceUsers,
+                    allUsers       : allUsers
+                }
             });
         }
-    }, [isLoading, users, error, navigate]);
+    }, [
+        isLoadingAttendance, isLoadingAllUsers,
+        attendanceUsers, allUsers,
+        attendanceError, allUsersError,
+        navigate
+    ]);
 
     return (
         <div className="loading-container">
