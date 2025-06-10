@@ -12,7 +12,7 @@ export const useGetAttendance   = (): UseGetAttendanceReturn => {
                 const basePath = process.env.REACT_APP_API_BASE_PATH;
                 const url      = `${basePath}/v1/attendance`;
                 const apiKey   = process.env.REACT_APP_API_KEY;
-
+                // 環境変数が設定されていない場合はエラーをセット
                 if (!apiKey) {
                     throw new Error("APIキーが.envファイルに設定されていません．");
                 }
@@ -20,13 +20,14 @@ export const useGetAttendance   = (): UseGetAttendanceReturn => {
                 headers.append('x-api-key', apiKey);
 
                 const response = await fetch(url, { headers: headers });
-
+                // レスポンスが正常でない場合はエラーをスロー
                 if (!response.ok) {
                     throw new Error(`APIの応答が正常ではありません: ${response.status}`);
                 }
                 const data = await response.json();
                 setUsers(data);
             } catch (err) {
+                // エラーがErrorインスタンスであればそのままセット、そうでなければ一般的なエラーをセット
                 if (err instanceof Error) {
                     setError(err);
                 } else {

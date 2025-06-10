@@ -66,14 +66,6 @@
     border-bottom: 1px solid #ecf0f1;
 }
 
-.attendance-table tbody tr:nth-child(odd) {
-    background-color: #f9f9f9;
-}
-
-.attendance-table tbody tr:nth-child(even) {
-    background-color: #ffffff;
-}
-
 .attendance-table tbody tr {
     flex: 1;
 }
@@ -114,24 +106,52 @@
 
 .status-marker {
     display       : inline-block;
-    width         : 20px;
-    height        : 20px;
+    width         : 16px;
+    height        : 16px;
     border-radius : 50%;
     vertical-align: middle;
 }
 
 .status-marker.present {
-    background-color: #e74c3c;
-}
-
-.status-marker.away {
     background-color: #27ae60;
 }
-
+.status-marker.away {
+    background-color: #f59e0b;
+}
 .status-marker.left {
-    background-color: #3d8bfd;
+    background-color: #6b7280;
+}
+.status-marker.unknown {
+    background-color: #cbd5e1;
 }
 
-.status-marker.unknown {
-    background-color: #95a5a6;
+.grade-professor {
+    background-color: #fbfaff;
+}
+.grade-researcher {
+    background-color: #f3fbf4;
+}
+.grade-m2 {
+    background-color: #fffcf2;
+}
+.grade-m1 {
+    background-color: #fff5f5;
+}
+.grade-b4 {
+    background-color: #f0f7ff;
+}
+.grade-b3 {
+    background-color: #fafafa;
+}
+
+.attendance-table tbody tr:hover {
+    background-color: #e9ecef !important;
+}
+
+.no-data-cell {
+    display        : flex;
+    justify-content: center;
+    align-items    : center;
+    width          : 100%;
+    color          : #7f8c8d;
 }

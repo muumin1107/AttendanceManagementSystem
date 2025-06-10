@@ -1,14 +1,15 @@
-import React, { useState, useEffect }            from 'react';
-import { useLocation, useNavigate }              from "react-router-dom";
-import type { User, UserStatus, UserIdentifier } from '../../types/attendance';
-import { useAttendanceSocket }                   from '../../hooks/useAttendanceSocket';
+import React, { useState, useEffect, useMemo }                 from 'react';
+import { useLocation, useNavigate }                            from "react-router-dom";
+import type { User, UserStatus, UserIdentifier, FullUserInfo } from '../../types/attendance';
+import { useAttendanceSocket }                                 from '../../hooks/useAttendanceSocket';
 import './HomePage.css';
 
-// 在室状況の列名を定義
-const STATUS_COLUMNS: ('在室' | '休憩中' | '退室')[] = ['在室', '休憩中', '退室'];
+// 在室状況の表示用ステータス
+type DisplayStatus                    = '在室' | '休憩中' | '退室';
+const STATUS_COLUMNS: DisplayStatus[] = ['在室', '休憩中', '退室'];
 
-// APIからのユーザーステータスを表示用のステータスに変換する関数
-const mapApiStatusToDisplayStatus = (apiStatus: UserStatus): '在室' | '休憩中' | '退室' | null => {
+// APIからのステータスを表示用のステータスにマッピングする関数
+const mapApiStatusToDisplayStatus = (apiStatus: UserStatus): DisplayStatus | null => {
     switch (apiStatus) {
         case 'clock_in':
         case 'break_out':
@@ -22,8 +23,8 @@ const mapApiStatusToDisplayStatus = (apiStatus: UserStatus): '在室' | '休憩�
     }
 };
 
-// ステータスに応じた色のクラス名を取得する関数
-const getStatusColorClass = (status: '在室' | '休憩中' | '退室'): string => {
+// ステータスに応じて色を返す関数
+const getStatusColorClass = (status: DisplayStatus): string => {
     switch (status) {
         case '在室'  : return 'present';
         case '休憩中': return 'away';
@@ -33,26 +34,65 @@ const getStatusColorClass = (status: '在室' | '休憩中' | '退室'): string 
     }
 };
 
+// 学年に応じて行のクラスを返す関数
+const getGradeRowClass = (grade: string): string => {
+    switch (grade) {
+        case 'B3': return 'grade-b3';
+        case 'B4': return 'grade-b4';
+        case 'M1': return 'grade-m1';
+        case 'M2': return 'grade-m2';
+        case 'RS': return 'grade-researcher';
+        default: return '';
+    }
+};
+
 // ホームページコンポーネント
 const HomePage: React.FC = () => {
     const location = useLocation();
     const navigate = useNavigate();
-
-    // URLの状態からattendanceUsersとallUsersを取得
+    // ローディングページから渡された状態を取得
     const passedState = location.state as {
         attendanceUsers?: User[];
         allUsers?: UserIdentifier[];
     } | null;
-
+    // 現在の時刻を管理するステート
     const [currentTime, setCurrentTime] = useState(new Date());
 
-    // 初期の在室ユーザーリストを取得
-    const initialUsers = passedState?.attendanceUsers || [];
+    // LoadingPageから渡された2つのリストを結合して、初期ユーザーリストを作成
+    const initialUsers = useMemo(() => {
+        if (!passedState?.allUsers) return [];
 
-    // useAttendanceSocketフックを使用してWebSocket接続を確立し、リアルタイムの在室状況を取得
-    const { users, error: socketError } = useAttendanceSocket(initialUsers);
+        const attendanceStatusMap = new Map(
+            passedState.attendanceUsers?.map(u => [u.name, u.status])
+        );
 
-    // ページが読み込まれたときに、URLの状態が存在しない場合はホームページにリダイレクト
+        // allUsersリストとattendanceUsersリストを結合し、ステータスをマッピング
+        const combinedUsers: FullUserInfo[] = passedState.allUsers.map(user => ({
+            name: user.name,
+            grade: user.grade,
+            status: attendanceStatusMap.get(user.name) || 'clock_out'
+        }));
+
+        return combinedUsers;
+    }, [passedState]);
+
+    // リアルタイムで更新されるユーザーリストを取得するカスタムフック
+    const { users: realTimeUsers, error: socketError } = useAttendanceSocket(initialUsers);
+
+    // ユーザーリストを学年と名前でソートするメモ化された値
+    const sortedUsers = useMemo(() => {
+        const gradeSortOrder: { [key: string]: number } = { 'RS': 0, 'M2': 1, 'M1': 2, 'B4': 3, 'B3': 4 };
+        return [...realTimeUsers].sort((a, b) => {
+            const gradeOrderA = gradeSortOrder[a.grade] ?? 99;
+            const gradeOrderB = gradeSortOrder[b.grade] ?? 99;
+            if (gradeOrderA !== gradeOrderB) {
+                return gradeOrderA - gradeOrderB;
+            }
+            return a.name.localeCompare(b.name, 'ja');
+        });
+    }, [realTimeUsers]);
+
+    // ページが初期化されたときに、渡された状態が存在しない場合はルートにリダイレクト
     useEffect(() => {
         if (!passedState) {
             navigate('/', { replace: true });
@@ -61,7 +101,7 @@ const HomePage: React.FC = () => {
         return () => clearInterval(timerId);
     }, [passedState, navigate]);
 
-    // WebSocket接続エラーが発生した場合、エラーページにリダイレクト
+    // ソケットエラーが発生した場合、エラーページにリダイレクト
     useEffect(() => {
         if (socketError) {
             navigate('/error', {
@@ -91,11 +131,11 @@ const HomePage: React.FC = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {users.length > 0 ? (
-                            users.map((user) => {
+                        {sortedUsers.length > 0 ? (
+                            sortedUsers.map((user) => {
                                 const displayStatus = mapApiStatusToDisplayStatus(user.status);
                                 return (
-                                    <tr key={user.name}>
+                                    <tr key={user.name} className={getGradeRowClass(user.grade)}>
                                         <td>{user.name}</td>
                                         {STATUS_COLUMNS.map(colName => (
                                             <td key={colName} className="status-cell">

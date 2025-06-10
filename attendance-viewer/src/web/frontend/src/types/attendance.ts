@@ -1,14 +1,20 @@
-// ユーザーが取りうる状態
+// APIやWebSocketから送られてくるステータスの種類
 export type UserStatus = 'clock_in' | 'clock_out' | 'break_in' | 'break_out';
-// ユーザーオブジェクトの型
+// ユーザー情報APIが返すユーザー情報の型
 export interface User {
     name  : string;
     status: UserStatus;
 }
-// ユーザー情報の型
+// ユーザー識別子APIが返すユーザー情報の型
 export interface UserIdentifier {
-    name : string;
+    name :string;
     grade: string;
+}
+// ユーザー情報をフルに含む型 (学年とステータスを含む)
+export interface FullUserInfo {
+    name  : string;
+    grade : string;
+    status: UserStatus;
 }
 // useGetAttendanceフックが返す値の型
 export interface UseGetAttendanceReturn {
@@ -24,6 +30,6 @@ export interface UseGetUserReturn {
 }
 // useAttendanceSocketフックが返す値の型
 export interface UseAttendanceSocketReturn {
-    users: User[];
+    users: FullUserInfo[];
     error: Error | null;
 }
