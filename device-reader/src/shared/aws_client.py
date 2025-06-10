@@ -2,12 +2,12 @@ import os
 
 from dotenv import load_dotenv
 
-from shared.api_client import APIClient
-from shared.codec import Codec
-from shared.config import LOG_PATHS
+from shared.api_client    import APIClient
+from shared.codec         import Codec
+from shared.config        import LOG_PATHS
 from shared.error_handler import ErrorHandler
 
-# 初期化（環境変数からAPIClientを構築）
+# 初期化
 load_dotenv()
 client = APIClient(
     access_key   = os.getenv("ACCESS_KEY"),
@@ -20,11 +20,12 @@ client = APIClient(
 
 logger = ErrorHandler(log_file=str(LOG_PATHS["aws_client"]))
 
-def register_user(id: str, name: str):
+def register_user(id: str, name: str, grade:str):
     """AWS APIでユーザー登録"""
     data = {
-        "id"  : Codec.base64_encode(id),
-        "name": Codec.base64_encode(name)
+        "id"   : Codec.base64_encode(id),
+        "name" : Codec.base64_encode(name),
+        "grade": Codec.base64_encode(grade)
     }
     try:
         res = client.send_request("v1/user", "POST", data=data)

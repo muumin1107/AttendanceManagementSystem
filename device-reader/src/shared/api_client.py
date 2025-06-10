@@ -2,8 +2,8 @@ import json
 import requests
 from urllib.parse import urlencode
 
-from botocore.auth import SigV4Auth
-from botocore.awsrequest import AWSRequest
+from botocore.auth        import SigV4Auth
+from botocore.awsrequest  import AWSRequest
 from botocore.credentials import Credentials
 
 class APIClient:
@@ -42,7 +42,7 @@ class APIClient:
         """リクエストを送信する"""
         base_url = f"https://{self.host}/{stage_name}"
 
-        # クエリパラメータをURLに追加（署名対象のURLに含める）
+        # クエリパラメータをURLに追加
         if method == "GET" and params:
             query_string = urlencode(params)
             full_url = f"{base_url}?{query_string}"
@@ -58,7 +58,7 @@ class APIClient:
             url     = full_url,
             method  = method,
             headers = headers,
-            params  = None if method == "GET" else params,  # GETはすでにURLに含まれている
+            params  = None if method == "GET" else params,
             data    = json.dumps(data) if data else None,
             timeout = timeout
         )

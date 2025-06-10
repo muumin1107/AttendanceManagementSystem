@@ -4,7 +4,7 @@ from pathlib import Path
 DB_PATH = Path("tasks.db")
 
 def init_db():
-    conn = sqlite3.connect(DB_PATH)
+    conn   = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
 
     cursor.execute(

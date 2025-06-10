@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from 'react';
-import { readCard } from '../api/cardReader';
+import { readCard } 				   from '../api/cardReader';
 
 // カードリーダーの読み取りを行うカスタムフック
 export const useCardReader = () => {
@@ -11,6 +11,7 @@ export const useCardReader = () => {
 		const controller = new AbortController();
 		controllerRef.current = controller;
 
+		// カード読み取りを非同期で実行
 		const fetchCard = async () => {
 			const result = await readCard(controller.signal);
 			if (result) {
@@ -18,7 +19,7 @@ export const useCardReader = () => {
 			}
 			setIsLoading(false);
 		};
-
+		// 読み取りを開始
 		fetchCard();
 
 		return () => {
@@ -27,6 +28,7 @@ export const useCardReader = () => {
 		};
 	}, []);
 
+	// 読み取りをキャンセルする関数
 	const cancel = () => {
 		controllerRef.current?.abort();
 		setIsLoading(false);

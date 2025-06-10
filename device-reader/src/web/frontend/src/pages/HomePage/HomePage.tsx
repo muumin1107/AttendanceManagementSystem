@@ -1,6 +1,6 @@
 import { useNavigate, useLocation } from 'react-router-dom';
-import { useCurrentTime } from '../../hooks/useCurrentTime';
-import { useEffect, useState } from 'react';
+import { useCurrentTime } 			from '../../hooks/useCurrentTime';
+import { useEffect, useState } 		from 'react';
 import './HomePage.css';
 
 const statusMap: Record<string, string> = {
@@ -11,12 +11,12 @@ const statusMap: Record<string, string> = {
 };
 
 const HomePage = () => {
-	const navigate = useNavigate();
-	const location = useLocation();
-	const { date, time } = useCurrentTime();
-
+	const navigate 		 	= useNavigate();
+	const location 		 	= useLocation();
+	const { date, time } 	= useCurrentTime();
 	const [toast, setToast] = useState<string | null>(null);
 
+	// トーストメッセージの表示処理
 	useEffect(() => {
 		if (location.state?.toast) {
 			setToast(location.state.toast);
@@ -25,11 +25,13 @@ const HomePage = () => {
 		}
 	}, [location.state]);
 
+	// ページがマウントされたときにカードリーダーの読み取りを開始
 	const handleAttendanceClick = (label: string) => {
 		const status = statusMap[label];
 		navigate('/register-attendance/waiting', { state: { type: status } });
 	};
 
+	// ユーザー登録ボタンのクリック処理
 	const handleRegisterClick = () => {
 		navigate('/register-user');
 	};

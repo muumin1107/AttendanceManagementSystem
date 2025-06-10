@@ -4,10 +4,10 @@ import os
 # プロジェクトルートをモジュール検索パスに追加
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from shared.task_queue import get_next_pending_task, mark_task_done, mark_task_failed
-from shared.config import LOG_PATHS
+from shared.task_queue    import get_next_pending_task, mark_task_done, mark_task_failed
+from shared.config        import LOG_PATHS
 from shared.error_handler import ErrorHandler
-from worker.task_handler import handle_task
+from worker.task_handler  import handle_task
 
 logger = ErrorHandler(log_file=str(LOG_PATHS["worker"]))
 
@@ -16,9 +16,9 @@ def worker_run():
     while True:
         # 次のタスクを取得
         task = get_next_pending_task()
-        # タスクがない場合は1秒置きにスキップ
+        # タスクがない場合は10秒置きにスキップ
         if not task:
-            time.sleep(1)
+            time.sleep(10)
             continue
 
         # タスクを処理

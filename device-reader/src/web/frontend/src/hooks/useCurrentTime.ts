@@ -19,14 +19,15 @@ export const useCurrentTime = (): { date: string; time: string } => {
 
 // 日付と時刻をフォーマットする関数
 const formatDateTime = (date: Date): { date: string; time: string } => {
+	// 曜日の配列を定義
 	const weekdays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-
-	const year = date.getFullYear();
-	const month = String(date.getMonth() + 1).padStart(2, '0');
-	const day = String(date.getDate()).padStart(2, '0');
+	// 年、月、日、曜日を取得
+	const year    = date.getFullYear();
+	const month   = String(date.getMonth() + 1).padStart(2, '0');
+	const day 	  = String(date.getDate()).padStart(2, '0');
 	const weekday = weekdays[date.getDay()];
-
-	const hours = String(date.getHours()).padStart(2, '0');
+	// 時、分、秒を取得
+	const hours   = String(date.getHours()).padStart(2, '0');
 	const minutes = String(date.getMinutes()).padStart(2, '0');
 	const seconds = String(date.getSeconds()).padStart(2, '0');
 

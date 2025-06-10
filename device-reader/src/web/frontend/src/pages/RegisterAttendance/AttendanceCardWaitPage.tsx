@@ -1,17 +1,18 @@
-import { useEffect } from 'react';
+import { useEffect } 				from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useCardReader } from '../../hooks/useCardReader';
-import { useRegisterAttendance } from '../../hooks/useRegisterAttendance';
+import { useCardReader } 			from '../../hooks/useCardReader';
+import { useRegisterAttendance } 	from '../../hooks/useRegisterAttendance';
 import './AttendanceCardWaitPage.css';
 
 const AttendanceCardWaitPage = () => {
 	const location = useLocation();
 	const navigate = useNavigate();
-	const type = location.state?.type;
+	const type 	   = location.state?.type;
 
-	const { nfcId, isLoading, cancel } = useCardReader();
+	const { nfcId, isLoading, cancel } 		 = useCardReader();
 	const { submitAttendance, isSubmitting } = useRegisterAttendance();
 
+	// ページがマウントされたときにカードリーダーの読み取りを開始
 	useEffect(() => {
 		if (!nfcId || isSubmitting) return;
 
@@ -29,6 +30,7 @@ const AttendanceCardWaitPage = () => {
 		register();
 	}, [nfcId]);
 
+	// キャンセルボタンのクリック処理
 	const handleCancel = () => {
 		cancel();
 		navigate('/');

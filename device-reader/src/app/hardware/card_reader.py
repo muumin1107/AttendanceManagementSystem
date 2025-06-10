@@ -1,7 +1,7 @@
 import nfc
 
-from shared.codec import Codec
-from shared.config import LOG_PATHS
+from shared.codec         import Codec
+from shared.config        import LOG_PATHS
 from shared.error_handler import ErrorHandler
 
 class NFCReader:
@@ -22,6 +22,7 @@ class NFCReader:
                     self.hashed_id = Codec.hash_text(uid)
                     return False
 
+                # NFCリーダーに接続し，タグの読み取りを開始
                 clf.connect(rdwr={'targets': ['212F'], 'on-connect': on_connect})
 
             return self.hashed_id

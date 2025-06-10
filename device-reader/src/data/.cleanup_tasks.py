@@ -4,7 +4,7 @@ from pathlib import Path
 DB_PATH = Path("tasks.db")
 
 def cleanup_db():
-    conn = sqlite3.connect(DB_PATH)
+    conn   = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
 
     cursor.execute(
@@ -17,7 +17,7 @@ def cleanup_db():
     conn.commit()
     conn.close()
 
-    print("Old completed/failed tasks cleaned up.")
+    print("Cleanup completed: Removed 'done' and 'failed' tasks from the database.")
 
 if __name__ == "__main__":
     cleanup_db()

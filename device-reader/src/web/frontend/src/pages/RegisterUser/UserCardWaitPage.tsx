@@ -1,23 +1,26 @@
-import { useEffect } from 'react';
+import { useEffect } 				from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useCardReader } from '../../hooks/useCardReader';
-import { useRegisterUser } from '../../hooks/useRegisterUser';
+import { useCardReader } 			from '../../hooks/useCardReader';
+import { useRegisterUser } 			from '../../hooks/useRegisterUser';
 import './UserCardWaitPage.css';
 
 // ユーザーのカードを待つページ（日本語＋英語）
 const UserCardWaitPage = () => {
 	const location = useLocation();
 	const navigate = useNavigate();
-	const name = location.state?.name;
+	// ユーザー名と学年を取得
+	const name 	= location.state?.name;
+	const grade = location.state?.grade;
 
 	const { nfcId, isLoading, cancel } = useCardReader();
 	const { submitUser, isSubmitting } = useRegisterUser();
 
+	// ページがマウントされたときにカードリーダーの読み取りを開始
 	useEffect(() => {
 		if (!nfcId || isSubmitting) return;
 
 		const register = async () => {
-			const success = await submitUser(nfcId, name);
+			const success = await submitUser(nfcId, name, grade);
 			navigate('/', {
 				state: {
 					toast: success
@@ -30,6 +33,7 @@ const UserCardWaitPage = () => {
 		register();
 	}, [nfcId]);
 
+	// キャンセルボタンのクリック処理
 	const handleCancel = () => {
 		cancel();
 		navigate('/');

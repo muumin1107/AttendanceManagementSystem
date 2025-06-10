@@ -2,17 +2,19 @@ const API_BASE = process.env.REACT_APP_API_BASE_URL;
 const ATTENDANCE_ENDPOINT = `${API_BASE}/attendance`;
 
 type AttendanceData = {
-	id: string;
-	status: string; // 出勤 / 退勤 / 休入 / 休出 など
+	id	  : string;
+	status: string;
 };
 
 export const postAttendance = async (data: AttendanceData): Promise<boolean> => {
+	// API_BASE_URLが設定されていない場合はエラーを出力
 	if (!API_BASE) {
 		console.error('API_BASE_URLが設定されていません');
 		return false;
 	}
 
 	try {
+		// ATTENDANCE_ENDPOINTにPOSTリクエストを送信
 		const res = await fetch(ATTENDANCE_ENDPOINT, {
 			method: 'POST',
 			headers: {
@@ -20,12 +22,12 @@ export const postAttendance = async (data: AttendanceData): Promise<boolean> => 
 			},
 			body: JSON.stringify(data)
 		});
-
+		// レスポンスのステータスコードをチェック
 		if (!res.ok) {
 			console.warn('勤怠登録APIが失敗しました:', res.status);
 			return false;
 		}
-
+		// レスポンスのContent-Typeをチェック
 		const contentType = res.headers.get('content-type');
 		if (!contentType?.includes('application/json')) {
 			console.warn('予期しないレスポンス形式:', await res.text());
