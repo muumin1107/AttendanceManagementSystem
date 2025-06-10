@@ -1,4 +1,4 @@
-# 【Raspberry Pi】カードリーダー式在籍確認システム（device-reader）
+# 【Raspberry Pi】カードリーダー式在室確認システム（device-reader）
 
 ## システム環境
 
