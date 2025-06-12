@@ -1,9 +1,9 @@
 .home-page-container {
-    height        : 100vh;
-    display       : flex;
-    flex-direction: column;
-    padding       : 24px 32px;
-    box-sizing    : border-box;
+    height          : 100vh;
+    display         : flex;
+    flex-direction  : column;
+    padding         : 3vh 3vw;
+    box-sizing      : border-box;
 }
 
 .home-header {
@@ -11,20 +11,20 @@
     display        : flex;
     justify-content: space-between;
     align-items    : center;
-    margin-bottom  : 24px;
-    padding-bottom : 16px;
+    margin-bottom  : 3vh;
+    padding-bottom : 2vh;
     border-bottom  : 1px solid #dee2e6;
 }
 
 .board-title {
-    font-size  : 2rem;
+    font-size  : clamp(1.8rem, 4vh, 3.5rem);
     font-weight: 700;
     color      : #2c3e50;
     margin     : 0;
 }
 
 .current-time {
-    font-size  : 1rem;
+    font-size  : clamp(0.9rem, 1.8vh, 1.5rem);
     color      : #7f8c8d;
     font-weight: 500;
     margin     : 0;
@@ -78,8 +78,9 @@
 .attendance-table td {
     display     : flex;
     align-items : center;
-    padding     : 10px 24px;
+    padding     : 1.5vh 2vw;
     border-right: 1px solid #ecf0f1;
+    font-size   : clamp(0.9rem, 2vh, 1.4rem);
 }
 .attendance-table th:last-child,
 .attendance-table td:last-child {
@@ -93,12 +94,12 @@
 }
 .attendance-table th:nth-child(n+2),
 .attendance-table td:nth-child(n+2) {
-    flex           : 1 1 20%;
+    flex          : 1 1 20%;
     justify-content: center;
 }
 
 .attendance-table thead th {
-    font-size       : 0.9rem;
+    font-size       : clamp(0.8rem, 1.8vh, 1.2rem);
     font-weight     : 600;
     color           : #495057;
     background-color: #f8f9fa;
@@ -106,8 +107,8 @@
 
 .status-marker {
     display       : inline-block;
-    width         : 16px;
-    height        : 16px;
+    width         : clamp(14px, 2.5vh, 24px);
+    height        : clamp(14px, 2.5vh, 24px);
     border-radius : 50%;
     vertical-align: middle;
 }
