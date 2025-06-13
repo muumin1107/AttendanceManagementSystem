@@ -17,14 +17,16 @@
 }
 
 .board-title {
-    font-size  : clamp(1.8rem, 4vh, 3.5rem);
+    /* 修正: 4K表示向けにフォントサイズを調整 */
+    font-size  : clamp(2.5rem, 5vmin, 8rem);
     font-weight: 700;
     color      : #2c3e50;
     margin     : 0;
 }
 
 .current-time {
-    font-size  : clamp(0.9rem, 1.8vh, 1.5rem);
+    /* 修正: 4K表示向けにフォントサイズを調整 */
+    font-size  : clamp(1.2rem, 2.5vmin, 3rem);
     color      : #7f8c8d;
     font-weight: 500;
     margin     : 0;
@@ -59,6 +61,7 @@
     flex-grow     : 1;
     display       : flex;
     flex-direction: column;
+    overflow-y    : auto; /* ユーザーが多い場合にスクロール */
 }
 
 .attendance-table tr {
@@ -78,9 +81,10 @@
 .attendance-table td {
     display    : flex;
     align-items: center;
-    padding    : 1.5vh 2vw;
+    /* 修正: 4K表示向けにパディングとフォントサイズを調整 */
+    padding    : clamp(12px, 2.5vmin, 32px) clamp(20px, 2vw, 60px);
     border-right: 1px solid #ecf0f1;
-    font-size  : clamp(0.9rem, 2vh, 1.4rem);
+    font-size  : clamp(1.1rem, 2.2vmin, 2.5rem);
 }
 .attendance-table th:last-child,
 .attendance-table td:last-child {
@@ -99,7 +103,8 @@
 }
 
 .attendance-table thead th {
-    font-size       : clamp(0.8rem, 1.8vh, 1.2rem);
+    /* 修正: 4K表示向けにフォントサイズを調整 */
+    font-size       : clamp(1rem, 2vmin, 2rem);
     font-weight     : 600;
     color           : #495057;
     background-color: #f8f9fa;
@@ -107,8 +112,9 @@
 
 .status-marker {
     display       : inline-block;
-    width         : clamp(14px, 2.5vh, 24px);
-    height        : clamp(14px, 2.5vh, 24px);
+    /* 修正: 4K表示向けにマーカーサイズを調整 */
+    width         : clamp(20px, 4vmin, 64px);
+    height        : clamp(20px, 4vmin, 64px);
     border-radius : 50%;
     vertical-align: middle;
 }
