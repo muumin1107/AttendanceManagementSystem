@@ -2,6 +2,7 @@
     height          : 100vh;
     display         : flex;
     flex-direction  : column;
+    /* 修正: vh, vw を使い，パディングをビューポートサイズに連動させる */
     padding         : 3vh 3vw;
     box-sizing      : border-box;
 }
@@ -11,22 +12,23 @@
     display        : flex;
     justify-content: space-between;
     align-items    : center;
+    /* 修正: vh を使い，マージンとパディングをビューポートの高さに連動させる */
     margin-bottom  : 3vh;
     padding-bottom : 2vh;
     border-bottom  : 1px solid #dee2e6;
 }
 
 .board-title {
-    /* 修正: vhからvminに変更し、アスペクト比の崩れを防ぐ */
-    font-size  : clamp(1.8rem, 6vmin, 12rem);
+    /* 修正: clamp() を使い，フォントサイズを可変にしつつ，範囲を制限する */
+    font-size  : clamp(1.8rem, 4vh, 3.5rem);
     font-weight: 700;
     color      : #2c3e50;
     margin     : 0;
 }
 
 .current-time {
-    /* 修正: vhからvminに変更 */
-    font-size  : clamp(0.9rem, 2.5vmin, 4.5rem);
+    /* 修正: clamp() を使い，フォントサイズを可変にしつつ，範囲を制限する */
+    font-size  : clamp(0.9rem, 1.8vh, 1.5rem);
     color      : #7f8c8d;
     font-weight: 500;
     margin     : 0;
@@ -61,8 +63,6 @@
     flex-grow     : 1;
     display       : flex;
     flex-direction: column;
-    /* 修正: tbodyがスクロールできるようにする */
-    overflow-y: auto;
 }
 
 .attendance-table tr {
@@ -71,8 +71,7 @@
 }
 
 .attendance-table tbody tr {
-    /* 修正: 行が縦に伸びるのを防ぐため、flex: 1 を削除 */
-    /* flex: 1; */
+    flex: 1;
 }
 
 .attendance-table tbody tr:last-child {
@@ -83,11 +82,11 @@
 .attendance-table td {
     display    : flex;
     align-items: center;
-    /* 修正: vhからvminに変更 */
-    padding    : clamp(10px, 2vmin, 20px) 2vw;
+    /* 修正: vh, vw を使い，パディングをビューポートサイズに連動させる */
+    padding    : 1.5vh 2vw;
     border-right: 1px solid #ecf0f1;
-    /* 修正: vhからvminに変更 */
-    font-size  : clamp(0.9rem, 2.5vmin, 4rem);
+    /* 修正: clamp() を使い，フォントサイズを可変にしつつ，範囲を制限する */
+    font-size  : clamp(0.9rem, 2vh, 1.4rem);
 }
 .attendance-table th:last-child,
 .attendance-table td:last-child {
@@ -106,8 +105,8 @@
 }
 
 .attendance-table thead th {
-    /* 修正: vhからvminに変更 */
-    font-size       : clamp(0.8rem, 2.2vmin, 3rem);
+    /* 修正: clamp() を使い，ヘッダーのフォントサイズも可変にする */
+    font-size       : clamp(0.8rem, 1.8vh, 1.2rem);
     font-weight     : 600;
     color           : #495057;
     background-color: #f8f9fa;
@@ -115,9 +114,9 @@
 
 .status-marker {
     display       : inline-block;
-    /* 修正: vhからvminに変更し、円形を維持する */
-    width         : clamp(14px, 4vmin, 72px);
-    height        : clamp(14px, 4vmin, 72px);
+    /* 修正: clamp() を使い，マーカーのサイズを可変にしつつ，範囲を制限する */
+    width         : clamp(14px, 2.5vh, 24px);
+    height        : clamp(14px, 2.5vh, 24px);
     border-radius : 50%;
     vertical-align: middle;
 }
@@ -154,9 +153,9 @@
     background-color: #fafafa;
 }
 
-/* .attendance-table tbody tr:hover {
+.attendance-table tbody tr:hover {
     background-color: #e9ecef !important;
-} */
+}
 
 .no-data-cell {
     display        : flex;
