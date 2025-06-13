@@ -145,10 +145,6 @@
     background-color: #fafafa;
 }
 
-.attendance-table tbody tr:hover {
-    background-color: #e9ecef !important;
-}
-
 .no-data-cell {
     display        : flex;
     justify-content: center;
