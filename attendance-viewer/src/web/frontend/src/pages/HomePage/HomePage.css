@@ -17,16 +17,16 @@
 }
 
 .board-title {
-    /* 修正: 上限値を増加 (3.5rem -> 5rem) */
-    font-size  : clamp(1.8rem, 4vh, 5rem);
+    /* 修正: 上限値を大幅に増加 (5rem -> 8rem) */
+    font-size  : clamp(1.8rem, 4vh, 8rem);
     font-weight: 700;
     color      : #2c3e50;
     margin     : 0;
 }
 
 .current-time {
-    /* 修正: 上限値を増加 (1.5rem -> 2rem) */
-    font-size  : clamp(0.9rem, 1.8vh, 2rem);
+    /* 修正: 上限値を大幅に増加 (2rem -> 3rem) */
+    font-size  : clamp(0.9rem, 1.8vh, 3rem);
     color      : #7f8c8d;
     font-weight: 500;
     margin     : 0;
@@ -82,8 +82,8 @@
     align-items: center;
     padding    : 1.5vh 2vw;
     border-right: 1px solid #ecf0f1;
-    /* 修正: 上限値を増加 (1.4rem -> 1.8rem) */
-    font-size  : clamp(0.9rem, 2vh, 1.8rem);
+    /* 修正: 上限値を大幅に増加 (1.8rem -> 2.5rem) */
+    font-size  : clamp(0.9rem, 2vh, 2.5rem);
 }
 .attendance-table th:last-child,
 .attendance-table td:last-child {
@@ -102,8 +102,8 @@
 }
 
 .attendance-table thead th {
-    /* 修正: 上限値を増加 (1.2rem -> 1.5rem) */
-    font-size       : clamp(0.8rem, 1.8vh, 1.5rem);
+    /* 修正: 上限値を大幅に増加 (1.5rem -> 2rem) */
+    font-size       : clamp(0.8rem, 1.8vh, 2rem);
     font-weight     : 600;
     color           : #495057;
     background-color: #f8f9fa;
@@ -111,9 +111,9 @@
 
 .status-marker {
     display       : inline-block;
-    /* 修正: 上限値を増加 (24px -> 32px) */
-    width         : clamp(14px, 2.5vh, 32px);
-    height        : clamp(14px, 2.5vh, 32px);
+    /* 修正: 上限値を大幅に増加 (32px -> 48px) */
+    width         : clamp(14px, 2.5vh, 48px);
+    height        : clamp(14px, 2.5vh, 48px);
     border-radius : 50%;
     vertical-align: middle;
 }
