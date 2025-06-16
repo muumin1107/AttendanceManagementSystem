@@ -17,7 +17,6 @@
 }
 
 .board-title {
-    /* 修正: 4K表示向けにフォントサイズを調整 */
     font-size  : clamp(2.5rem, 5vmin, 8rem);
     font-weight: 700;
     color      : #2c3e50;
@@ -25,7 +24,6 @@
 }
 
 .current-time {
-    /* 修正: 4K表示向けにフォントサイズを調整 */
     font-size  : clamp(1.2rem, 2.5vmin, 3rem);
     color      : #7f8c8d;
     font-weight: 500;
@@ -61,7 +59,7 @@
     flex-grow     : 1;
     display       : flex;
     flex-direction: column;
-    overflow-y    : auto; /* ユーザーが多い場合にスクロール */
+    overflow-y    : auto;
 }
 
 .attendance-table tr {
@@ -79,12 +77,11 @@
 
 .attendance-table th,
 .attendance-table td {
-    display    : flex;
-    align-items: center;
-    /* 修正: 4K表示向けにパディングとフォントサイズを調整 */
-    padding    : clamp(12px, 2.5vmin, 32px) clamp(20px, 2vw, 60px);
+    display     : flex;
+    align-items : center;
+    padding     : clamp(12px, 2.5vmin, 32px) clamp(20px, 2vw, 60px);
     border-right: 1px solid #ecf0f1;
-    font-size  : clamp(1.1rem, 2.2vmin, 2.5rem);
+    font-size   : clamp(1.1rem, 2.2vmin, 2.5rem);
 }
 .attendance-table th:last-child,
 .attendance-table td:last-child {
@@ -93,7 +90,7 @@
 
 .attendance-table th:nth-child(1),
 .attendance-table td:nth-child(1) {
-    flex          : 0 0 40%;
+    flex           : 0 0 40%;
     justify-content: flex-start;
 }
 .attendance-table th:nth-child(n+2),
@@ -103,7 +100,6 @@
 }
 
 .attendance-table thead th {
-    /* 修正: 4K表示向けにフォントサイズを調整 */
     font-size       : clamp(1rem, 2vmin, 2rem);
     font-weight     : 600;
     color           : #495057;
@@ -112,7 +108,6 @@
 
 .status-marker {
     display       : inline-block;
-    /* 修正: 4K表示向けにマーカーサイズを調整 */
     width         : clamp(20px, 4vmin, 64px);
     height        : clamp(20px, 4vmin, 64px);
     border-radius : 50%;
@@ -133,22 +128,22 @@
 }
 
 .grade-professor {
-    background-color: #fbfaff;
+    background-color: #e0e0f0;
 }
 .grade-researcher {
-    background-color: #f3fbf4;
+    background-color: #d0e0d0;
 }
 .grade-m2 {
-    background-color: #fffcf2;
+    background-color: #f0e0c0;
 }
 .grade-m1 {
-    background-color: #fff5f5;
+    background-color: #f0d0d0;
 }
 .grade-b4 {
-    background-color: #f0f7ff;
+    background-color: #c0d0e0;
 }
 .grade-b3 {
-    background-color: #fafafa;
+    background-color: #e0e0e0;
 }
 
 .no-data-cell {
