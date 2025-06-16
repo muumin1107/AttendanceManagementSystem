@@ -101,7 +101,7 @@
 }
 
 .attendance-table thead th {
-    font-size       : clamp(1rem, 2vmin, 2rem);
+    font-size       : clamp(1.2rem, 3vmin, 3.5rem);
     font-weight     : 600;
     color           : #495057;
     background-color: #f8f9fa;
