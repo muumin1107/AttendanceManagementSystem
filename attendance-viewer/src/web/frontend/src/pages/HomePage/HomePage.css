@@ -92,6 +92,7 @@
 .attendance-table td:nth-child(1) {
     flex           : 0 0 40%;
     justify-content: flex-start;
+    font-size      : clamp(1.4rem, 3.5vmin, 4rem);
 }
 .attendance-table th:nth-child(n+2),
 .attendance-table td:nth-child(n+2) {
