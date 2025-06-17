@@ -68,8 +68,8 @@ const HomePage: React.FC = () => {
 
         // allUsersリストとattendanceUsersリストを結合し、ステータスをマッピング
         const combinedUsers: FullUserInfo[] = passedState.allUsers.map(user => ({
-            name: user.name,
-            grade: user.grade,
+            name  : user.name,
+            grade : user.grade,
             status: attendanceStatusMap.get(user.name) || 'clock_out'
         }));
 
