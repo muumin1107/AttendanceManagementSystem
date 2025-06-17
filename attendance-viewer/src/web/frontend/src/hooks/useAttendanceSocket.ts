@@ -29,9 +29,10 @@ export const useAttendanceSocket = (initialUsers: FullUserInfo[]): UseAttendance
             heartbeatTimerRef.current = null;
         }
 
+        // WebSocketの接続URLを環境変数から取得
         const basePath = process.env.REACT_APP_WEBSOCKET_API_BASE_PATH;
-        const apiKey = process.env.REACT_APP_WEBSOCKET_API_KEY;
-        const stage = 'v1';
+        const apiKey   = process.env.REACT_APP_WEBSOCKET_API_KEY;
+        const stage    = 'v1';
 
         if (!basePath || !apiKey) {
             const errorMessage = "WebSocketの接続に必要な環境変数が設定されていません．";
@@ -99,7 +100,8 @@ export const useAttendanceSocket = (initialUsers: FullUserInfo[]): UseAttendance
                 heartbeatTimerRef.current = null;
             }
             // クリーンな切断でない場合は再接続を試みる
-            if (event.code !== 1000) {
+            const cleanCloseCodes = [1000, 1001];
+            if (!cleanCloseCodes.includes(event.code)) {
                 setError(new Error(`サーバーとの接続が切れました．コード: ${event.code}．理由: ${event.reason || '不明'}`));
                 attemptReconnect();
             } else {
