@@ -1,129 +1,60 @@
-import { useState, useEffect, useRef, useCallback } from 'react';
-import type { User, FullUserInfo, UseAttendanceSocketReturn } from '../types/attendance';
+import { useState, useEffect, useRef }          from 'react';
+import type { User, UseAttendanceSocketReturn } from '../types/attendance';
 
-export const useAttendanceSocket = (initialUsers: FullUserInfo[]): UseAttendanceSocketReturn => {
-    const [users, setUsers] = useState<FullUserInfo[]>(initialUsers);
+export const useAttendanceSocket = (initialUsers: User[]): UseAttendanceSocketReturn => {
+    const [users, setUsers] = useState<User[]>(initialUsers);
     const [error, setError] = useState<Error | null>(null);
-    const socketRef = useRef<WebSocket | null>(null);
+    const socketRef         = useRef<WebSocket | null>(null);
 
-    // ハートビート用のタイマーIDを保持
-    const heartbeatTimerRef = useRef<NodeJS.Timeout | null>(null);
-    const HEARTBEAT_INTERVAL_MS = 5 * 60 * 1000;
-
-    // 再接続試行回数と最大試行回数
-    const reconnectAttemptsRef = useRef<number>(0);
-    const MAX_RECONNECT_ATTEMPTS = 10;
-
-    // WebSocketの接続関数を useCallback でメモ化
-    const connectWebSocket = useCallback(() => {
-        // 既存のソケットがあればクローズしてから新しい接続を開始
-        if (socketRef.current) {
-            if (socketRef.current.readyState === WebSocket.OPEN || socketRef.current.readyState === WebSocket.CONNECTING) {
-                socketRef.current.close(1000, "Initiating new connection attempt"); // クリーンなクローズコード1000
-            }
-            socketRef.current = null;
-        }
-        // 既存のハートビートタイマーがあればクリア
-        if (heartbeatTimerRef.current) {
-            clearInterval(heartbeatTimerRef.current);
-            heartbeatTimerRef.current = null;
+    useEffect(() => {
+        // 初期ユーザーが設定されていない場合は何もしない
+        if (!initialUsers) {
+            return;
         }
 
-        // WebSocketの接続URLを環境変数から取得
+        // WebSocketの接続設定
         const basePath = process.env.REACT_APP_WEBSOCKET_API_BASE_PATH;
         const apiKey   = process.env.REACT_APP_WEBSOCKET_API_KEY;
         const stage    = 'v1';
-
+        // 必要な環境変数が設定されているか確認
         if (!basePath || !apiKey) {
             const errorMessage = "WebSocketの接続に必要な環境変数が設定されていません．";
             setError(new Error(errorMessage));
             return;
         }
-
+        // WebSocketのURLを構築
         const fullUrl = `${basePath}/${stage}/?apiKey=${apiKey}`;
-        const socket = new WebSocket(fullUrl);
+        const socket  = new WebSocket(fullUrl);
         socketRef.current = socket;
 
-        socket.onopen = () => {
-            console.log("WebSocket connected.");
-            setError(null);
-            reconnectAttemptsRef.current = 0;
-
-            // ハートビートを開始
-            heartbeatTimerRef.current = setInterval(() => {
-                if (socketRef.current && socketRef.current.readyState === WebSocket.OPEN) {
-                    try {
-                        socketRef.current.send(JSON.stringify({ action: "ping", timestamp: new Date().toISOString() }));
-                        console.log('WebSocket: Sent heartbeat ping.');
-                    } catch (e) {
-                        console.error('Failed to send heartbeat:', e);
-                    }
-                }
-            }, HEARTBEAT_INTERVAL_MS);
-        };
-
+        // WebSocketの接続が開かれたときの処理
+        socket.onopen = () => {};
+        // メッセージ受信時の処理
         socket.onmessage = (event) => {
-            const updatedUserInfo: User = JSON.parse(event.data);
+            const updatedUser: User = JSON.parse(event.data);
             setUsers(currentUsers =>
                 currentUsers.map(user =>
-                    user.name === updatedUserInfo.name
-                        ? { ...user, status: updatedUserInfo.status }
-                        : user
+                    user.name === updatedUser.name ? { ...user, status: updatedUser.status } : user
                 )
             );
         };
-
+        // エラー処理
         socket.onerror = (event) => {
-            console.error("WebSocket Error:", event);
             setError(new Error("WebSocket接続で問題が発生しました．"));
-            attemptReconnect();
         };
-
-        const attemptReconnect = () => {
-            if (reconnectAttemptsRef.current < MAX_RECONNECT_ATTEMPTS) {
-                const delay = Math.min(1000 * Math.pow(2, reconnectAttemptsRef.current), 30000); // 1秒, 2秒, 4秒, ... 最大30秒
-                console.log(`Attempting to reconnect in ${delay / 1000} seconds... (Attempt ${reconnectAttemptsRef.current + 1})`);
-                reconnectAttemptsRef.current++;
-                setTimeout(connectWebSocket, delay);
-            } else {
-                setError(new Error("WebSocketの再接続に失敗しました．ネットワークを確認してください．"));
-                console.error("Failed to reconnect WebSocket after multiple attempts.");
-            }
-        };
-
+        // 接続が閉じられたときの処理
         socket.onclose = (event) => {
-            console.log(`WebSocket Closed. Code: ${event.code}, Reason: ${event.reason}, WasClean: ${event.wasClean}`);
-
-            // ハートビートタイマーをクリア
-            if (heartbeatTimerRef.current) {
-                clearInterval(heartbeatTimerRef.current);
-                heartbeatTimerRef.current = null;
-            }
-            // クリーンな切断でない場合は再接続を試みる
-            const cleanCloseCodes = [1000, 1001];
-            if (!cleanCloseCodes.includes(event.code)) {
-                setError(new Error(`サーバーとの接続が切れました．コード: ${event.code}．理由: ${event.reason || '不明'}`));
-                attemptReconnect();
-            } else {
-                setError(null);
-                console.log("WebSocket connection closed cleanly.");
+            if (!event.wasClean) {
+                setError(new Error(`サーバーとの接続が切れました: ${event.code}`));
             }
         };
-    }, []);
-
-    useEffect(() => {
-        connectWebSocket();
+        // クリーンアップ関数
         return () => {
-            if (socketRef.current) {
-                socketRef.current.close(1000, "Component unmounted");
-                socketRef.current = null;
-            }
-            if (heartbeatTimerRef.current) {
-                clearInterval(heartbeatTimerRef.current);
-                heartbeatTimerRef.current = null;
+            if (socket.readyState === WebSocket.OPEN) {
+                socket.close();
             }
         };
-    }, [connectWebSocket]);
+    }, [initialUsers]);
 
     return { users, error };
 };
