@@ -9,16 +9,15 @@ export const useAttendanceSocket = (initialUsers: FullUserInfo[]): UseAttendance
     useEffect(() => {
         // WebSocketの接続URLを環境変数から取得
         const basePath = process.env.REACT_APP_WEBSOCKET_API_BASE_PATH;
-        const apiKey = process.env.REACT_APP_WEBSOCKET_API_KEY;
         const stage = 'v1';
 
-        if (!basePath || !apiKey) {
-            const errorMessage = "WebSocketの接続に必要な環境変数が設定されていません．";
+        if (!basePath) {
+            const errorMessage = "WebSocketの接続URLが設定されていません．";
             setError(new Error(errorMessage));
             return;
         }
 
-        const fullUrl = `${basePath}/${stage}/?apiKey=${apiKey}`;
+        const fullUrl = `${basePath}/${stage}/`;
         const socket = new WebSocket(fullUrl);
         socketRef.current = socket;
 
