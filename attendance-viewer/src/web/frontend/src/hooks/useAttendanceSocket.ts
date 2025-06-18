@@ -1,60 +1,64 @@
-import { useState, useEffect, useRef }          from 'react';
-import type { User, UseAttendanceSocketReturn } from '../types/attendance';
+import { useState, useEffect, useRef } from 'react';
+import type { User, FullUserInfo, UseAttendanceSocketReturn } from '../types/attendance';
 
-export const useAttendanceSocket = (initialUsers: User[]): UseAttendanceSocketReturn => {
-    const [users, setUsers] = useState<User[]>(initialUsers);
+export const useAttendanceSocket = (initialUsers: FullUserInfo[]): UseAttendanceSocketReturn => {
+    const [users, setUsers] = useState<FullUserInfo[]>(initialUsers);
     const [error, setError] = useState<Error | null>(null);
-    const socketRef         = useRef<WebSocket | null>(null);
+    const socketRef = useRef<WebSocket | null>(null);
 
     useEffect(() => {
-        // 初期ユーザーが設定されていない場合は何もしない
-        if (!initialUsers) {
-            return;
-        }
-
-        // WebSocketの接続設定
+        // WebSocketの接続URLを環境変数から取得
         const basePath = process.env.REACT_APP_WEBSOCKET_API_BASE_PATH;
-        const apiKey   = process.env.REACT_APP_WEBSOCKET_API_KEY;
-        const stage    = 'v1';
-        // 必要な環境変数が設定されているか確認
+        const apiKey = process.env.REACT_APP_WEBSOCKET_API_KEY;
+        const stage = 'v1';
+
         if (!basePath || !apiKey) {
             const errorMessage = "WebSocketの接続に必要な環境変数が設定されていません．";
             setError(new Error(errorMessage));
             return;
         }
-        // WebSocketのURLを構築
+
         const fullUrl = `${basePath}/${stage}/?apiKey=${apiKey}`;
-        const socket  = new WebSocket(fullUrl);
+        const socket = new WebSocket(fullUrl);
         socketRef.current = socket;
 
-        // WebSocketの接続が開かれたときの処理
-        socket.onopen = () => {};
-        // メッセージ受信時の処理
+        socket.onopen = () => {
+            console.log("WebSocket connected.");
+            setError(null);
+        };
+
         socket.onmessage = (event) => {
-            const updatedUser: User = JSON.parse(event.data);
+            const updatedUserInfo: User = JSON.parse(event.data);
             setUsers(currentUsers =>
                 currentUsers.map(user =>
-                    user.name === updatedUser.name ? { ...user, status: updatedUser.status } : user
+                    user.name === updatedUserInfo.name
+                        ? { ...user, status: updatedUserInfo.status }
+                        : user
                 )
             );
         };
-        // エラー処理
+
         socket.onerror = (event) => {
+            console.error("WebSocket Error:", event);
             setError(new Error("WebSocket接続で問題が発生しました．"));
         };
-        // 接続が閉じられたときの処理
+
         socket.onclose = (event) => {
-            if (!event.wasClean) {
-                setError(new Error(`サーバーとの接続が切れました: ${event.code}`));
+            console.log(`WebSocket Closed. Code: ${event.code}, Reason: ${event.reason}`);
+            // 意図しない切断の場合にエラーを設定
+            if (event.code !== 1000) { // 1000は正常な切断
+                setError(new Error(`サーバーとの接続が切れました．コード: ${event.code}`));
             }
         };
-        // クリーンアップ関数
+
+        // コンポーネントのアンマウント時にWebSocket接続をクリーンに閉じる
         return () => {
-            if (socket.readyState === WebSocket.OPEN) {
-                socket.close();
+            if (socketRef.current) {
+                socketRef.current.close(1000, "Component unmounted");
+                socketRef.current = null;
             }
         };
-    }, [initialUsers]);
+    }, []); // 初回レンダリング時にのみ実行
 
     return { users, error };
 };
