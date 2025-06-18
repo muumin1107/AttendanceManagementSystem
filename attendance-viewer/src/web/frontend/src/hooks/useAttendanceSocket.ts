@@ -22,7 +22,8 @@ export const useAttendanceSocket = (initialUsers: FullUserInfo[]): UseAttendance
         socketRef.current = socket;
 
         socket.onopen = () => {
-            console.log("WebSocket connected.");
+            const connectionTime = new Date().toLocaleString('ja-JP');
+            console.log(`WebSocket connected at: ${connectionTime}`);
             setError(null);
         };
 
@@ -43,7 +44,8 @@ export const useAttendanceSocket = (initialUsers: FullUserInfo[]): UseAttendance
         };
 
         socket.onclose = (event) => {
-            console.log(`WebSocket Closed. Code: ${event.code}, Reason: ${event.reason}`);
+            const disconnectTime = new Date().toLocaleString('ja-JP');
+            console.log(`WebSocket Closed at: ${disconnectTime}. Code: ${event.code}, Reason: ${event.reason}`);
             // 意図しない切断の場合にエラーを設定
             if (event.code !== 1000) { // 1000は正常な切断
                 setError(new Error(`サーバーとの接続が切れました．コード: ${event.code}`));
