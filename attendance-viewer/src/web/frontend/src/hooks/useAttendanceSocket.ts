@@ -78,23 +78,20 @@ export const useAttendanceSocket = (initialUsers: FullUserInfo[]): UseAttendance
                 pingIntervalRef.current = null;
             }
 
-            // 意図しない切断の場合に再接続を試行
-            if (event.code !== 1000) { // 1000は正常な切断
-                setError(new Error(`サーバーとの接続が切れました．コード: ${event.code}`));
-
-                // 再接続試行回数が上限に達していない場合
+            // 正常な切断以外で再接続
+            if (event.code !== 1000) {
+                // 再接続試行回数が上限に達していない場合はerrorをセットしない
                 if (reconnectAttemptsRef.current < maxReconnectAttempts) {
                     const reconnectDelay = baseReconnectDelay * Math.pow(2, reconnectAttemptsRef.current);
                     const reconnectTime = new Date().toLocaleString('ja-JP');
                     console.log(`Attempting to reconnect at: ${reconnectTime}. Attempt: ${reconnectAttemptsRef.current + 1}/${maxReconnectAttempts}. Delay: ${reconnectDelay}ms`);
-
                     reconnectTimeoutRef.current = setTimeout(() => {
                         reconnectAttemptsRef.current++;
                         connectWebSocket();
                     }, reconnectDelay);
                 } else {
-                    console.error(`Max reconnection attempts (${maxReconnectAttempts}) reached. Giving up.`);
-                    setError(new Error(`再接続の試行回数が上限に達しました。ページを再読み込みしてください。`));
+                    // 再接続失敗時のみerrorをセット
+                    setError(new Error(`サーバーとの接続が切れました（再接続失敗）。コード: ${event.code}`));
                 }
             }
         };
