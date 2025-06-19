@@ -28,7 +28,7 @@ export const useAttendanceSocket = (initialUsers: FullUserInfo[]): UseAttendance
 
         socket.onopen = () => {
             const connectionTime = new Date().toLocaleString('ja-JP');
-            console.log(`WebSocket connected at: ${connectionTime}`);
+            // console.log(`WebSocket connected at: ${connectionTime}`);
             setError(null);
             reconnectAttemptsRef.current = 0;
 
@@ -36,7 +36,7 @@ export const useAttendanceSocket = (initialUsers: FullUserInfo[]): UseAttendance
             pingIntervalRef.current = setInterval(() => {
                 if (socket.readyState === WebSocket.OPEN) {
                     const pingTime = new Date().toLocaleString('ja-JP');
-                    console.log(`Sending ping at: ${pingTime}`);
+                    // console.log(`Sending ping at: ${pingTime}`);
                     socket.send(JSON.stringify({ type: 'ping' }));
                 }
             }, 9 * 60 * 1000);
@@ -48,7 +48,7 @@ export const useAttendanceSocket = (initialUsers: FullUserInfo[]): UseAttendance
             // ping/pongメッセージの場合はログ出力のみ
             if (data.type === 'pong') {
                 const pongTime = new Date().toLocaleString('ja-JP');
-                console.log(`Received pong at: ${pongTime}`);
+                // console.log(`Received pong at: ${pongTime}`);
                 return;
             }
 
@@ -64,13 +64,13 @@ export const useAttendanceSocket = (initialUsers: FullUserInfo[]): UseAttendance
         };
 
         socket.onerror = (event) => {
-            console.error("WebSocket Error:", event);
+            // console.error("WebSocket Error:", event);
             setError(new Error("WebSocket接続で問題が発生しました．"));
         };
 
         socket.onclose = (event) => {
             const disconnectTime = new Date().toLocaleString('ja-JP');
-            console.log(`WebSocket Closed at: ${disconnectTime}. Code: ${event.code}, Reason: ${event.reason}`);
+            // console.log(`WebSocket Closed at: ${disconnectTime}. Code: ${event.code}, Reason: ${event.reason}`);
 
             // ping間隔をクリア
             if (pingIntervalRef.current) {
@@ -84,7 +84,7 @@ export const useAttendanceSocket = (initialUsers: FullUserInfo[]): UseAttendance
                 if (reconnectAttemptsRef.current < maxReconnectAttempts) {
                     const reconnectDelay = baseReconnectDelay * Math.pow(2, reconnectAttemptsRef.current);
                     const reconnectTime = new Date().toLocaleString('ja-JP');
-                    console.log(`Attempting to reconnect at: ${reconnectTime}. Attempt: ${reconnectAttemptsRef.current + 1}/${maxReconnectAttempts}. Delay: ${reconnectDelay}ms`);
+                    // console.log(`Attempting to reconnect at: ${reconnectTime}. Attempt: ${reconnectAttemptsRef.current + 1}/${maxReconnectAttempts}. Delay: ${reconnectDelay}ms`);
                     reconnectTimeoutRef.current = setTimeout(() => {
                         reconnectAttemptsRef.current++;
                         connectWebSocket();
