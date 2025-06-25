@@ -4,7 +4,7 @@ import './AdminPage.css';
 const AdminPage = () => {
     return (
         <div className="admin-page-container">
-            <h1>管理者ページです．</h1>
+            <h1>管理者ページです</h1>
         </div>
     );
 };

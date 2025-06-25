@@ -17,10 +17,18 @@
 }
 
 .board-title {
-    font-size  : clamp(2.5rem, 5vmin, 8rem);
-    font-weight: 700;
-    color      : #2c3e50;
-    margin     : 0;
+    font-size   : clamp(2.5rem, 5vmin, 8rem);
+    font-weight : 700;
+    color       : #2c3e50;
+    margin      : 0;
+    margin-right: auto;
+}
+
+.header-controls {
+    display    : flex;
+    align-items: center;
+    gap        : 2vw;
+    flex-shrink: 0;
 }
 
 .current-time {
@@ -28,6 +36,7 @@
     color      : #7f8c8d;
     font-weight: 500;
     margin     : 0;
+    white-space: nowrap;
 }
 
 .admin-link-button {
