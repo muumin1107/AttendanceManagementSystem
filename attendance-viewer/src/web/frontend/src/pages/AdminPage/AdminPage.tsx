@@ -57,7 +57,7 @@ return (
             {allUsers.length > 0 ? (
                 allUsers.map((u) => (
                 <option key={u.name} value={u.name}>
-                    {u.name} ({u.grade})
+                    【{u.grade}】{u.name}
                 </option>
                 ))
             ) : (
