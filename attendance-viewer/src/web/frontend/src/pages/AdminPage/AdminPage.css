@@ -4,6 +4,7 @@
     justify-content : center;
     align-items     : center;
     min-height      : 100vh;
+    min-width       : 300vw;
     padding         : 2rem;
     box-sizing      : border-box;
     background-color: #f0f2f5;
