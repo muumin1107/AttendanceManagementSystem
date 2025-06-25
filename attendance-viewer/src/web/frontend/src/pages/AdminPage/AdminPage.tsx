@@ -1,20 +1,33 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { useAuthenticator } from '@aws-amplify/ui-react';
 import { useUpdateAttendanceAdmin } from '../../hooks/useUpdateAttendanceAdmin';
-import type { UserStatus } from '../../types/attendance';
+import type { UserStatus, UserIdentifier } from '../../types/attendance';
 import './AdminPage.css';
 
 const AdminPage = () => {
 const { user, signOut } = useAuthenticator((context) => [context.user, context.signOut]);
 const { updateAttendance, isLoading, error, isSuccess } = useUpdateAttendanceAdmin();
 
+// HomePageから渡されたユーザーリストを取得します
+const location = useLocation();
+const allUsers = (location.state?.allUsers as UserIdentifier[]) || [];
+
+// プルダウンで選択されたユーザー名とステータスを管理します
 const [targetName, setTargetName] = useState<string>('');
 const [targetStatus, setTargetStatus] = useState<UserStatus>('clock_in');
 
+// ページ読み込み時に、プルダウンの初期値をリストの先頭ユーザーに設定します
+useEffect(() => {
+    if (allUsers.length > 0 && !targetName) {
+    setTargetName(allUsers[0].name);
+    }
+}, [allUsers, targetName]);
+
 const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (!targetName.trim()) {
-    alert('更新対象のユーザー名を入力してください．');
+    if (!targetName) {
+    alert('更新対象のユーザーを選択してください．');
     return;
     }
     updateAttendance(targetName, targetStatus);
@@ -23,7 +36,7 @@ const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
 return (
     <main className="admin-page-container">
     <header className="admin-header">
-        <h1 className="admin-title">管理者ダッシュボード（テストモード）</h1>
+        <h1 className="admin-title">管理者ダッシュボード</h1>
         <button onClick={signOut} className="signout-button">サインアウト</button>
     </header>
 
@@ -32,15 +45,25 @@ return (
     <div className="admin-contents">
         <form onSubmit={handleSubmit} className="update-form">
         <div className="form-group">
-            <label htmlFor="name-input">ユーザー名</label>
-            <input
-            id="name-input"
-            type="text"
+            <label htmlFor="name-select">ユーザー名</label>
+            {/* テキスト入力の代わりにselect要素を使用します */}
+            <select
+            id="name-select"
             value={targetName}
             onChange={(e) => setTargetName(e.target.value)}
-            placeholder="例: 佐藤 太郎"
             required
-            />
+            disabled={allUsers.length === 0}
+            >
+            {allUsers.length > 0 ? (
+                allUsers.map((u) => (
+                <option key={u.name} value={u.name}>
+                    {u.name} ({u.grade})
+                </option>
+                ))
+            ) : (
+                <option disabled>ユーザーリストがありません</option>
+            )}
+            </select>
         </div>
         <div className="form-group">
             <label htmlFor="status-select">新しいステータス</label>
@@ -55,7 +78,7 @@ return (
             <option value="break_out">休憩終了</option>
             </select>
         </div>
-        <button type="submit" className="update-button" disabled={isLoading}>
+        <button type="submit" className="update-button" disabled={isLoading || allUsers.length === 0}>
             {isLoading ? '更新中...' : '在席情報を更新'}
         </button>
         </form>
