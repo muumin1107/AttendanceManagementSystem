@@ -1,3 +1,14 @@
+.admin-page-wrapper {
+    width           : 100%;
+    display         : flex;
+    justify-content : center;
+    align-items     : center;
+    min-height      : 100vh;
+    padding         : 2rem;
+    box-sizing      : border-box;
+    background-color: #f0f2f5;
+}
+
 .admin-page-container {
     padding         : 2rem;
     max-width       : 1000px;
