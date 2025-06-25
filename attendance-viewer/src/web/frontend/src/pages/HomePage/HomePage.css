@@ -27,7 +27,7 @@
 .header-controls {
     display    : flex;
     align-items: center;
-    gap        : 2vw;
+    gap        : 4vw;
     flex-shrink: 0;
 }
 
