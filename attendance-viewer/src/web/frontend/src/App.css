@@ -11,7 +11,9 @@
     align-items     : center;
     min-height      : 100vh;
     background-color: #f0f2f5;
+}
 
+.authenticator-wrapper [data-amplify-authenticator] {
     --amplify-colors-brand-primary-80: #3498db;
     --amplify-colors-brand-primary-90: #2980b9;
     --amplify-colors-font-interactive: #ffffff;
