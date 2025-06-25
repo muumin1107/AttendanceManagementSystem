@@ -4,3 +4,11 @@
     color           : #2c3e50;
     min-height      : 100vh;
 }
+
+.authenticator-wrapper {
+    display         : flex;
+    justify-content : center;
+    align-items     : center;
+    min-height      : 100vh;
+    background-color: #f0f2f5;
+}

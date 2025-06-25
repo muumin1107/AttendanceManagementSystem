@@ -6,6 +6,8 @@ import ErrorPage   from './pages/ErrorPage/ErrorPage';
 import HomePage    from './pages/HomePage/HomePage';
 import AdminPage   from './pages/AdminPage/AdminPage';
 
+import './App.css';
+
 // アプリケーションのルーティングを定義するコンポーネント
 function App() {
 	return (
@@ -20,9 +22,11 @@ function App() {
 				<Route
 					path="/admin"
 					element={
-						<Authenticator>
-							<AdminPage />
-						</Authenticator>
+						<div className="authenticator-wrapper">
+							<Authenticator>
+								<AdminPage />
+							</Authenticator>
+						</div>
 					}
 				/>
 
