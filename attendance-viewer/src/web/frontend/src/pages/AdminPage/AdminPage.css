@@ -4,7 +4,7 @@
     justify-content : center;
     align-items     : center;
     min-height      : 100vh;
-    min-width       : 300vw;
+    /* min-width       : 300vw; */
     padding         : 2rem;
     box-sizing      : border-box;
     background-color: #f0f2f5;
@@ -12,7 +12,7 @@
 
 .admin-page-container {
     padding         : 2rem;
-    max-width       : 800px;
+    max-width       : 1200px;
     margin          : 2rem auto;
     background-color: #ffffff;
     border-radius   : 12px;
