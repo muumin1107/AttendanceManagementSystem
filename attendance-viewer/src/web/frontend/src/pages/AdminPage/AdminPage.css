@@ -1,0 +1,14 @@
+.admin-page-container {
+    display         : flex;
+    justify-content : center;
+    align-items     : center;
+    height          : 100vh;
+    padding         : 2rem;
+    box-sizing      : border-box;
+    background-color: #f0f2f5;
+}
+
+.admin-page-container h1 {
+    font-size: 2rem;
+    color    : #333;
+}

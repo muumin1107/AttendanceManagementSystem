@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo }                 from 'react';
-import { useLocation, useNavigate }                            from "react-router-dom";
+import { useLocation, useNavigate, Link }                            from "react-router-dom";
 import type { User, UserStatus, UserIdentifier, FullUserInfo } from '../../types/attendance';
 import { useAttendanceSocket }                                 from '../../hooks/useAttendanceSocket';
 import './HomePage.css';
@@ -119,6 +119,7 @@ const HomePage: React.FC = () => {
                     {currentTime.toLocaleDateString('ja-JP', { year: 'numeric', month: 'long', day: 'numeric' })}&nbsp;
                     {currentTime.toLocaleTimeString('ja-JP')}
                 </p>
+                <Link to="/admin" className="admin-link-button">管理者メニュー</Link>
             </header>
             <main className="table-container">
                 <table className="attendance-table">

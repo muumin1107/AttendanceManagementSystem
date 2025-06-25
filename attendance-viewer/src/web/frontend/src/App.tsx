@@ -4,19 +4,31 @@ import { Authenticator } from '@aws-amplify/ui-react';
 import LoadingPage from './pages/LoadingPage/LoadingPage';
 import ErrorPage   from './pages/ErrorPage/ErrorPage';
 import HomePage    from './pages/HomePage/HomePage';
+import AdminPage   from './pages/AdminPage/AdminPage';
 
 // アプリケーションのルーティングを定義するコンポーネント
 function App() {
 	return (
 		<Router>
-			<Authenticator>
-				<Routes>
-					<Route path="/"      element={<LoadingPage />} />
-					<Route path="/views" element={<HomePage />} />
-					<Route path="/error" element={<ErrorPage />} />
-					<Route path="*"      element={<LoadingPage />} />
-				</Routes>
-			</Authenticator>
+			<Routes>
+				{/* ルートパスはLoadingPageにリダイレクト */}
+				<Route path="/"      element={<LoadingPage />} />
+				<Route path="/views" element={<HomePage />} />
+				<Route path="/error" element={<ErrorPage />} />
+
+				{/* 認証が必要な管理者ページへのルート */}
+				<Route
+					path="/admin"
+					element={
+						<Authenticator>
+							<AdminPage />
+						</Authenticator>
+					}
+				/>
+
+				{/* その他のパスはLoadingPageにリダイレクト */}
+				<Route path="*" element={<LoadingPage />} />
+			</Routes>
 		</Router>
 	);
 }
