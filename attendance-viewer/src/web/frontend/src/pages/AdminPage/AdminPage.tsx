@@ -72,10 +72,10 @@ return (
             value={targetStatus}
             onChange={(e) => setTargetStatus(e.target.value as UserStatus)}
             >
-            <option value="clock_in">出勤</option>
-            <option value="clock_out">退勤</option>
-            <option value="break_in">休憩開始</option>
-            <option value="break_out">休憩終了</option>
+            <option value="clock_in">🟢在室</option>
+            <option value="break_in">🟡休憩中</option>
+            {/* <option value="break_out">休憩終了</option> */}
+            <option value="clock_out">⚫退室</option>
             </select>
         </div>
         <button type="submit" className="update-button" disabled={isLoading || allUsers.length === 0}>

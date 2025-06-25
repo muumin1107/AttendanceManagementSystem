@@ -119,13 +119,7 @@ const HomePage: React.FC = () => {
                     {currentTime.toLocaleDateString('ja-JP', { year: 'numeric', month: 'long', day: 'numeric' })}&nbsp;
                     {currentTime.toLocaleTimeString('ja-JP')}
                 </p>
-                <Link
-                    to="/admin"
-                    state={{ allUsers: passedState?.allUsers }}
-                    className="admin-link-button"
-                >
-                管理者メニュー
-                </Link>
+                <Link to="/admin" state={{ allUsers: passedState?.allUsers }} className="admin-link-button">管理者メニュー</Link>
             </header>
             <main className="table-container">
                 <table className="attendance-table">
