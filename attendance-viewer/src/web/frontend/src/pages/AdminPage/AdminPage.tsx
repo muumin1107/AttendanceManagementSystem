@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-// Amplify Authライブラリから、認証情報を取得するための関数を直接インポートします
 import { fetchAuthSession } from '@aws-amplify/auth';
 import { useAuthenticator } from '@aws-amplify/ui-react';
 import { useUpdateAttendanceAdmin } from '../../hooks/useUpdateAttendanceAdmin';
@@ -7,20 +6,17 @@ import type { UserStatus } from '../../types/attendance';
 import './AdminPage.css';
 
 const AdminPage = () => {
-// `useAuthenticator`フックから必要な情報を取得します
 const { user, signOut } = useAuthenticator((context) => [context.user, context.signOut]);
 const { updateAttendance, isLoading, error, isSuccess } = useUpdateAttendanceAdmin();
-const [isAdmin, setIsAdmin] = useState<boolean>(false);
 
+const [isAdmin, setIsAdmin] = useState<boolean>(false);
 const [targetName, setTargetName] = useState<string>('');
 const [targetStatus, setTargetStatus] = useState<UserStatus>('clock_in');
 
 useEffect(() => {
     const checkAdminStatus = async () => {
     try {
-        // 現在の認証セッション（IDトークンなど）を取得します
         const session = await fetchAuthSession();
-        // IDトークンのペイロードから、ユーザーが所属するグループの情報を取得します
         const groups = session.tokens?.idToken?.payload['cognito:groups'] as string[] || [];
         setIsAdmin(groups.includes('Admins'));
     } catch (e) {
@@ -46,8 +42,7 @@ return (
         <h1 className="admin-title">管理者ダッシュボード</h1>
         <button onClick={signOut} className="signout-button">サインアウト</button>
     </header>
-
-    {/* ユーザー情報は 'user.username' または 'user.signInDetails.loginId' から取得します */}
+    
     <p>ようこそ, {user?.signInDetails?.loginId || user?.username} さん</p>
 
     {isAdmin ? (
