@@ -17,7 +17,8 @@ def _is_valid_payload(payload: dict) -> bool:
         if not isinstance(payload['name'], str) or not isinstance(payload['status'], str):
             return False
         # ステータスのバリデーション
-        if payload['status'] not in VALID_STATUSES:
+        decoded_status = base64.b64decode(payload['status']).decode('utf-8')
+        if decoded_status not in VALID_STATUSES:
             return False
         return True
     except (KeyError, TypeError, base64.binascii.Error):

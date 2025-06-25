@@ -27,7 +27,7 @@ export const useUpdateAttendanceAdmin = (): UseUpdateAttendanceAdminReturn => {
             const encodeToBase64 = (str: string) => btoa(unescape(encodeURIComponent(str)));
             const payload = {
                 name  : encodeToBase64(name),
-                status: status,
+                status: encodeToBase64(status),
             };
 
             const response = await fetch(url, {
