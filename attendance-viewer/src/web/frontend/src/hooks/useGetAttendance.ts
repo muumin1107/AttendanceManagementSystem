@@ -13,7 +13,7 @@ export const useGetAttendance   = (): UseGetAttendanceReturn => {
                 const url      = `${basePath}/v1/attendance`;
                 const apiKey   = process.env.REACT_APP_API_KEY;
                 // 環境変数が設定されていない場合はエラーをセット
-                if (!apiKey) {
+                if (!basePath || !apiKey) {
                     throw new Error("APIキーが.envファイルに設定されていません．");
                 }
                 const headers = new Headers();
@@ -27,7 +27,7 @@ export const useGetAttendance   = (): UseGetAttendanceReturn => {
                 const data = await response.json();
                 setUsers(data);
             } catch (err) {
-                // エラーがErrorインスタンスであればそのままセット、そうでなければ一般的なエラーをセット
+                // エラーがErrorインスタンスであればそのままセット，そうでなければ一般的なエラーをセット
                 if (err instanceof Error) {
                     setError(err);
                 } else {

@@ -33,3 +33,10 @@ export interface UseAttendanceSocketReturn {
     users: FullUserInfo[];
     error: Error | null;
 }
+// useUpdateAttendanceAdminフックが返す値の型
+export interface UseUpdateAttendanceAdminReturn {
+    updateAttendance: (name: string, status: UserStatus) => Promise<void>;
+    isLoading: boolean;
+    error    : Error | null;
+    isSuccess: boolean;
+}
