@@ -50,7 +50,7 @@ const AdminPage = () => {
         <div className="admin-page-wrapper">
             <main className="admin-page-container">
                 <header className="admin-header">
-                    <h1 className="admin-title">管理者ダッシュボード</h1>
+                    <h1 className="admin-title">管理者ページ</h1>
                     <button onClick={signOut} className="signout-button">サインアウト</button>
                 </header>
 
