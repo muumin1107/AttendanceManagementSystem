@@ -13,7 +13,7 @@
     background-color: #f0f2f5;
 }
 
-.authenticator-wrapper [data-amplify-authenticator] {
+/* .authenticator-wrapper [data-amplify-authenticator] {
     --amplify-colors-brand-primary-80: #3498db;
     --amplify-colors-brand-primary-90: #2980b9;
     --amplify-colors-font-interactive: #ffffff;
@@ -22,4 +22,4 @@
     --amplify-colors-font-primary    : #2c3e50;
     --amplify-colors-font-secondary  : #7f8c8d;
     --amplify-radii-large            : 8px;
-}
+} */

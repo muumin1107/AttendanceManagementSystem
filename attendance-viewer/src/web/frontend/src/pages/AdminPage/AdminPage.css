@@ -3,8 +3,7 @@
     display         : flex;
     justify-content : center;
     align-items     : center;
-    /* min-height      : 100vh;
-    min-width       : 200vw; */
+    min-height      : 100vh;
     padding         : 2rem;
     box-sizing      : border-box;
     background-color: #f0f2f5;
