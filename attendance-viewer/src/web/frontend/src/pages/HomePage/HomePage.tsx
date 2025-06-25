@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo }                 from 'react';
-import { useLocation, useNavigate, Link }                            from "react-router-dom";
+import { useLocation, useNavigate, Link }                      from "react-router-dom";
 import type { User, UserStatus, UserIdentifier, FullUserInfo } from '../../types/attendance';
 import { useAttendanceSocket }                                 from '../../hooks/useAttendanceSocket';
 import './HomePage.css';
