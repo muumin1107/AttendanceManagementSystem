@@ -94,9 +94,9 @@
     border-bottom: 1px solid #ecf0f1;
 }
 
-.attendance-table tbody tr {
+/* .attendance-table tbody tr {
     flex: 1;
-}
+} */
 
 .attendance-table tbody tr:last-child {
     border-bottom: none;
