@@ -4,6 +4,7 @@
     flex-direction  : column;
     padding         : 1vh 1vw;
     box-sizing      : border-box;
+    min-height      : 100vh;
 }
 
 .home-header {
