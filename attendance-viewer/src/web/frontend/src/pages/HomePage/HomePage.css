@@ -1,10 +1,15 @@
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
 .home-page-container {
     /* height          : 100vh; */
     display         : flex;
     flex-direction  : column;
     padding         : 1vh 1vw;
     box-sizing      : border-box;
-    min-height      : 200vh;
 }
 
 .home-header {
@@ -29,7 +34,7 @@
     display    : flex;
     align-items: center;
     gap        : 4vw;
-    flex-shrink: 0;
+    /* flex-shrink: 0; */
 }
 
 .current-time {
