@@ -11,8 +11,8 @@
     display        : flex;
     justify-content: space-between;
     align-items    : center;
-    margin-bottom  : 3vh;
-    padding-bottom : 2vh;
+    margin-bottom  : 2vh;
+    padding-bottom : 1.5vh;
     border-bottom  : 1px solid #dee2e6;
 }
 
@@ -106,9 +106,9 @@
 .attendance-table td {
     display     : flex;
     align-items : center;
-    padding     : clamp(12px, 2.5vmin, 32px) clamp(20px, 2vw, 60px);
+    padding     : clamp(8px, 1.5vmin, 18px) clamp(20px, 2vw, 60px);
     border-right: 1px solid #ecf0f1;
-    font-size   : clamp(1.1rem, 2.2vmin, 2.5rem);
+    font-size   : clamp(1rem, 1.8vmin, 2rem);
 }
 .attendance-table th:last-child,
 .attendance-table td:last-child {
