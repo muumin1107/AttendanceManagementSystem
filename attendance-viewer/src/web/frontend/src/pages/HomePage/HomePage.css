@@ -92,7 +92,7 @@
     flex-grow     : 1;
     display       : flex;
     flex-direction: column;
-    overflow-y    : auto;
+    overflow-y    : hidden;
 }
 
 .attendance-table tr {
