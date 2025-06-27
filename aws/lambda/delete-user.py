@@ -2,41 +2,49 @@ import os
 import json
 import boto3
 
+# 環境変数の取得
 USER_TABLE_NAME       = os.environ.get('USER_TABLE_NAME')
 ATTENDANCE_TABLE_NAME = os.environ.get('ATTENDANCE_TABLE_NAME')
 
+# DynamoDBリソースの初期化
 dynamodb = boto3.resource('dynamodb')
 
 def _clear_table(table_name: str, primary_key_name: str) -> int:
-    # テーブル名が設定されていない場合はスキップ
+    """指定されたDynamoDBテーブルの全アイテムを削除する関数"""
     if not table_name:
-        print(f"Table name variable for '{primary_key_name}' is not set. Skipping.")
         return 0
-    print(f"Starting to clear all items from table: {table_name}")
     table = dynamodb.Table(table_name)
 
     try:
-        # プライマリキーの属性名を指定してスキャンする
-        scan_kwargs = {'ProjectionExpression': primary_key_name}
+        # テーブルのスキャンを実行し，全アイテムのキーを取得
+        scan_kwargs = {
+            'ProjectionExpression': '#pk',
+            'ExpressionAttributeNames': {
+                '#pk': primary_key_name
+            }
+        }
         keys_to_delete = []
-        # DynamoDBのスキャンを使用して全アイテムを取得
+
+        # スキャンを繰り返して全アイテムを取得
         while True:
             response = table.scan(**scan_kwargs)
-            keys_to_delete.extend(response.get('Items', []))
-            # 次のページがある場合はExclusiveStartKeyを設定
+            items    = response.get('Items', [])
+            keys_to_delete.extend(items)
+            # 応答に 'LastEvaluatedKey' が含まれていない場合は終了（全アイテムを取得したため）
             if 'LastEvaluatedKey' not in response:
                 break
+            # 次のスキャンの開始位置を設定
             scan_kwargs['ExclusiveStartKey'] = response['LastEvaluatedKey']
-        # 削除するアイテムの数をカウント
+
+        # 削除するアイテムのキーを整形
         item_count = len(keys_to_delete)
-        if item_count == 0:
-            print(f"No items to delete in {table_name}.")
-            return 0
-        # バッチ処理でアイテムを削除
-        with table.batch_writer() as batch:
-            for key in keys_to_delete:
-                batch.delete_item(Key=key)
-        print(f"Successfully deleted {item_count} items from {table_name}.")
+        if item_count > 0:
+            # アイテムを削除するためのバッチ書き込みを実行
+            with table.batch_writer() as batch:
+                for key in keys_to_delete:
+                    batch.delete_item(Key=key)
+        else:
+            print(f"No items found in table {table_name} to delete.")
         return item_count
 
     except Exception as e:
@@ -45,10 +53,11 @@ def _clear_table(table_name: str, primary_key_name: str) -> int:
 
 def lambda_handler(event, context):
     try:
-        # UserTableをクリア
-        deleted_users_count = _clear_table(USER_TABLE_NAME, 'ID')
-        # AttendanceTableをクリア
+        # UserTableとAttendanceTableのアイテムを削除
+        deleted_users_count      = _clear_table(USER_TABLE_NAME, 'ID')
         deleted_attendance_count = _clear_table(ATTENDANCE_TABLE_NAME, 'Name')
+
+        # 成功メッセージの作成
         success_message = (
             f"Process completed successfully. "
             f"Deleted {deleted_users_count} items from UserTable and "
@@ -63,5 +72,5 @@ def lambda_handler(event, context):
         print(f"An error occurred in the handler: {str(e)}")
         return {
             'statusCode': 500,
-            'body'      : json.dumps(f'An error occurred during the cleanup process: {str(e)}')
+            'body'      : json.dumps(f'Error: {str(e)}')
         }

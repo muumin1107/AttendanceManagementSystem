@@ -4,9 +4,11 @@ import os
 
 import boto3
 
+# 環境変数
 ATTENDANCE_TABLE_NAME = os.environ['ATTENDANCE_TABLE_NAME']
 VALID_STATUSES        = {'clock_in', 'break_in', 'break_out', 'clock_out'}
 
+# ペイロードのバリデーション
 def _is_valid_payload(payload: dict) -> bool:
     try:
         required_keys = ['name', 'status']
@@ -28,7 +30,10 @@ def lambda_handler(event, context):
     try:
         # ペイロードの検証
         if not _is_valid_payload(event):
-            return {'statusCode': 400, 'body': json.dumps('Invalid payload. Required keys are "name" and "status".')}
+            return {
+                'statusCode': 400,
+                'body'      : json.dumps('Invalid payload. Required keys are "name" and "status".')
+            }
 
         # ペイロードの取得
         Name   = base64.b64decode(event['name']).decode('utf-8')
@@ -43,7 +48,13 @@ def lambda_handler(event, context):
             ExpressionAttributeNames={'#s': 'Status'},
             ExpressionAttributeValues={':new_status': Status}
         )
-        return {'statusCode': 200, 'body': json.dumps(f"Attendance status for '{Name}' updated successfully to '{Status}'.")}
+        return {
+            'statusCode': 200,
+            'body'      : json.dumps(f"Attendance status for '{Name}' updated successfully to '{Status}'.")
+        }
 
     except Exception as e:
-        return {'statusCode': 500, 'body': json.dumps(f'Error: {str(e)}')}
+        return {
+            'statusCode': 500,
+            'body'      : json.dumps(f'Error: {str(e)}')
+        }
