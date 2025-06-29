@@ -57,8 +57,8 @@ body {
 
 .admin-link-button {
     display         : inline-block;
-    padding         : 0.5em 1em;
-    font-size       : clamp(0.9rem, 2vmin, 2.5rem);
+    padding         : 0.6em 1.2em;
+    font-size       : clamp(1rem, 2.2vmin, 2.8rem);
     font-weight     : 600;
     color           : #ffffff;
     background-color: #3498db;
@@ -127,9 +127,9 @@ body {
 .attendance-table td {
     display     : flex;
     align-items : center;
-    padding     : clamp(8px, 1.5vmin, 18px) clamp(20px, 2vw, 40px);
+    padding     : clamp(10px, 1.8vmin, 20px) clamp(20px, 2vw, 40px);
     border-right: 1px solid #ecf0f1;
-    font-size   : clamp(0.9rem, 1.8vmin, 2rem);
+    font-size   : clamp(1rem, 2vmin, 2.2rem);
 }
 .attendance-table th:last-child,
 .attendance-table td:last-child {
@@ -140,7 +140,7 @@ body {
 .attendance-table td:nth-child(1) {
     flex           : 0 0 45%;
     justify-content: flex-start;
-    font-size      : clamp(1.2rem, 3.5vmin, 4rem);
+    font-size      : clamp(1.3rem, 3.8vmin, 4.5rem);
 }
 .attendance-table th:nth-child(n+2),
 .attendance-table td:nth-child(n+2) {
@@ -149,7 +149,7 @@ body {
 }
 
 .attendance-table thead th {
-    font-size       : clamp(1.2rem, 3vmin, 3.5rem);
+    font-size       : clamp(1.3rem, 3.2vmin, 3.8rem);
     font-weight     : 600;
     color           : #495057;
     background-color: #f8f9fa;
@@ -157,8 +157,8 @@ body {
 
 .status-marker {
     display       : inline-block;
-    width         : clamp(20px, 4vmin, 64px);
-    height        : clamp(20px, 4vmin, 64px);
+    width         : clamp(24px, 4.5vmin, 70px);
+    height        : clamp(24px, 4.5vmin, 70px);
     border-radius : 50%;
     vertical-align: middle;
 }
@@ -201,6 +201,8 @@ body {
     align-items    : center;
     width          : 100%;
     color          : #7f8c8d;
+    padding        : 2vh 0;
+    font-size      : clamp(1.1rem, 2.5vmin, 2.5rem);
 }
 
 @media (max-width: 768px) {
@@ -219,12 +221,12 @@ body {
     .attendance-table th:nth-child(1),
     .attendance-table td:nth-child(1) {
         flex-basis: 50%;
-        font-size : clamp(1rem, 3.5vmin, 3rem);
+        font-size : clamp(1.1rem, 3.8vmin, 3.3rem);
     }
 
     .attendance-table th,
     .attendance-table td {
         padding  : 1.5vh 2vw;
-        font-size: clamp(0.8rem, 2.2vmin, 1.8rem);
+        font-size: clamp(0.9rem, 2.4vmin, 2rem);
     }
 }
