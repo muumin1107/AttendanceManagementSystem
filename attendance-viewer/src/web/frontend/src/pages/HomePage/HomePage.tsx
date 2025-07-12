@@ -163,6 +163,9 @@ const HomePage: React.FC = () => {
         setCurrentYear(prev => prev + 1);
     };
 
+    console.log("選択されたユーザー:", selectedUser?.name);
+    console.log("取得したスナップショットデータ:", snapshotData);
+
     return (
         <div className="home-page-container">
             <header className="home-header">
