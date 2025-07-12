@@ -17,10 +17,10 @@ display: inline-block;
 
 .months-row {
 display: grid;
-grid-template-columns: repeat(53, 19px); /* gapを考慮して調整 */
+grid-template-columns: repeat(53, 19px);
 font-size: 12px;
 color: #555;
-margin-left: 36px; /* days-colの幅に合わせる */
+margin-left: 36px;
 height: 20px;
 }
 
@@ -39,11 +39,10 @@ display: flex;
 flex-direction: column;
 justify-content: space-between;
 padding-right: 8px;
-width: 28px; /* 固定幅 */
+width: 28px;
 box-sizing: border-box;
 }
 
-/* --- レイアウトの中核部分を修正 --- */
 .cells-grid {
 display: flex; /* 横に並べる */
 flex-direction: row; /* 明示的に行方向 */

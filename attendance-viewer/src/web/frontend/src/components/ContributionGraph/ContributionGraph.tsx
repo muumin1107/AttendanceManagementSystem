@@ -11,6 +11,7 @@ const MONTH_LABELS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'S
 const WEEKS_TO_SHOW = 53;
 
 const getColorForTime = (minutes: number): string => {
+// 注: minutes === 0 の場合に色を付けたい場合は、この条件を変更してください
 if (minutes === 0) return 'color-level-0';
 if (minutes <= 60) return 'color-level-1';
 if (minutes <= 180) return 'color-level-2';
@@ -18,15 +19,15 @@ if (minutes <= 360) return 'color-level-3';
 return 'color-level-4';
 };
 
+
 const ContributionGraph: React.FC<ContributionGraphProps> = ({ year, dailyData, userName }) => {
-// --- カレンダー生成ロジックを二次元配列方式に変更 ---
+
 const getCalendarData = () => {
     const weeks: Date[][] = [];
     const monthLabelPositions: { label: string; index: number }[] = [];
     const firstDayOfYear = new Date(year, 0, 1);
     const dayOfWeek = firstDayOfYear.getDay(); // 0=Sun, 1=Mon...
 
-    // グリッドの開始日を、1月1日が含まれる週の日曜日に設定
     const startDate = new Date(firstDayOfYear);
     startDate.setDate(firstDayOfYear.getDate() - dayOfWeek);
 
@@ -37,10 +38,18 @@ const getCalendarData = () => {
     const currentWeek: Date[] = [];
     // 1週間（7日分）のデータを生成
     for (let dayIndex = 0; dayIndex < 7; dayIndex++) {
-        const date = new Date(startDate);
-        date.setDate(startDate.getDate() + (weekIndex * 7) + dayIndex);
+        // --- ★★★ ここからが修正箇所 ★★★ ---
+        // 毎回新しいDateオブジェクトを作るのではなく、一つのDateオブジェクトを使い回して日付を1日ずつ進める
+        const date = new Date(
+        startDate.getFullYear(),
+        startDate.getMonth(),
+        startDate.getDate() + (weekIndex * 7) + dayIndex
+        );
+        // --- ★★★ ここまでが修正箇所 ★★★ ---
+        
         currentWeek.push(date);
 
+        // 月のラベル位置を計算
         if (date.getFullYear() === year && date.getMonth() !== lastMonth) {
         monthLabelPositions.push({ label: MONTH_LABELS[date.getMonth()], index: weekIndex });
         lastMonth = date.getMonth();
@@ -75,7 +84,6 @@ return (
             <span>Sat</span>
         </div>
         <div className="cells-grid">
-            {/* --- 描画ロジックを二重ループに変更 --- */}
             {weeks.map((week, weekIndex) => (
             <div key={weekIndex} className="week-col">
                 {week.map((date, dayIndex) => {
