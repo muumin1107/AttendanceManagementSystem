@@ -15,9 +15,16 @@ snapshot_table = dynamodb.Table(SNAPSHOT_TABLE_NAME)
 
 def lambda_handler(event, context):
     """指定された期間の在室記録スナップショットを集計し，ユーザーごと・日付ごとの合計在室時間（分）を計算して返す．"""
+    # CORSヘッダーの設定
+    cors_headers = {
+        'Access-Control-Allow-Origin' : '*',
+        'Access-Control-Allow-Headers': 'Content-Type',
+        'Access-Control-Allow-Methods': 'OPTIONS,GET'
+    }
+
     params = event.get('queryStringParameters', {})
     if not params or 'startDate' not in params or 'endDate' not in params:
-        return {'statusCode': 400, 'body': json.dumps({'error': 'Missing required query parameters: startDate and endDate'})}
+        return {'statusCode': 400, 'headers': cors_headers, 'body': json.dumps({'error': 'Missing required query parameters: startDate and endDate'})}
 
     start_date_str = params['startDate']
     end_date_str   = params['endDate']
@@ -45,7 +52,7 @@ def lambda_handler(event, context):
             current_date += timedelta(days=1)
 
     except ValueError:
-        return {'statusCode': 400, 'body': json.dumps({'error': 'Invalid date format. Please use YYYY-MM-DD.'})}
+        return {'statusCode': 400, 'headers': cors_headers, 'body': json.dumps({'error': 'Invalid date format. Please use YYYY-MM-DD.'})}
     except Exception as e:
         return {'statusCode': 500, 'body': json.dumps({'error': f'Failed to retrieve data from database: {e}'})}
 
@@ -65,6 +72,6 @@ def lambda_handler(event, context):
     # --- 4. レスポンスを生成 ---
     return {
         'statusCode': 200,
-        'headers': {'Content-Type': 'application/json'},
-        'body'   : json.dumps(attendance_by_user, ensure_ascii=False)
+        'headers'   : cors_headers,
+        'body'      : json.dumps(attendance_by_user, ensure_ascii=False)
     }
