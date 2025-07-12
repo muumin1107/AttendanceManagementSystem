@@ -1,72 +1,71 @@
 .graph-container-yearly {
-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
-color: #333;
-padding: 16px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    color      : #333;
+    padding    : 16px;
 }
 
 .graph-title {
-font-size: 18px;
-font-weight: 500;
-margin: 0 0 16px 0;
-text-align: left;
+    font-size  : 18px;
+    font-weight: 500;
+    margin     : 0 0 16px 0;
+    text-align : left;
 }
 
 .graph-grid {
-display: inline-block;
+    display: inline-block;
 }
 
 .months-row {
-display: grid;
-grid-template-columns: repeat(53, 19px);
-font-size: 12px;
-color: #555;
-margin-left: 36px;
-height: 20px;
+    display              : grid;
+    grid-template-columns: repeat(53, 19px);
+    font-size            : 12px;
+    color                : #555;
+    margin-left          : 36px;
+    height               : 20px;
 }
 
 .month-label {
-grid-column-end: span 4;
+    grid-column-end: span 4;
 }
 
 .days-and-cells {
-display: flex;
+    display: flex;
 }
 
 .days-col {
-font-size: 12px;
-color: #555;
-display: flex;
-flex-direction: column;
-justify-content: space-between;
-padding-right: 8px;
-width: 28px;
-box-sizing: border-box;
+    font-size      : 12px;
+    color          : #555;
+    display        : flex;
+    flex-direction : column;
+    justify-content: space-between;
+    padding-right  : 8px;
+    width          : 28px;
+    box-sizing     : border-box;
 }
 
 .cells-grid {
-display: flex; /* 横に並べる */
-flex-direction: row; /* 明示的に行方向 */
-gap: 3px;
+    display       : flex;
+    flex-direction: row;
+    gap           : 3px;
 }
 
 .week-col {
-display: flex; /* 縦に並べる */
-flex-direction: column; /* 明示的に列方向 */
-gap: 3px;
+    display       : flex;
+    flex-direction: column;
+    gap           : 3px;
 }
-/* --- ここまで --- */
 
 .cell {
-width: 16px;
-height: 16px;
-background-color: #ebedf0;
-border-radius: 3px;
-border: 1px solid rgba(27, 31, 35, 0.04);
+    width           : 16px;
+    height          : 16px;
+    background-color: #ebedf0;
+    border-radius   : 3px;
+    border          : 1px solid rgba(27, 31, 35, 0.04);
 }
 
 .cell.empty {
-background-color: transparent;
-border: none;
+    background-color: transparent;
+    border          : none;
 }
 
 .cell.color-level-0 { background-color: #ebedf0; }
@@ -76,19 +75,19 @@ border: none;
 .cell.color-level-4 { background-color: #216e39; }
 
 .legend {
-display: flex;
-align-items: center;
-justify-content: flex-end;
-font-size: 12px;
-color: #555;
-margin-top: 12px;
-padding-right: 16px;
+    display        : flex;
+    align-items    : center;
+    justify-content: flex-end;
+    font-size      : 12px;
+    color          : #555;
+    margin-top     : 12px;
+    padding-right  : 16px;
 }
 
 .legend span {
-margin: 0 4px;
+    margin: 0 4px;
 }
 
 .legend .cell {
-margin: 0 2px;
+    margin: 0 2px;
 }
