@@ -52,7 +52,7 @@ const getGradeRowClass = (grade: string): string => {
 // 日付をYYYY-MM-DD形式の文字列にフォーマットするヘルパー関数
 const formatDate = (date: Date): string => {
     return date.toISOString().split('T')[0];
-}
+};
 
 // ホームページコンポーネント
 const HomePage: React.FC = () => {
@@ -69,7 +69,7 @@ const HomePage: React.FC = () => {
     // グラフ表示用モーダルのためのステート
     const [isModalOpen, setIsModalOpen]   = useState(false);
     const [selectedUser, setSelectedUser] = useState<FullUserInfo | null>(null);
-    const [currentMonth, setCurrentMonth] = useState(new Date());
+    const [currentYear, setCurrentYear]   = useState(new Date().getFullYear());
     const [startDate, setStartDate]       = useState('');
     const [endDate, setEndDate]           = useState('');
 
@@ -80,7 +80,7 @@ const HomePage: React.FC = () => {
         error: snapshotError,
     } = useGetSnapshot(startDate, endDate, selectedUser?.name);
 
-    // LoadingPageから渡された2つのリストを結合して、初期ユーザーリストを作成
+    // LoadingPageから渡された2つのリストを結合して，初期ユーザーリストを作成
     const initialUsers = useMemo(() => {
         if (!passedState?.allUsers) return [];
 
@@ -88,7 +88,7 @@ const HomePage: React.FC = () => {
             passedState.attendanceUsers?.map(u => [u.name, u.status])
         );
 
-        // allUsersリストとattendanceUsersリストを結合し、ステータスをマッピング
+        // allUsersリストとattendanceUsersリストを結合し，ステータスをマッピング
         const combinedUsers: FullUserInfo[] = passedState.allUsers.map(user => ({
             name  : user.name,
             grade : user.grade,
@@ -114,17 +114,17 @@ const HomePage: React.FC = () => {
         });
     }, [realTimeUsers]);
 
-    // モーダル用のuseEffect
+    // currentYearかselectedUserが変更されたら，API用の日付を更新
     useEffect(() => {
         if (selectedUser) {
-            const firstDay = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), 1);
-            const lastDay  = new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 0);
+            const firstDay = new Date(currentYear, 0, 1);
+            const lastDay  = new Date(currentYear, 11, 31);
             setStartDate(formatDate(firstDay));
             setEndDate(formatDate(lastDay));
         }
-    }, [currentMonth, selectedUser]);
+    }, [currentYear, selectedUser]);
 
-    // ページが初期化されたときに、渡された状態が存在しない場合はルートにリダイレクト
+    // ページが初期化されたときに，渡された状態が存在しない場合はルートにリダイレクト
     useEffect(() => {
         if (!passedState) {
             navigate('/', { replace: true });
@@ -133,7 +133,7 @@ const HomePage: React.FC = () => {
         return () => clearInterval(timerId);
     }, [passedState, navigate]);
 
-    // ソケットエラーが発生した場合、エラーページにリダイレクト
+    // ソケットエラーが発生した場合，エラーページにリダイレクト
     useEffect(() => {
         if (socketError) {
             navigate('/error', {
@@ -146,7 +146,7 @@ const HomePage: React.FC = () => {
     // モーダル用のハンドラ関数を定義
     const handleUserClick = (user: FullUserInfo) => {
         setSelectedUser(user);
-        setCurrentMonth(new Date());
+        setCurrentYear(new Date().getFullYear());
         setIsModalOpen(true);
     };
 
@@ -156,11 +156,11 @@ const HomePage: React.FC = () => {
     };
 
     const handlePrevMonth = () => {
-        setCurrentMonth(prev => new Date(prev.getFullYear(), prev.getMonth() - 1, 1));
+        setCurrentYear(prev => prev - 1);
     };
 
     const handleNextMonth = () => {
-        setCurrentMonth(prev => new Date(prev.getFullYear(), prev.getMonth() + 1, 1));
+        setCurrentYear(prev => prev + 1);
     };
 
     return (
@@ -219,10 +219,8 @@ const HomePage: React.FC = () => {
                 {selectedUser && !isSnapshotLoading && !snapshotError && (
                     <ContributionGraph
                         userName={selectedUser.name}
-                        dailyData={snapshotData?.[selectedUser.name] || null}
-                        currentMonth={currentMonth}
-                        onPrevMonth={handlePrevMonth}
-                        onNextMonth={handleNextMonth}
+                        year={currentYear}
+                        dailyData={snapshotData?.[selectedUser.name] || {}}
                     />
                 )}
             </Modal>

@@ -1,33 +1,81 @@
+/* --- アニメーションの定義 --- */
+@keyframes fadeIn {
+from { opacity: 0; }
+to { opacity: 1; }
+}
+
+@keyframes fadeOut {
+from { opacity: 1; }
+to { opacity: 0; }
+}
+
+@keyframes slideUp {
+from { transform: translateY(30px); opacity: 0; }
+to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes slideDown {
+from { transform: translateY(0); opacity: 1; }
+to { transform: translateY(30px); opacity: 0; }
+}
+
+
+/* --- モーダルのスタイル --- */
 .modal-overlay {
 position: fixed;
 top: 0;
 left: 0;
 right: 0;
 bottom: 0;
-background-color: rgba(0, 0, 0, 0.6);
+background-color: rgba(10, 10, 25, 0.7);
 display: flex;
 align-items: center;
 justify-content: center;
 z-index: 1000;
+animation-duration: 0.3s;
+animation-timing-function: ease-out;
+animation-fill-mode: forwards;
+animation-name: fadeOut; /* 初期状態は非表示 */
+}
+
+.modal-overlay.open {
+animation-name: fadeIn;
 }
 
 .modal-content {
-background-color: #fff;
-padding: 20px 30px;
-border-radius: 8px;
-max-width: 90%;
-max-height: 90%;
-overflow: auto;
+background-color: #ffffff;
+padding: 24px 32px;
+border-radius: 12px;
+max-width: 90vw;
+max-height: 90vh;
+overflow-y: auto;
 position: relative;
+box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+border: 1px solid #e0e0e0;
+animation-duration: 0.3s;
+animation-timing-function: ease-out;
+animation-fill-mode: forwards;
+animation-name: slideDown; /* 初期状態は非表示 */
+}
+
+.modal-content.open {
+animation-name: slideUp;
 }
 
 .modal-close-button {
 position: absolute;
-top: 10px;
-right: 15px;
+top: 12px;
+right: 16px;
 background: none;
 border: none;
-font-size: 28px;
+font-size: 32px;
+font-weight: 300;
+line-height: 1;
 cursor: pointer;
-color: #888;
+color: #aaa;
+transition: color 0.2s ease;
+}
+
+.modal-close-button:hover {
+color: #333;
 }

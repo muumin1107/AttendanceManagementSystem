@@ -1,124 +1,85 @@
-.contribution-graph-container-github {
-font-family: sans-serif;
-margin-top: 20px;
-border: 1px solid #e1e4e8;
-border-radius: 6px;
-padding: 10px;
-width: fit-content; /* Contentに合わせて幅を調整 */
+.graph-container-yearly {
+font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+color: #333;
+padding: 16px;
 }
 
-.header {
-display: flex;
-justify-content: space-between;
-align-items: center;
-margin-bottom: 10px;
+.graph-title {
+font-size: 18px;
+font-weight: 500;
+margin: 0 0 16px 0;
+text-align: left;
 }
 
-.header h2 {
-font-size: 16px;
-margin: 0;
+.graph-grid {
+display: inline-block;
 }
 
-.month-navigator button {
-padding: 6px 10px;
-border: 1px solid #d1d5da;
-border-radius: 4px;
-background-color: #f6f8fa;
-cursor: pointer;
-font-size: 12px;
-}
-
-.month-navigator button:hover {
-background-color: #edf0f2;
-}
-
-.graph-area {
-display: flex;
-margin-bottom: 10px;
-}
-
-.weekday-labels {
-display: flex;
-flex-direction: column;
-align-items: flex-end;
-margin-right: 10px;
-font-size: 12px;
-color: #586069;
-}
-
-.weekday-labels div {
-margin-bottom: 10px;
-height: 15px; /* セルの高さに合わせる */
-line-height: 15px;
-}
-
-.weekday-labels div:first-child {
-margin-bottom: 25px; /* 月曜日の上のスペースを調整 */
-}
-
-.months-grid {
+.months-row {
 display: grid;
-grid-auto-flow: column;
-grid-gap: 2px;
+grid-template-columns: repeat(53, 16px);
+grid-gap: 3px;
+font-size: 12px;
+color: #555;
+margin-left: 28px; /* days-colの幅に合わせる */
+height: 20px;
 }
 
-.week {
+.month-label {
+grid-column-end: span 4;
+}
+
+.days-and-cells {
+display: flex;
+}
+
+.days-col {
+font-size: 12px;
+color: #555;
 display: flex;
 flex-direction: column;
-gap: 2px;
+justify-content: space-between;
+padding-right: 8px;
+padding-top: 19px; /* cellの高さとgapを考慮 */
+height: 125px;
 }
 
-.day-cell-github {
-width: 15px;
-height: 15px;
-border-radius: 2px;
+.cells-grid {
+display: grid;
+grid-template-columns: repeat(53, 16px);
+grid-template-rows: repeat(7, 16px);
+grid-auto-flow: column;
+grid-gap: 3px;
+}
+
+.cell {
+width: 16px;
+height: 16px;
 background-color: #ebedf0;
+border-radius: 3px;
+border: 1px solid rgba(27, 31, 35, 0.06);
 }
 
-.day-cell-github.color-level-1 { background-color: #9be9a8; }
-.day-cell-github.color-level-2 { background-color: #40c463; }
-.day-cell-github.color-level-3 { background-color: #30a14e; }
-.day-cell-github.color-level-4 { background-color: #216e39; }
-
-.day-cell-github.empty {
-background-color: transparent; /* 当月以外の日は透明にする */
-border: 1px solid #f6f8fa; /* または他の背景色に合わせた色 */
-}
+.cell.color-level-0 { background-color: #ebedf0; }
+.cell.color-level-1 { background-color: #9be9a8; }
+.cell.color-level-2 { background-color: #40c463; }
+.cell.color-level-3 { background-color: #30a14e; }
+.cell.color-level-4 { background-color: #216e39; }
 
 .legend {
 display: flex;
 align-items: center;
+justify-content: flex-end;
 font-size: 12px;
-color: #586069;
+color: #555;
+margin-top: 12px;
+padding-right: 16px;
 }
 
-.legend span:first-child {
-margin-right: 10px;
+.legend span {
+margin: 0 4px;
 }
 
-.legend span:last-child {
-margin-left: 10px;
+.legend .cell {
+margin: 0 2px;
 }
-
-.legend .colors {
-display: flex;
-margin: 0 10px;
-}
-
-.legend .colors div {
-width: 15px;
-height: 15px;
-border-radius: 2px;
-margin-right: 5px;
-}
-
-.legend .colors div:last-child {
-margin-right: 0;
-}
-
-/* 色の凡例 */
-.legend .color-level-0 { background-color: #ebedf0; }
-.legend .color-level-1 { background-color: #9be9a8; }
-.legend .color-level-2 { background-color: #40c463; }
-.legend .color-level-3 { background-color: #30a14e; }
-.legend .color-level-4 { background-color: #216e39; }

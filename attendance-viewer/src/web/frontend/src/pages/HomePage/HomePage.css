@@ -160,6 +160,24 @@ body {
     text-decoration: underline;
 }
 
+.year-navigator {
+    display        : flex;
+    justify-content: flex-end;
+    gap            : 8px;
+    margin-bottom  : 16px;
+}
+.year-navigator button {
+    padding         : 4px 12px;
+    border-radius   : 6px;
+    border          : 1px solid #d0d7de;
+    background-color: #f6f8fa;
+    cursor          : pointer;
+    font-size       : 14px;
+}
+.year-navigator button:hover {
+    background-color: #f3f4f6;
+}
+
 .attendance-table thead th {
     font-size       : clamp(1.3rem, 3.2vmin, 3.8rem);
     font-weight     : 600;

@@ -1,5 +1,5 @@
-import React from 'react';
-import './Modal.css'; // CSSファイルをインポート
+import React, { useEffect, useState } from 'react';
+import './Modal.css';
 
 interface ModalProps {
 isOpen: boolean;
@@ -8,13 +8,34 @@ children: React.ReactNode;
 }
 
 const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
-if (!isOpen) {
+const [isRendered, setIsRendered] = useState(isOpen);
+
+useEffect(() => {
+    if (isOpen) {
+    setIsRendered(true);
+    }
+}, [isOpen]);
+
+const handleAnimationEnd = () => {
+    if (!isOpen) {
+    setIsRendered(false);
+    }
+};
+
+if (!isRendered) {
     return null;
 }
 
 return (
-    <div className="modal-overlay" onClick={onClose}>
-    <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+    <div 
+    className={`modal-overlay ${isOpen ? 'open' : ''}`} 
+    onClick={onClose}
+    onAnimationEnd={handleAnimationEnd}
+    >
+    <div 
+        className={`modal-content ${isOpen ? 'open' : ''}`} 
+        onClick={(e) => e.stopPropagation()}
+    >
         <button className="modal-close-button" onClick={onClose}>
         &times;
         </button>
