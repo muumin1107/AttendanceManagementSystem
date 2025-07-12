@@ -3,7 +3,7 @@ import { useLocation }                     from 'react-router-dom';
 import { fetchAuthSession }                from '@aws-amplify/auth';
 import { useAuthenticator }                from '@aws-amplify/ui-react';
 import { useUpdateAttendanceAdmin }        from '../../hooks/useUpdateAttendanceAdmin';
-import { useGetAttendanceSnapshot }        from '../../hooks/useGetAttendanceSnapshot';
+import { useGetSnapshot }                  from '../../hooks/useGetSnapshot';
 import type { UserStatus, UserIdentifier } from '../../types/attendance';
 import './AdminPage.css';
 
@@ -23,7 +23,7 @@ const AdminPage = () => {
         snapshotData,
         isLoading: isSnapshotLoading,
         error    : snapshotError,
-    } = useGetAttendanceSnapshot(startDate, endDate);
+    } = useGetSnapshot(startDate, endDate);
 
     // 管理者かどうかを判定するためのuseEffect
     useEffect(() => {
