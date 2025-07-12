@@ -215,10 +215,13 @@ const HomePage: React.FC = () => {
             </main>
 
             <Modal isOpen={isModalOpen} onClose={closeModal}>
-                {isSnapshotLoading && <p>グラフを読み込み中...</p>}
-                {snapshotError && <p>グラフの取得に失敗しました: {snapshotError.message}</p>}
-                {selectedUser && !isSnapshotLoading && !snapshotError && (
-                    <ContributionGraph
+                {(isSnapshotLoading || snapshotError) ? (
+                    <div className="modal-status-container">
+                        {isSnapshotLoading && <p>グラフを読み込み中...</p>}
+                        {snapshotError && <p className="error-message">グラフの取得に失敗しました: {snapshotError.message}</p>}
+                    </div>
+                ) : (
+                    selectedUser && <ContributionGraph
                         userName={selectedUser.name}
                         year={new Date().getFullYear()}
                         dailyData={snapshotData?.[selectedUser.name] || {}}

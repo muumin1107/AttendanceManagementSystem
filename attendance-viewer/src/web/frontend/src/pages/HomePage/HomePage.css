@@ -235,6 +235,20 @@ body {
     font-size      : clamp(1.1rem, 2.5vmin, 2.5rem);
 }
 
+.modal-status-container {
+    display        : flex;
+    justify-content: center;
+    align-items    : center;
+    min-height     : 250px;
+    text-align     : center;
+    font-size      : 1.1em;
+    color          : #555;
+}
+
+.modal-status-container .error-message {
+    color: #d9534f;
+}
+
 @media (max-width: 768px) {
     .home-header {
         flex-direction: column;
