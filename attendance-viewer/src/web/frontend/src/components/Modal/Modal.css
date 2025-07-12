@@ -54,7 +54,7 @@
 
     width                    : 100%;
     max-width                : 1200px;
-    max-height               : 80vh;
+    max-height               : 60vh;
 
     display                  : flex;
     flex-direction           : column;
