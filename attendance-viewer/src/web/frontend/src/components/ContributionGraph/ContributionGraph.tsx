@@ -11,7 +11,6 @@ const MONTH_LABELS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'S
 const WEEKS_TO_SHOW = 53;
 
 const getColorForTime = (minutes: number): string => {
-// 注: minutes === 0 の場合に色を付けたい場合は、この条件を変更してください
 if (minutes === 0) return 'color-level-0';
 if (minutes <= 60) return 'color-level-1';
 if (minutes <= 180) return 'color-level-2';
@@ -19,41 +18,39 @@ if (minutes <= 360) return 'color-level-3';
 return 'color-level-4';
 };
 
+// タイムゾーン問題を回避して 'YYYY-MM-DD' 形式の文字列を生成する関数
+const toISODateString = (date: Date): string => {
+const y = date.getFullYear();
+const m = String(date.getMonth() + 1).padStart(2, '0');
+const d = String(date.getDate()).padStart(2, '0');
+return `${y}-${m}-${d}`;
+};
 
 const ContributionGraph: React.FC<ContributionGraphProps> = ({ year, dailyData, userName }) => {
-
 const getCalendarData = () => {
     const weeks: Date[][] = [];
     const monthLabelPositions: { label: string; index: number }[] = [];
     const firstDayOfYear = new Date(year, 0, 1);
-    const dayOfWeek = firstDayOfYear.getDay(); // 0=Sun, 1=Mon...
+    const dayOfWeek = firstDayOfYear.getDay();
 
     const startDate = new Date(firstDayOfYear);
     startDate.setDate(firstDayOfYear.getDate() - dayOfWeek);
 
     let lastMonth = -1;
+    let currentDate = new Date(startDate); // この日付オブジェクトを1日ずつ進めていく
 
-    // 53週分のデータを生成
     for (let weekIndex = 0; weekIndex < WEEKS_TO_SHOW; weekIndex++) {
     const currentWeek: Date[] = [];
-    // 1週間（7日分）のデータを生成
     for (let dayIndex = 0; dayIndex < 7; dayIndex++) {
-        // --- ★★★ ここからが修正箇所 ★★★ ---
-        // 毎回新しいDateオブジェクトを作るのではなく、一つのDateオブジェクトを使い回して日付を1日ずつ進める
-        const date = new Date(
-        startDate.getFullYear(),
-        startDate.getMonth(),
-        startDate.getDate() + (weekIndex * 7) + dayIndex
-        );
-        // --- ★★★ ここまでが修正箇所 ★★★ ---
-        
-        currentWeek.push(date);
+        currentWeek.push(new Date(currentDate)); // 現在の日付を週に追加
 
-        // 月のラベル位置を計算
-        if (date.getFullYear() === year && date.getMonth() !== lastMonth) {
-        monthLabelPositions.push({ label: MONTH_LABELS[date.getMonth()], index: weekIndex });
-        lastMonth = date.getMonth();
+        if (currentDate.getFullYear() === year && currentDate.getMonth() !== lastMonth) {
+        monthLabelPositions.push({ label: MONTH_LABELS[currentDate.getMonth()], index: weekIndex });
+        lastMonth = currentDate.getMonth();
         }
+
+        // 日付を1日進める
+        currentDate.setDate(currentDate.getDate() + 1);
     }
     weeks.push(currentWeek);
     }
@@ -91,7 +88,8 @@ return (
                     return <div key={dayIndex} className="cell empty" />;
                 }
 
-                const dateString = date.toISOString().split('T')[0];
+                // タイムゾーン問題を回避する関数を使用
+                const dateString = toISODateString(date);
                 const minutes = dailyData[dateString] || 0;
                 const colorClass = getColorForTime(minutes);
                 const title = `${dateString}\n滞在時間: ${minutes}分`;
@@ -104,6 +102,7 @@ return (
         </div>
     </div>
     <div className="legend">
+        {/* ... 凡例部分は変更なし ... */}
         <span>Less</span>
         <div className="cell color-level-0"></div>
         <div className="cell color-level-1"></div>
