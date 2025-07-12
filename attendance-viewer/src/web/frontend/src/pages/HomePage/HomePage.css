@@ -148,6 +148,16 @@ body {
     justify-content: center;
 }
 
+.user-name-clickable {
+    cursor         : pointer;
+    color          : #007bff;
+    text-decoration: underline;
+}
+
+.user-name-clickable:hover {
+    color: #0056b3;
+}
+
 .attendance-table thead th {
     font-size       : clamp(1.3rem, 3.2vmin, 3.8rem);
     font-weight     : 600;

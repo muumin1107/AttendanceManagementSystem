@@ -1,7 +1,10 @@
 import React, { useState, useEffect, useMemo }                 from 'react';
 import { useLocation, useNavigate, Link }                      from "react-router-dom";
 import type { User, UserStatus, UserIdentifier, FullUserInfo } from '../../types/attendance';
+import { useGetSnapshot }                                      from '../../hooks/useGetSnapshot';
 import { useAttendanceSocket }                                 from '../../hooks/useAttendanceSocket';
+import Modal                                                   from '../../components/Modal/Modal';
+import ContributionGraph                                       from '../../components/ContributionGraph/ContributionGraph';
 import './HomePage.css';
 
 // 在室状況の表示用ステータス
@@ -46,6 +49,11 @@ const getGradeRowClass = (grade: string): string => {
     }
 };
 
+// 日付をYYYY-MM-DD形式の文字列にフォーマットするヘルパー関数
+const formatDate = (date: Date): string => {
+    return date.toISOString().split('T')[0];
+}
+
 // ホームページコンポーネント
 const HomePage: React.FC = () => {
     const location = useLocation();
@@ -57,6 +65,20 @@ const HomePage: React.FC = () => {
     } | null;
     // 現在の時刻を管理するステート
     const [currentTime, setCurrentTime] = useState(new Date());
+
+    // グラフ表示用モーダルのためのステート
+    const [isModalOpen, setIsModalOpen]   = useState(false);
+    const [selectedUser, setSelectedUser] = useState<FullUserInfo | null>(null);
+    const [currentMonth, setCurrentMonth] = useState(new Date());
+    const [startDate, setStartDate]       = useState('');
+    const [endDate, setEndDate]           = useState('');
+
+    // グラフ用データ取得フックを追加
+    const {
+        snapshotData,
+        isLoading: isSnapshotLoading,
+        error: snapshotError,
+    } = useGetSnapshot(startDate, endDate, selectedUser?.name);
 
     // LoadingPageから渡された2つのリストを結合して、初期ユーザーリストを作成
     const initialUsers = useMemo(() => {
@@ -92,6 +114,16 @@ const HomePage: React.FC = () => {
         });
     }, [realTimeUsers]);
 
+    // モーダル用のuseEffect
+    useEffect(() => {
+        if (selectedUser) {
+            const firstDay = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), 1);
+            const lastDay  = new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 0);
+            setStartDate(formatDate(firstDay));
+            setEndDate(formatDate(lastDay));
+        }
+    }, [currentMonth, selectedUser]);
+
     // ページが初期化されたときに、渡された状態が存在しない場合はルートにリダイレクト
     useEffect(() => {
         if (!passedState) {
@@ -110,6 +142,26 @@ const HomePage: React.FC = () => {
             });
         }
     }, [socketError, navigate]);
+
+    // モーダル用のハンドラ関数を定義
+    const handleUserClick = (user: FullUserInfo) => {
+        setSelectedUser(user);
+        setCurrentMonth(new Date());
+        setIsModalOpen(true);
+    };
+
+    const closeModal = () => {
+        setIsModalOpen(false);
+        setSelectedUser(null);
+    };
+
+    const handlePrevMonth = () => {
+        setCurrentMonth(prev => new Date(prev.getFullYear(), prev.getMonth() - 1, 1));
+    };
+
+    const handleNextMonth = () => {
+        setCurrentMonth(prev => new Date(prev.getFullYear(), prev.getMonth() + 1, 1));
+    };
 
     return (
         <div className="home-page-container">
@@ -137,7 +189,11 @@ const HomePage: React.FC = () => {
                                 const displayStatus = mapApiStatusToDisplayStatus(user.status);
                                 return (
                                     <tr key={user.name} className={getGradeRowClass(user.grade)}>
-                                        <td>{user.name}</td>
+                                        <td>
+                                            <span className="user-name-clickable" onClick={() => handleUserClick(user)}>
+                                                {user.name}
+                                            </span>
+                                        </td>
                                         {STATUS_COLUMNS.map(colName => (
                                             <td key={colName} className="status-cell">
                                                 {displayStatus === colName && (
@@ -156,6 +212,20 @@ const HomePage: React.FC = () => {
                     </tbody>
                 </table>
             </main>
+
+            <Modal isOpen={isModalOpen} onClose={closeModal}>
+                {isSnapshotLoading && <p>グラフを読み込み中...</p>}
+                {snapshotError && <p>グラフの取得に失敗しました: {snapshotError.message}</p>}
+                {selectedUser && !isSnapshotLoading && !snapshotError && (
+                    <ContributionGraph
+                        userName={selectedUser.name}
+                        dailyData={snapshotData?.[selectedUser.name] || null}
+                        currentMonth={currentMonth}
+                        onPrevMonth={handlePrevMonth}
+                        onNextMonth={handleNextMonth}
+                    />
+                )}
+            </Modal>
         </div>
     );
 };
