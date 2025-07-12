@@ -29,10 +29,14 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
     return (
         <div className={`modal-overlay ${isOpen ? 'open' : ''}`} onClick={onClose} onAnimationEnd={handleAnimationEnd}>
             <div className={`modal-content ${isOpen ? 'open' : ''}`} onClick={(e) => e.stopPropagation()}>
-                <button className="modal-close-button" onClick={onClose}>
-                    &times;
-                </button>
-                {children}
+                <div className="modal-header">
+                    <button className="modal-close-button" onClick={onClose}>
+                        &times;
+                    </button>
+                </div>
+                <div className="modal-body">
+                    {children}
+                </div>
             </div>
         </div>
     );
