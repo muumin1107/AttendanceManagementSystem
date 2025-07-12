@@ -49,6 +49,13 @@ const getGradeRowClass = (grade: string): string => {
     }
 };
 
+const toISODateString = (date: Date): string => {
+    const y = date.getFullYear();
+    const m = String(date.getMonth() + 1).padStart(2, '0');
+    const d = String(date.getDate()).padStart(2, '0');
+    return `${y}-${m}-${d}`;
+};
+
 // 日付をYYYY-MM-DD形式の文字列にフォーマットするヘルパー関数
 const formatDate = (date: Date): string => {
     return date.toISOString().split('T')[0];
@@ -69,7 +76,6 @@ const HomePage: React.FC = () => {
     // グラフ表示用モーダルのためのステート
     const [isModalOpen, setIsModalOpen]   = useState(false);
     const [selectedUser, setSelectedUser] = useState<FullUserInfo | null>(null);
-    const [currentYear, setCurrentYear]   = useState(new Date().getFullYear());
     const [startDate, setStartDate]       = useState('');
     const [endDate, setEndDate]           = useState('');
 
@@ -117,12 +123,13 @@ const HomePage: React.FC = () => {
     // currentYearかselectedUserが変更されたら，API用の日付を更新
     useEffect(() => {
         if (selectedUser) {
-            const firstDay = new Date(currentYear, 0, 1);
-            const lastDay  = new Date(currentYear, 11, 31);
+            const currentYear = new Date().getFullYear();
+            const firstDay    = new Date(currentYear, 0, 1);
+            const lastDay     = new Date(currentYear, 11, 31);
             setStartDate(formatDate(firstDay));
             setEndDate(formatDate(lastDay));
         }
-    }, [currentYear, selectedUser]);
+    }, [selectedUser]);
 
     // ページが初期化されたときに，渡された状態が存在しない場合はルートにリダイレクト
     useEffect(() => {
@@ -146,21 +153,12 @@ const HomePage: React.FC = () => {
     // モーダル用のハンドラ関数を定義
     const handleUserClick = (user: FullUserInfo) => {
         setSelectedUser(user);
-        setCurrentYear(new Date().getFullYear());
         setIsModalOpen(true);
     };
 
     const closeModal = () => {
         setIsModalOpen(false);
         setSelectedUser(null);
-    };
-
-    const handlePrevMonth = () => {
-        setCurrentYear(prev => prev - 1);
-    };
-
-    const handleNextMonth = () => {
-        setCurrentYear(prev => prev + 1);
     };
 
     console.log("選択されたユーザー:", selectedUser?.name);
@@ -222,7 +220,7 @@ const HomePage: React.FC = () => {
                 {selectedUser && !isSnapshotLoading && !snapshotError && (
                     <ContributionGraph
                         userName={selectedUser.name}
-                        year={currentYear}
+                        year={new Date().getFullYear()}
                         dailyData={snapshotData?.[selectedUser.name] || {}}
                     />
                 )}
