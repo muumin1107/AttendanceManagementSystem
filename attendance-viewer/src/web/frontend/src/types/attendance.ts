@@ -22,6 +22,18 @@ export interface UseGetAttendanceReturn {
     isLoading: boolean;
     error    : Error | null;
 }
+// APIから返されるスナップショットデータの型
+export type SnapshotData = {
+    [userName: string]: {
+        [date: string]: number;
+    };
+};
+// useGetSnapshotフックの返り値の型
+export type UseGetSnapshotReturn = {
+    snapshotData: SnapshotData | null;
+    isLoading   : boolean;
+    error       : Error | null;
+};
 // useGetUserフックが返す値の型
 export interface UseGetUserReturn {
     users    : UserIdentifier[] | null;

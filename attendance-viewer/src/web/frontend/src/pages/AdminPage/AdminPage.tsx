@@ -3,6 +3,7 @@ import { useLocation }                     from 'react-router-dom';
 import { fetchAuthSession }                from '@aws-amplify/auth';
 import { useAuthenticator }                from '@aws-amplify/ui-react';
 import { useUpdateAttendanceAdmin }        from '../../hooks/useUpdateAttendanceAdmin';
+import { useGetAttendanceSnapshot }        from '../../hooks/useGetAttendanceSnapshot';
 import type { UserStatus, UserIdentifier } from '../../types/attendance';
 import './AdminPage.css';
 
@@ -14,6 +15,15 @@ const AdminPage = () => {
     const allUsers                                          = (location.state?.allUsers as UserIdentifier[]) || [];
     const [targetName, setTargetName]                       = useState<string>('');
     const [targetStatus, setTargetStatus]                   = useState<UserStatus>('clock_in');
+
+    // スナップショットの取得
+    const [startDate, setStartDate] = useState('2025-07-12');
+    const [endDate, setEndDate]     = useState('2025-07-12');
+    const {
+        snapshotData,
+        isLoading: isSnapshotLoading,
+        error    : snapshotError,
+    } = useGetAttendanceSnapshot(startDate, endDate);
 
     // 管理者かどうかを判定するためのuseEffect
     useEffect(() => {
@@ -44,6 +54,19 @@ const AdminPage = () => {
             return;
         }
         updateAttendance(targetName, targetStatus);
+    };
+
+    const handleSnapshotTest = () => {
+        console.log('--- スナップショット取得テスト ---');
+        if (isSnapshotLoading) {
+            console.log('読み込み中...');
+            return;
+        }
+        if (snapshotError) {
+            console.error('取得エラー:', snapshotError);
+            return;
+        }
+        console.log('取得成功データ:', snapshotData);
     };
 
     return (
@@ -94,6 +117,16 @@ const AdminPage = () => {
                         </form>
                         {isSuccess && <p className="success-message">更新に成功しました．</p>}
                         {error && <p className="error-message">エラー: {error.message}</p>}
+
+                        <div className="test-section" style={{ marginTop: '32px', borderTop: '1px solid #ccc', paddingTop: '16px' }}>
+                            <h2>開発用テスト</h2>
+                            <p>
+                                テスト範囲: {startDate} ~ {endDate}
+                            </p>
+                            <button type="button" onClick={handleSnapshotTest} className="test-button">
+                                在室スナップショット取得テスト (コンソール確認)
+                            </button>
+                        </div>
                     </div>
                 ) : (
                     <div className="admin-contents">
