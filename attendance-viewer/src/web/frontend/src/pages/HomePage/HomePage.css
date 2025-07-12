@@ -150,12 +150,14 @@ body {
 
 .user-name-clickable {
     cursor         : pointer;
-    color          : #007bff;
-    text-decoration: underline;
+    color          : black;
+    text-decoration: none;
+    transition     : color 0.2s ease-in-out;
 }
 
 .user-name-clickable:hover {
-    color: #0056b3;
+    color          : #0056b3;
+    text-decoration: underline;
 }
 
 .attendance-table thead th {
