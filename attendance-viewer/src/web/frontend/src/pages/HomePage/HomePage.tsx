@@ -161,9 +161,6 @@ const HomePage: React.FC = () => {
         setSelectedUser(null);
     };
 
-    console.log("選択されたユーザー:", selectedUser?.name);
-    console.log("取得したスナップショットデータ:", snapshotData);
-
     return (
         <div className="home-page-container">
             <header className="home-header">
