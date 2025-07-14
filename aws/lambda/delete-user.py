@@ -3,8 +3,9 @@ import json
 import boto3
 
 # 環境変数の取得
-USER_TABLE_NAME       = os.environ.get('USER_TABLE_NAME')
-ATTENDANCE_TABLE_NAME = os.environ.get('ATTENDANCE_TABLE_NAME')
+USER_TABLE_NAME                = os.environ.get('USER_TABLE_NAME')
+ATTENDANCE_TABLE_NAME          = os.environ.get('ATTENDANCE_TABLE_NAME')
+ATTENDANCE_SNAPSHOT_TABLE_NAME = os.environ.get('ATTENDANCE_SNAPSHOT_TABLE_NAME')
 
 # DynamoDBリソースの初期化
 dynamodb = boto3.resource('dynamodb')
@@ -54,14 +55,16 @@ def _clear_table(table_name: str, primary_key_name: str) -> int:
 def lambda_handler(event, context):
     try:
         # UserTableとAttendanceTableのアイテムを削除
-        deleted_users_count      = _clear_table(USER_TABLE_NAME, 'ID')
-        deleted_attendance_count = _clear_table(ATTENDANCE_TABLE_NAME, 'Name')
+        deleted_users_count               = _clear_table(USER_TABLE_NAME, 'ID')
+        deleted_attendance_count          = _clear_table(ATTENDANCE_TABLE_NAME, 'Name')
+        deleted_attendance_snapshot_count = _clear_table(ATTENDANCE_SNAPSHOT_TABLE_NAME, 'Date')
 
         # 成功メッセージの作成
         success_message = (
             f"Process completed successfully. "
             f"Deleted {deleted_users_count} items from UserTable and "
-            f"{deleted_attendance_count} items from AttendanceTable."
+            f"{deleted_attendance_count} items from AttendanceTable and "
+            f"{deleted_attendance_snapshot_count} items from AttendanceSnapshotTable."
         )
         return {
             'statusCode': 200,
