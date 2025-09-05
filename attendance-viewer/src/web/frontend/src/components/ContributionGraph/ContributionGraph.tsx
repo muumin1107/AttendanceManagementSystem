@@ -126,7 +126,7 @@ interface MiniContributionGraphProps {
 export const MiniContributionGraph: React.FC<MiniContributionGraphProps> = ({attendanceData, className = ''}) => {
     const getLast7Days = () => {
         const days = [];
-        for (let i = 6; i >= 0; i--) {
+        for (let i = 7; i >= 1; i--) { // 当日を除く、昨日から7日前まで
             const date = new Date();
             date.setDate(date.getDate() - i);
             days.push(date.toISOString().split('T')[0]);
