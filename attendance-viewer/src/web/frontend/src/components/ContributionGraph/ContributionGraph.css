@@ -124,11 +124,11 @@
 
 @media (max-width: 480px) {
     .mini-contribution-graph {
-        gap: clamp(1px, 0.4vw, 3px);
+        gap: 1px;
     }
     .mini-day {
-        width        : clamp(8px, 5vw, 14px);
-        height       : clamp(8px, 5vw, 14px);
-        border-radius: clamp(1px, 0.3vw, 2px);
+        width        : clamp(4px, 4vw, 10px);
+        height       : clamp(4px, 4vw, 10px);
+        border-radius: 1px;
     }
 }
