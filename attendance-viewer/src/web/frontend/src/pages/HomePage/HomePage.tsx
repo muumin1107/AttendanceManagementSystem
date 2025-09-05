@@ -81,10 +81,10 @@ const HomePage: React.FC = () => {
     } = useGetSnapshot(startDate, endDate, selectedUser?.name);
 
     // 過去7日間のデータを取得するフック
-    const {
-        last7DaysData,
-        isLoading: isLast7DaysLoading,
-        error: last7DaysError
+    const { 
+        last7DaysData, 
+        isLoading: isLast7DaysLoading, 
+        error: last7DaysError 
     } = useGetLast7DaysAttendance();
 
     // デバッグ用コンソール出力
