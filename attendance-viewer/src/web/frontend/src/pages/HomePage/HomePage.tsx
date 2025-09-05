@@ -192,15 +192,15 @@ const HomePage: React.FC = () => {
                                     <tr key={user.name} className={getGradeRowClass(user.grade)}>
                                         <td className="name-cell">
                                             <div className="name-cell-content">
-                                                <span className="user-name-clickable" onClick={() => handleUserClick(user)}>
-                                                    {user.name}
-                                                </span>
                                                 {!isLast7DaysLoading && !last7DaysError && (
                                                     <MiniContributionGraph
                                                         attendanceData={userLast7DaysData}
                                                         className="user-mini-graph"
                                                     />
                                                 )}
+                                                <span className="user-name-clickable" onClick={() => handleUserClick(user)}>
+                                                    {user.name}
+                                                </span>
                                             </div>
                                         </td>
                                         {STATUS_COLUMNS.map(colName => (

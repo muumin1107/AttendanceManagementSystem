@@ -283,10 +283,11 @@ body {
 }
 
 .user-name-clickable {
-    flex      : 1;
-    min-width : 0;
-    cursor    : pointer;
-    transition: color 0.2s;
+    flex       : 1;
+    min-width  : 0;
+    cursor     : pointer;
+    transition : color 0.2s;
+    margin-left: auto;
 }
 
 .user-name-clickable:hover {
@@ -295,6 +296,6 @@ body {
 }
 
 .user-mini-graph {
-    flex-shrink: 0;
-    margin-left: auto;
+    flex-shrink : 0;
+    margin-right: auto;
 }
