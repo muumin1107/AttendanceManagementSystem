@@ -94,14 +94,14 @@
 
 .mini-contribution-graph {
     display    : flex;
-    gap        : clamp(2px, 0.8vw, 5px);
+    gap        : clamp(3px, 1vw, 6px);
     align-items: center;
 }
 
 .mini-day {
-    width        : clamp(12px, 3vw, 24px);
-    height       : clamp(12px, 3vw, 24px);
-    border-radius: clamp(2px, 0.5vw, 4px);
+    width        : clamp(16px, 4vw, 30px);
+    height       : clamp(16px, 4vw, 30px);
+    border-radius: clamp(3px, 0.6vw, 5px);
     border       : 1px solid rgba(27, 31, 35, 0.06);
 }
 
