@@ -115,10 +115,6 @@ body {
     flex-shrink  : 0;
 }
 
-/* .attendance-table tbody tr {
-    flex: 1;
-} */
-
 .attendance-table tbody tr:last-child {
     border-bottom: none;
 }
@@ -300,4 +296,5 @@ body {
 
 .user-mini-graph {
     flex-shrink: 0;
+    margin-left: auto;
 }

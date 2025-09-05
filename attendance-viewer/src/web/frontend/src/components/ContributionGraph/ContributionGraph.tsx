@@ -123,10 +123,7 @@ interface MiniContributionGraphProps {
     className?: string;
 }
 
-export const MiniContributionGraph: React.FC<MiniContributionGraphProps> = ({ 
-    attendanceData,
-    className = ''
-}) => {
+export const MiniContributionGraph: React.FC<MiniContributionGraphProps> = ({attendanceData, className = ''}) => {
     const getLast7Days = () => {
         const days = [];
         for (let i = 6; i >= 0; i--) {

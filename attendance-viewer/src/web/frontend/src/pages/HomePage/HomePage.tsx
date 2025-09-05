@@ -87,13 +87,6 @@ const HomePage: React.FC = () => {
         error: last7DaysError
     } = useGetLast7DaysAttendance();
 
-    // デバッグ用コンソール出力
-    useEffect(() => {
-        console.log('Last 7 days loading state:', isLast7DaysLoading);
-        console.log('Last 7 days error:', last7DaysError);
-        console.log('Last 7 days data:', last7DaysData);
-    }, [last7DaysData, isLast7DaysLoading, last7DaysError]);
-
     // LoadingPageから渡された2つのリストを結合して，初期ユーザーリストを作成
     const initialUsers = useMemo(() => {
         if (!passedState?.allUsers) return [];

@@ -93,9 +93,11 @@
 }
 
 .mini-contribution-graph {
-    display    : flex;
-    gap        : 2px;
-    align-items: center;
+    display        : flex;
+    gap            : 2px;
+    align-items    : center;
+    justify-content: flex-end;
+    margin-left    : auto;
 }
 
 .mini-day {
