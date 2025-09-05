@@ -52,3 +52,17 @@ export interface UseUpdateAttendanceAdminReturn {
     error    : Error | null;
     isSuccess: boolean;
 }
+
+// 過去7日間のデータの型
+export type Last7DaysData = {
+    [userId: string]: {
+        [date: string]: number;
+    };
+};
+
+// useGetLast7DaysAttendanceフックが返す値の型
+export interface UseGetLast7DaysAttendanceReturn {
+    last7DaysData: Last7DaysData;
+    isLoading    : boolean;
+    error        : Error | null;
+}

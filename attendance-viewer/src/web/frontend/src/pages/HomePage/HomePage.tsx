@@ -2,6 +2,7 @@ import React, { useState, useEffect, useMemo }                 from 'react';
 import { useLocation, useNavigate, Link }                      from "react-router-dom";
 import type { User, UserStatus, UserIdentifier, FullUserInfo } from '../../types/attendance';
 import { useGetSnapshot }                                      from '../../hooks/useGetSnapshot';
+import { useGetLast7DaysAttendance }                           from '../../hooks/useGetLast7DaysAttendance';
 import { useAttendanceSocket }                                 from '../../hooks/useAttendanceSocket';
 import Modal                                                   from '../../components/Modal/Modal';
 import ContributionGraph                                       from '../../components/ContributionGraph/ContributionGraph';
@@ -78,6 +79,20 @@ const HomePage: React.FC = () => {
         isLoading: isSnapshotLoading,
         error: snapshotError,
     } = useGetSnapshot(startDate, endDate, selectedUser?.name);
+
+    // 過去7日間のデータを取得するフック
+    const {
+        last7DaysData,
+        isLoading: isLast7DaysLoading,
+        error: last7DaysError
+    } = useGetLast7DaysAttendance();
+
+    // デバッグ用コンソール出力
+    useEffect(() => {
+        console.log('Last 7 days loading state:', isLast7DaysLoading);
+        console.log('Last 7 days error:', last7DaysError);
+        console.log('Last 7 days data:', last7DaysData);
+    }, [last7DaysData, isLast7DaysLoading, last7DaysError]);
 
     // LoadingPageから渡された2つのリストを結合して，初期ユーザーリストを作成
     const initialUsers = useMemo(() => {
