@@ -5,7 +5,7 @@ import { useGetSnapshot }                                      from '../../hooks
 import { useGetLast7DaysAttendance }                           from '../../hooks/useGetLast7DaysAttendance';
 import { useAttendanceSocket }                                 from '../../hooks/useAttendanceSocket';
 import Modal                                                   from '../../components/Modal/Modal';
-import ContributionGraph                                       from '../../components/ContributionGraph/ContributionGraph';
+import ContributionGraph, { MiniContributionGraph }            from '../../components/ContributionGraph/ContributionGraph';
 import './HomePage.css';
 
 // 在室状況の表示用ステータス
@@ -81,10 +81,10 @@ const HomePage: React.FC = () => {
     } = useGetSnapshot(startDate, endDate, selectedUser?.name);
 
     // 過去7日間のデータを取得するフック
-    const { 
-        last7DaysData, 
-        isLoading: isLast7DaysLoading, 
-        error: last7DaysError 
+    const {
+        last7DaysData,
+        isLoading: isLast7DaysLoading,
+        error: last7DaysError
     } = useGetLast7DaysAttendance();
 
     // デバッグ用コンソール出力
@@ -192,13 +192,23 @@ const HomePage: React.FC = () => {
                     <tbody>
                         {sortedUsers.length > 0 ? (
                             sortedUsers.map((user) => {
-                                const displayStatus = mapApiStatusToDisplayStatus(user.status);
+                                const displayStatus     = mapApiStatusToDisplayStatus(user.status);
+                                const userLast7DaysData = last7DaysData[user.name] || {};
+
                                 return (
                                     <tr key={user.name} className={getGradeRowClass(user.grade)}>
-                                        <td>
-                                            <span className="user-name-clickable" onClick={() => handleUserClick(user)}>
-                                                {user.name}
-                                            </span>
+                                        <td className="name-cell">
+                                            <div className="name-cell-content">
+                                                <span className="user-name-clickable" onClick={() => handleUserClick(user)}>
+                                                    {user.name}
+                                                </span>
+                                                {!isLast7DaysLoading && !last7DaysError && (
+                                                    <MiniContributionGraph
+                                                        attendanceData={userLast7DaysData}
+                                                        className="user-mini-graph"
+                                                    />
+                                                )}
+                                            </div>
                                         </td>
                                         {STATUS_COLUMNS.map(colName => (
                                             <td key={colName} className="status-cell">

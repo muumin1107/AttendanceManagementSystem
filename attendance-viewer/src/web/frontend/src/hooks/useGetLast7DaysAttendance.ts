@@ -1,6 +1,6 @@
-import { useMemo } from 'react';
+import { useMemo }                                             from 'react';
 import type { Last7DaysData, UseGetLast7DaysAttendanceReturn } from '../types/attendance';
-import { useGetSnapshot } from './useGetSnapshot';
+import { useGetSnapshot }                                      from './useGetSnapshot';
 
 export const useGetLast7DaysAttendance = (): UseGetLast7DaysAttendanceReturn => {
     // 過去7日間の日付配列を取得
@@ -15,7 +15,7 @@ export const useGetLast7DaysAttendance = (): UseGetLast7DaysAttendanceReturn => 
     }, []);
 
     const startDate = last7Days[0];
-    const endDate = last7Days[last7Days.length - 1];
+    const endDate   = last7Days[last7Days.length - 1];
 
     // useGetSnapshotを使用して過去7日間のデータを取得
     const { snapshotData, isLoading, error } = useGetSnapshot(startDate, endDate);
@@ -23,9 +23,6 @@ export const useGetLast7DaysAttendance = (): UseGetLast7DaysAttendanceReturn => 
     // snapshotDataを過去7日間のみに絞り込み、時間形式に変換
     const last7DaysData = useMemo(() => {
         if (!snapshotData) return {};
-
-        console.log('Processing snapshot data for last 7 days:', { startDate, endDate, last7Days });
-        console.log('Raw snapshot data:', snapshotData);
 
         const processedData: Last7DaysData = {};
 
@@ -45,7 +42,6 @@ export const useGetLast7DaysAttendance = (): UseGetLast7DaysAttendanceReturn => 
             processedData[userName] = userDailyData;
         });
 
-        console.log('Processed last 7 days data:', processedData);
         return processedData;
     }, [snapshotData, last7Days]);
 

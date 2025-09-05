@@ -117,4 +117,51 @@ const ContributionGraph: React.FC<ContributionGraphProps> = ({ year, dailyData, 
     );
 };
 
+// 小さなインライン版のContributionGraphコンポーネント
+interface MiniContributionGraphProps {
+    attendanceData: { [date: string]: number };
+    className?: string;
+}
+
+export const MiniContributionGraph: React.FC<MiniContributionGraphProps> = ({ 
+    attendanceData,
+    className = ''
+}) => {
+    const getLast7Days = () => {
+        const days = [];
+        for (let i = 6; i >= 0; i--) {
+            const date = new Date();
+            date.setDate(date.getDate() - i);
+            days.push(date.toISOString().split('T')[0]);
+        }
+        return days;
+    };
+
+    const getIntensity = (hours: number) => {
+        if (hours === 0) return 0;
+        if (hours <= 2) return 1;
+        if (hours <= 4) return 2;
+        if (hours <= 6) return 3;
+        return 4;
+    };
+
+    const last7Days = getLast7Days();
+
+    return (
+        <div className={`mini-contribution-graph ${className}`}>
+            {last7Days.map((date) => {
+                const hours = attendanceData[date] || 0;
+                const intensity = getIntensity(hours);
+                return (
+                    <div
+                        key={date}
+                        className={`mini-day color-level-${intensity}`}
+                        title={`${date}: ${hours.toFixed(1)}時間`}
+                    />
+                );
+            })}
+        </div>
+    );
+};
+
 export default ContributionGraph;
