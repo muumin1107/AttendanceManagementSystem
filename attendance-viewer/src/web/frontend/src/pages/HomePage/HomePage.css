@@ -299,3 +299,10 @@ body {
     flex-shrink : 0;
     margin-right: auto;
 }
+
+/* モニター版（大画面）専用のスタイル */
+@media (min-width: 1024px) {
+    .name-cell-content {
+        gap: clamp(16px, 2vw, 24px);
+    }
+}
