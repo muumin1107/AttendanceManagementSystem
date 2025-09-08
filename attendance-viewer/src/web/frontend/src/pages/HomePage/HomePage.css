@@ -134,13 +134,13 @@ body {
 
 .attendance-table th:nth-child(1),
 .attendance-table td:nth-child(1) {
-    flex           : 0 0 45%;
+    flex           : 0 0 60%;
     justify-content: flex-start;
     font-size      : clamp(1.3rem, 3.8vmin, 4.5rem);
 }
 .attendance-table th:nth-child(n+2),
 .attendance-table td:nth-child(n+2) {
-    flex          : 1 1 0;
+    flex           : 0 0 13.33%;
     justify-content: center;
 }
 
