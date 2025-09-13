@@ -6,10 +6,10 @@
     position: relative;
 }
 
-/* 基本サイズ（大きくした） */
+/* 基本サイズ（統一サイズ） */
 .medal svg {
-    width: 60px;
-    height: 60px;
+    width: 65px;
+    height: 65px;
     min-width: 50px;
     min-height: 50px;
     max-width: 80px;
@@ -17,20 +17,22 @@
     transition: all 0.3s ease-in-out;
 }
 
-/* 順位に応じた動的サイズ調整 */
-.medal-1 svg {
-    width: 75px;
-    height: 75px;
-}
+/* 順位に応じた動的サイズ調整（デスクトップのみ） */
+@media (min-width: 769px) {
+    .medal-1 svg {
+        width: 75px;
+        height: 75px;
+    }
 
-.medal-2 svg {
-    width: 65px;
-    height: 65px;
-}
+    .medal-2 svg {
+        width: 65px;
+        height: 65px;
+    }
 
-.medal-3 svg {
-    width: 60px;
-    height: 60px;
+    .medal-3 svg {
+        width: 60px;
+        height: 60px;
+    }
 }
 
 /* 金メダルのアニメーション（動的サイズ版） */
@@ -135,34 +137,48 @@
     }
 }
 
-/* ホバー効果（動的サイズ版） */
-.medal:hover {
-    transform: scale(1.2) !important;
-    transition: transform 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+/* ホバー効果（デスクトップ版のみ動的サイズ） */
+@media (min-width: 769px) {
+    .medal:hover {
+        transform: scale(1.2) !important;
+        transition: transform 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    }
+
+    .medal-1:hover {
+        animation-duration: 1s;
+        transform: scale(1.25) !important;
+        filter: 
+            drop-shadow(0 0 12px rgba(255, 215, 0, 1)) 
+            drop-shadow(0 0 24px rgba(255, 215, 0, 0.8)) !important;
+    }
+
+    .medal-2:hover {
+        animation-duration: 1.2s;
+        transform: scale(1.22) !important;
+        filter: 
+            drop-shadow(0 0 8px rgba(192, 192, 192, 1)) 
+            drop-shadow(0 0 16px rgba(192, 192, 192, 0.8)) !important;
+    }
+
+    .medal-3:hover {
+        animation-duration: 1.5s;
+        transform: scale(1.2) !important;
+        filter: 
+            drop-shadow(0 0 6px rgba(205, 127, 50, 1)) 
+            drop-shadow(0 0 12px rgba(205, 127, 50, 0.8)) !important;
+    }
 }
 
-.medal-1:hover {
-    animation-duration: 1s;
-    transform: scale(1.25) !important;
-    filter: 
-        drop-shadow(0 0 12px rgba(255, 215, 0, 1)) 
-        drop-shadow(0 0 24px rgba(255, 215, 0, 0.8)) !important;
-}
-
-.medal-2:hover {
-    animation-duration: 1.2s;
-    transform: scale(1.22) !important;
-    filter: 
-        drop-shadow(0 0 8px rgba(192, 192, 192, 1)) 
-        drop-shadow(0 0 16px rgba(192, 192, 192, 0.8)) !important;
-}
-
-.medal-3:hover {
-    animation-duration: 1.5s;
-    transform: scale(1.2) !important;
-    filter: 
-        drop-shadow(0 0 6px rgba(205, 127, 50, 1)) 
-        drop-shadow(0 0 12px rgba(205, 127, 50, 0.8)) !important;
+/* モバイル版はシンプルなホバー効果 */
+@media (max-width: 768px) {
+    .medal-1:hover,
+    .medal-2:hover,
+    .medal-3:hover {
+        animation-duration: 1.5s;
+        filter: 
+            drop-shadow(0 0 3px rgba(255, 255, 255, 0.8)) 
+            drop-shadow(0 0 6px rgba(255, 255, 255, 0.5)) !important;
+    }
 }
 
 /* ツールチップスタイリング */
@@ -170,44 +186,31 @@
     cursor: help;
 }
 
-/* レスポンシブ対応（動的サイズ版） */
+/* レスポンシブ対応（コントリビューショングラフサイズに合わせて統一） */
 @media (max-width: 768px) {
     .medal {
-        margin-left: 10px;
+        margin-left: 8px;
     }
     
-    .medal svg {
-        min-width: 40px;
-        min-height: 40px;
-        max-width: 60px;
-        max-height: 60px;
-    }
-    
-    .medal-1 svg {
-        width: 58px;
-        height: 58px;
-    }
-    
-    .medal-2 svg {
-        width: 50px;
-        height: 50px;
-    }
-    
+    /* 全てのメダルを統一サイズに */
+    .medal svg,
+    .medal-1 svg,
+    .medal-2 svg,
     .medal-3 svg {
-        width: 45px;
-        height: 45px;
+        width: 32px !important;
+        height: 32px !important;
+        min-width: 28px;
+        min-height: 28px;
+        max-width: 36px;
+        max-height: 36px;
     }
     
-    .medal:hover {
+    /* ホバー効果も統一 */
+    .medal:hover,
+    .medal-1:hover,
+    .medal-2:hover,
+    .medal-3:hover {
         transform: scale(1.15) !important;
-    }
-    
-    .medal-1:hover {
-        transform: scale(1.18) !important;
-    }
-    
-    .medal-2:hover {
-        transform: scale(1.16) !important;
     }
 }
 
