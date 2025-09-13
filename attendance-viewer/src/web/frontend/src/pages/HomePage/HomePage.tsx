@@ -205,9 +205,11 @@ const HomePage: React.FC = () => {
                                         </td>
                                         {STATUS_COLUMNS.map(colName => (
                                             <td key={colName} className="status-cell">
-                                                {displayStatus === colName && (
-                                                    <span className={`status-marker ${getStatusColorClass(colName)}`}></span>
-                                                )}
+                                                <span 
+                                                    className={`status-marker ${getStatusColorClass(colName)} ${
+                                                        displayStatus === colName ? 'active' : ''
+                                                    }`}
+                                                ></span>
                                             </td>
                                         ))}
                                     </tr>
