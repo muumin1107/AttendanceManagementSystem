@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo }                 from 'react';
+import React, { useState, useEffect, useMemo, useRef }          from 'react';
 import { useLocation, useNavigate, Link }                      from "react-router-dom";
 import type { User, UserStatus, UserIdentifier, FullUserInfo } from '../../types/attendance';
 import { useGetSnapshot }                                      from '../../hooks/useGetSnapshot';
@@ -55,6 +55,22 @@ const formatDate = (date: Date): string => {
     return date.toISOString().split('T')[0];
 };
 
+// 移動アニメーション用のインターフェース
+interface MovingMarker {
+    id: string;
+    userName: string;
+    fromColumn: number;
+    toColumn: number;
+    statusType: DisplayStatus;
+    startTime: number;
+}
+
+// ステータスのカラム位置を取得する関数
+const getColumnIndex = (status: DisplayStatus | null): number => {
+    if (!status) return -1;
+    return STATUS_COLUMNS.indexOf(status);
+};
+
 // ホームページコンポーネント
 const HomePage: React.FC = () => {
     const location = useLocation();
@@ -66,6 +82,11 @@ const HomePage: React.FC = () => {
     } | null;
     // 現在の時刻を管理するステート
     const [currentTime, setCurrentTime] = useState(new Date());
+
+    // 移動アニメーション管理用のステート
+    const [movingMarkers, setMovingMarkers] = useState<MovingMarker[]>([]);
+    const [previousUserStatuses, setPreviousUserStatuses] = useState<Map<string, DisplayStatus | null>>(new Map());
+    const tableRef = useRef<HTMLTableElement>(null);
 
     // グラフ表示用モーダルのためのステート
     const [isModalOpen, setIsModalOpen]   = useState(false);
@@ -151,6 +172,44 @@ const HomePage: React.FC = () => {
         }
     }, [socketError, navigate]);
 
+    // ステータス変更を監視して移動アニメーションを開始
+    useEffect(() => {
+        const newStatusMap = new Map<string, DisplayStatus | null>();
+        
+        sortedUsers.forEach(user => {
+            const displayStatus = mapApiStatusToDisplayStatus(user.status);
+            newStatusMap.set(user.name, displayStatus);
+            
+            const prevStatus = previousUserStatuses.get(user.name);
+            
+            // ステータスが変更された場合，移動アニメーションを開始
+            if (prevStatus !== undefined && prevStatus !== displayStatus && displayStatus) {
+                const fromColumn = getColumnIndex(prevStatus);
+                const toColumn = getColumnIndex(displayStatus);
+                
+                if (fromColumn !== -1 && toColumn !== -1 && fromColumn !== toColumn) {
+                    const movingMarker: MovingMarker = {
+                        id: `${user.name}-${Date.now()}`,
+                        userName: user.name,
+                        fromColumn,
+                        toColumn,
+                        statusType: prevStatus || '退室',
+                        startTime: Date.now()
+                    };
+                    
+                    setMovingMarkers(prev => [...prev, movingMarker]);
+                    
+                    // 1.5秒後に移動マーカーを削除
+                    setTimeout(() => {
+                        setMovingMarkers(prev => prev.filter(m => m.id !== movingMarker.id));
+                    }, 1500);
+                }
+            }
+        });
+        
+        setPreviousUserStatuses(newStatusMap);
+    }, [sortedUsers, previousUserStatuses]);
+
     // モーダル用のハンドラ関数を定義
     const handleUserClick = (user: FullUserInfo) => {
         setSelectedUser(user);
@@ -160,6 +219,40 @@ const HomePage: React.FC = () => {
     const closeModal = () => {
         setIsModalOpen(false);
         setSelectedUser(null);
+    };
+
+    // 移動マーカーのスタイルを計算する関数
+    const getMovingMarkerStyle = (marker: MovingMarker, userIndex: number) => {
+        if (!tableRef.current) return {};
+        
+        const table = tableRef.current;
+        const rows = table.querySelectorAll('tbody tr');
+        const targetRow = rows[userIndex];
+        
+        if (!targetRow) return {};
+        
+        const cells = targetRow.querySelectorAll('td');
+        const nameCell = cells[0] as HTMLElement;
+        const fromCell = cells[marker.fromColumn + 1] as HTMLElement;
+        const toCell = cells[marker.toColumn + 1] as HTMLElement;
+        
+        if (!nameCell || !fromCell || !toCell) return {};
+        
+        const tableRect = table.getBoundingClientRect();
+        const fromRect = fromCell.getBoundingClientRect();
+        const toRect = toCell.getBoundingClientRect();
+        
+        const progress = Math.min((Date.now() - marker.startTime) / 1200, 1);
+        const leftStart = fromRect.left - tableRect.left + fromRect.width / 2;
+        const leftEnd = toRect.left - tableRect.left + toRect.width / 2;
+        const currentLeft = leftStart + (leftEnd - leftStart) * progress;
+        
+        return {
+            position: 'absolute' as const,
+            left: currentLeft - 12, // マーカーサイズの半分
+            top: fromRect.top - tableRect.top + fromRect.height / 2 - 12,
+            zIndex: 20,
+        };
     };
 
     return (
@@ -173,7 +266,7 @@ const HomePage: React.FC = () => {
                 <Link to="/admin" state={{ allUsers: passedState?.allUsers }} className="admin-link-button">管理者メニュー</Link>
             </header>
             <main className="table-container">
-                <table className="attendance-table">
+                <table className="attendance-table" ref={tableRef}>
                     <thead>
                         <tr>
                             <th className="name-col">名前</th>
@@ -184,12 +277,12 @@ const HomePage: React.FC = () => {
                     </thead>
                     <tbody>
                         {sortedUsers.length > 0 ? (
-                            sortedUsers.map((user) => {
+                            sortedUsers.map((user, userIndex) => {
                                 const displayStatus     = mapApiStatusToDisplayStatus(user.status);
                                 const userLast7DaysData = last7DaysData[user.name] || {};
 
                                 return (
-                                    <tr key={user.name} className={getGradeRowClass(user.grade)}>
+                                    <tr key={user.name} className={`${getGradeRowClass(user.grade)} status-row`}>
                                         <td className="name-cell">
                                             <div className="name-cell-content">
                                                 {!isLast7DaysLoading && !last7DaysError && (
@@ -222,6 +315,20 @@ const HomePage: React.FC = () => {
                         )}
                     </tbody>
                 </table>
+                
+                {/* 移動中のマーカーを表示 */}
+                {movingMarkers.map(marker => {
+                    const userIndex = sortedUsers.findIndex(u => u.name === marker.userName);
+                    if (userIndex === -1) return null;
+                    
+                    return (
+                        <div
+                            key={marker.id}
+                            className={`status-marker status-marker-moving ${getStatusColorClass(marker.statusType)}`}
+                            style={getMovingMarkerStyle(marker, userIndex)}
+                        />
+                    );
+                })}
             </main>
 
             <Modal isOpen={isModalOpen} onClose={closeModal}>

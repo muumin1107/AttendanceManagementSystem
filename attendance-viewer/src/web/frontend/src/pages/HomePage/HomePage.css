@@ -194,14 +194,43 @@ body {
     vertical-align: middle;
     opacity       : 0;
     transform     : scale(0.8);
-    transition    : opacity 0.4s ease-in-out, transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    transition    : opacity 0.6s ease-in-out, transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
     position      : relative;
+    z-index       : 1;
+}
+
+/* 移動アニメーション用のスタイル */
+.status-row {
+    position: relative;
+}
+
+.status-marker-moving {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%) scale(1);
+    opacity: 1;
+    z-index: 10;
+    pointer-events: none;
+    transition: left 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    animation: movingBounce 1.2s ease-in-out;
+}
+
+@keyframes movingBounce {
+    0% {
+        transform: translateY(-50%) scale(1);
+    }
+    50% {
+        transform: translateY(-70%) scale(1.1);
+    }
+    100% {
+        transform: translateY(-50%) scale(1);
+    }
 }
 
 .status-marker.active {
     opacity  : 1;
     transform: scale(1);
-    animation: pulseIn 0.6s ease-out;
+    animation: bounceIn 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 }
 
 .status-marker.active:hover {
@@ -212,6 +241,49 @@ body {
 .status-marker.fadeout {
     opacity  : 0;
     transform: scale(0.8);
+    animation: fadeOut 0.4s ease-in;
+}
+
+@keyframes bounceIn {
+    0% {
+        transform: scale(0.3) translateY(-100%);
+        opacity: 0;
+    }
+    20% {
+        transform: scale(0.7) translateY(-20px);
+        opacity: 0.7;
+    }
+    40% {
+        transform: scale(1.1) translateY(5px);
+        opacity: 0.9;
+    }
+    60% {
+        transform: scale(0.95) translateY(-2px);
+        opacity: 1;
+    }
+    80% {
+        transform: scale(1.05) translateY(1px);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1) translateY(0px);
+        opacity: 1;
+    }
+}
+
+@keyframes fadeOut {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(0.7);
+        opacity: 0.3;
+    }
+    100% {
+        transform: scale(0.3);
+        opacity: 0;
+    }
 }
 
 @keyframes pulseIn {
