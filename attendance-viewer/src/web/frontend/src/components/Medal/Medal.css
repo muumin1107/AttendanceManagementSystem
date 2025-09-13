@@ -6,7 +6,7 @@
     position: relative;
 }
 
-/* 基本サイズ（行の高さに収まるサイズに調整） */
+/* 基本サイズ（全デバイスで統一） */
 .medal svg {
     width: 45px;
     height: 45px;
@@ -17,22 +17,12 @@
     transition: all 0.3s ease-in-out;
 }
 
-/* 順位に応じた動的サイズ調整（デスクトップのみ、控えめに） */
-@media (min-width: 769px) {
-    .medal-1 svg {
-        width: 50px;
-        height: 50px;
-    }
-
-    .medal-2 svg {
-        width: 45px;
-        height: 45px;
-    }
-
-    .medal-3 svg {
-        width: 42px;
-        height: 42px;
-    }
+/* デスクトップでもサイズ統一 */
+.medal-1 svg,
+.medal-2 svg,
+.medal-3 svg {
+    width: 45px;
+    height: 45px;
 }
 
 /* 金メダルのアニメーション（控えめサイズ版） */
@@ -137,35 +127,35 @@
     }
 }
 
-/* ホバー効果（デスクトップ版、控えめサイズ） */
+/* ホバー効果（デスクトップ版、サイズ統一） */
 @media (min-width: 769px) {
-    .medal:hover {
+    .medal:hover,
+    .medal-1:hover,
+    .medal-2:hover,
+    .medal-3:hover {
         transform: scale(1.12) !important;
         transition: transform 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
     }
 
     .medal-1:hover {
         animation-duration: 1s;
-        transform: scale(1.15) !important;
         filter: 
-            drop-shadow(0 0 10px rgba(255, 215, 0, 1)) 
-            drop-shadow(0 0 18px rgba(255, 215, 0, 0.8)) !important;
+            drop-shadow(0 0 8px rgba(255, 215, 0, 1)) 
+            drop-shadow(0 0 15px rgba(255, 215, 0, 0.8)) !important;
     }
 
     .medal-2:hover {
         animation-duration: 1.2s;
-        transform: scale(1.13) !important;
         filter: 
-            drop-shadow(0 0 7px rgba(192, 192, 192, 1)) 
-            drop-shadow(0 0 12px rgba(192, 192, 192, 0.8)) !important;
+            drop-shadow(0 0 6px rgba(192, 192, 192, 1)) 
+            drop-shadow(0 0 10px rgba(192, 192, 192, 0.8)) !important;
     }
 
     .medal-3:hover {
         animation-duration: 1.5s;
-        transform: scale(1.12) !important;
         filter: 
-            drop-shadow(0 0 5px rgba(205, 127, 50, 1)) 
-            drop-shadow(0 0 9px rgba(205, 127, 50, 0.8)) !important;
+            drop-shadow(0 0 4px rgba(205, 127, 50, 1)) 
+            drop-shadow(0 0 8px rgba(205, 127, 50, 0.8)) !important;
     }
 }
 
