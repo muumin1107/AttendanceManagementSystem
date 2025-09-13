@@ -2,31 +2,36 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    margin-left: 8px;
-    animation: crown-glow 2s ease-in-out infinite alternate;
+    margin-left: 10px;
+    animation: crown-sparkle 3s ease-in-out infinite alternate;
 }
 
 .crown svg {
-    width: 28px;
-    height: 24px;
-    filter: drop-shadow(0 2px 4px rgba(255, 215, 0, 0.3));
+    width: 40px;
+    height: 40px;
+    filter: drop-shadow(0 0 8px rgba(255, 215, 0, 0.6)) drop-shadow(0 0 16px rgba(255, 215, 0, 0.3));
 }
 
-/* 王冠のアニメーション効果 */
-@keyframes crown-glow {
-    from {
-        filter: drop-shadow(0 2px 4px rgba(255, 215, 0, 0.3));
-        transform: scale(1);
+/* キラキラのアニメーション効果 */
+@keyframes crown-sparkle {
+    0% {
+        filter: drop-shadow(0 0 8px rgba(255, 215, 0, 0.6)) drop-shadow(0 0 16px rgba(255, 215, 0, 0.3));
+        transform: scale(1) rotate(0deg);
     }
-    to {
-        filter: drop-shadow(0 2px 8px rgba(255, 215, 0, 0.6));
-        transform: scale(1.05);
+    50% {
+        filter: drop-shadow(0 0 12px rgba(255, 215, 0, 0.8)) drop-shadow(0 0 24px rgba(255, 215, 0, 0.5));
+        transform: scale(1.1) rotate(5deg);
+    }
+    100% {
+        filter: drop-shadow(0 0 16px rgba(255, 215, 0, 1)) drop-shadow(0 0 32px rgba(255, 215, 0, 0.7));
+        transform: scale(1.15) rotate(-5deg);
     }
 }
 
 .crown:hover {
-    transform: scale(1.1);
-    transition: transform 0.2s ease-in-out;
+    transform: scale(1.2);
+    transition: transform 0.3s ease-in-out;
+    animation-duration: 1s;
 }
 
 /* ツールチップスタイリング */
@@ -37,11 +42,15 @@
 /* レスポンシブ対応 */
 @media (max-width: 768px) {
     .crown {
-        margin-left: 5px;
+        margin-left: 8px;
     }
     
     .crown svg {
-        width: 22px;
-        height: 19px;
+        width: 32px;
+        height: 32px;
+    }
+    
+    .crown:hover {
+        transform: scale(1.15);
     }
 }

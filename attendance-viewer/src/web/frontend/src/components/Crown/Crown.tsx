@@ -9,26 +9,64 @@ const Crown: React.FC<CrownProps> = ({ className = '' }) => {
     return (
         <div className={`crown ${className}`} title="過去7日間で最も在室時間が長いユーザー">
             <svg 
-                width="28" 
-                height="24" 
-                viewBox="0 0 24 19" 
+                width="40" 
+                height="40" 
+                viewBox="0 0 100 100" 
                 fill="none" 
                 xmlns="http://www.w3.org/2000/svg"
             >
+                {/* メインの星 */}
                 <path
-                    d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"
-                    fill="#FFD700"
-                    stroke="#FFA500"
-                    strokeWidth="1"
+                    d="M50 10 L60 35 L85 35 L66 50 L75 75 L50 60 L25 75 L34 50 L15 35 L40 35 Z"
+                    fill="url(#goldGradient)"
+                    stroke="#FFD700"
+                    strokeWidth="2"
                 />
-                <path
-                    d="M12 5L13.5 9H18L14.5 12L16 16L12 13L8 16L9.5 12L6 9H10.5L12 5Z"
-                    fill="#FFF8DC"
-                />
-                {/* 王冠の装飾的な点 */}
-                <circle cx="12" cy="8" r="1" fill="#FF6347" />
-                <circle cx="9" cy="10" r="0.8" fill="#FF6347" />
-                <circle cx="15" cy="10" r="0.8" fill="#FF6347" />
+                
+                {/* 小さなキラキラ */}
+                <circle cx="30" cy="25" r="3" fill="#FFF">
+                    <animate attributeName="opacity" values="0.3;1;0.3" dur="1.5s" repeatCount="indefinite" />
+                </circle>
+                <circle cx="70" cy="30" r="2.5" fill="#FFF">
+                    <animate attributeName="opacity" values="1;0.3;1" dur="2s" repeatCount="indefinite" />
+                </circle>
+                <circle cx="25" cy="55" r="2" fill="#FFF">
+                    <animate attributeName="opacity" values="0.5;1;0.5" dur="1.8s" repeatCount="indefinite" />
+                </circle>
+                <circle cx="75" cy="65" r="2.5" fill="#FFF">
+                    <animate attributeName="opacity" values="1;0.2;1" dur="2.2s" repeatCount="indefinite" />
+                </circle>
+                
+                {/* 十字のキラキラ */}
+                <g fill="#FFF" opacity="0.8">
+                    <path d="M90 20 L92 18 L94 20 L92 22 Z">
+                        <animateTransform 
+                            attributeName="transform" 
+                            type="rotate" 
+                            values="0 92 20;360 92 20" 
+                            dur="3s" 
+                            repeatCount="indefinite"
+                        />
+                    </path>
+                    <path d="M10 70 L12 68 L14 70 L12 72 Z">
+                        <animateTransform 
+                            attributeName="transform" 
+                            type="rotate" 
+                            values="180 12 70;540 12 70" 
+                            dur="2.5s" 
+                            repeatCount="indefinite"
+                        />
+                    </path>
+                </g>
+                
+                {/* グラデーション定義 */}
+                <defs>
+                    <linearGradient id="goldGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stopColor="#FFD700" />
+                        <stop offset="50%" stopColor="#FFA500" />
+                        <stop offset="100%" stopColor="#FF8C00" />
+                    </linearGradient>
+                </defs>
             </svg>
         </div>
     );
