@@ -9,8 +9,8 @@ const Crown: React.FC<CrownProps> = ({ className = '' }) => {
     return (
         <div className={`crown ${className}`} title="過去7日間で最も在室時間が長いユーザー">
             <svg 
-                width="20" 
-                height="16" 
+                width="28" 
+                height="24" 
                 viewBox="0 0 24 19" 
                 fill="none" 
                 xmlns="http://www.w3.org/2000/svg"
