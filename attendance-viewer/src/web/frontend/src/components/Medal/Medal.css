@@ -2,94 +2,173 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    margin-left: 12px;
+    margin-left: 15px;
 }
 
 .medal svg {
-    width: 50px;
-    height: 50px;
+    width: 60px;
+    height: 80px;
 }
 
-/* 金メダルのアニメーション */
+/* 金メダルのアニメーション（強化版） */
 .medal-1 {
-    animation: gold-sparkle 3s ease-in-out infinite alternate;
+    animation: gold-mega-sparkle 2.5s ease-in-out infinite alternate;
 }
 
 .medal-1 svg {
-    filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.7)) drop-shadow(0 0 20px rgba(255, 215, 0, 0.4));
+    filter: 
+        drop-shadow(0 0 8px rgba(255, 215, 0, 0.9)) 
+        drop-shadow(0 0 16px rgba(255, 215, 0, 0.7)) 
+        drop-shadow(0 0 24px rgba(255, 215, 0, 0.5))
+        drop-shadow(0 0 32px rgba(255, 215, 0, 0.3));
 }
 
-@keyframes gold-sparkle {
+@keyframes gold-mega-sparkle {
     0% {
-        transform: scale(1) rotate(-2deg);
-        filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.7)) drop-shadow(0 0 20px rgba(255, 215, 0, 0.4));
+        transform: scale(1) rotate(-3deg);
+        filter: 
+            drop-shadow(0 0 8px rgba(255, 215, 0, 0.9)) 
+            drop-shadow(0 0 16px rgba(255, 215, 0, 0.7)) 
+            drop-shadow(0 0 24px rgba(255, 215, 0, 0.5))
+            drop-shadow(0 0 32px rgba(255, 215, 0, 0.3));
     }
-    50% {
-        transform: scale(1.1) rotate(2deg);
-        filter: drop-shadow(0 0 15px rgba(255, 215, 0, 0.9)) drop-shadow(0 0 30px rgba(255, 215, 0, 0.6));
+    33% {
+        transform: scale(1.08) rotate(3deg);
+        filter: 
+            drop-shadow(0 0 12px rgba(255, 215, 0, 1)) 
+            drop-shadow(0 0 24px rgba(255, 215, 0, 0.9)) 
+            drop-shadow(0 0 36px rgba(255, 215, 0, 0.7))
+            drop-shadow(0 0 48px rgba(255, 215, 0, 0.5));
+    }
+    66% {
+        transform: scale(1.12) rotate(-2deg);
+        filter: 
+            drop-shadow(0 0 16px rgba(255, 215, 0, 1)) 
+            drop-shadow(0 0 32px rgba(255, 215, 0, 1)) 
+            drop-shadow(0 0 48px rgba(255, 215, 0, 0.8))
+            drop-shadow(0 0 64px rgba(255, 215, 0, 0.6));
     }
     100% {
-        transform: scale(1.15) rotate(-2deg);
-        filter: drop-shadow(0 0 20px rgba(255, 215, 0, 1)) drop-shadow(0 0 40px rgba(255, 215, 0, 0.8));
+        transform: scale(1.18) rotate(3deg);
+        filter: 
+            drop-shadow(0 0 20px rgba(255, 215, 0, 1)) 
+            drop-shadow(0 0 40px rgba(255, 215, 0, 1)) 
+            drop-shadow(0 0 60px rgba(255, 215, 0, 0.9))
+            drop-shadow(0 0 80px rgba(255, 215, 0, 0.7));
     }
 }
 
-/* 銀メダルのアニメーション */
+/* 銀メダルのアニメーション（強化版） */
 .medal-2 {
-    animation: silver-glow 4s ease-in-out infinite alternate;
+    animation: silver-mega-glow 3.5s ease-in-out infinite alternate;
 }
 
 .medal-2 svg {
-    filter: drop-shadow(0 0 8px rgba(192, 192, 192, 0.6)) drop-shadow(0 0 16px rgba(192, 192, 192, 0.3));
+    filter: 
+        drop-shadow(0 0 6px rgba(192, 192, 192, 0.8)) 
+        drop-shadow(0 0 12px rgba(192, 192, 192, 0.6)) 
+        drop-shadow(0 0 18px rgba(192, 192, 192, 0.4))
+        drop-shadow(0 0 24px rgba(192, 192, 192, 0.2));
 }
 
-@keyframes silver-glow {
+@keyframes silver-mega-glow {
     0% {
-        transform: scale(1);
-        filter: drop-shadow(0 0 8px rgba(192, 192, 192, 0.6)) drop-shadow(0 0 16px rgba(192, 192, 192, 0.3));
+        transform: scale(1) rotate(-1deg);
+        filter: 
+            drop-shadow(0 0 6px rgba(192, 192, 192, 0.8)) 
+            drop-shadow(0 0 12px rgba(192, 192, 192, 0.6)) 
+            drop-shadow(0 0 18px rgba(192, 192, 192, 0.4))
+            drop-shadow(0 0 24px rgba(192, 192, 192, 0.2));
+    }
+    50% {
+        transform: scale(1.06) rotate(1deg);
+        filter: 
+            drop-shadow(0 0 10px rgba(192, 192, 192, 1)) 
+            drop-shadow(0 0 20px rgba(192, 192, 192, 0.8)) 
+            drop-shadow(0 0 30px rgba(192, 192, 192, 0.6))
+            drop-shadow(0 0 40px rgba(192, 192, 192, 0.4));
     }
     100% {
-        transform: scale(1.08);
-        filter: drop-shadow(0 0 12px rgba(192, 192, 192, 0.8)) drop-shadow(0 0 24px rgba(192, 192, 192, 0.5));
+        transform: scale(1.1) rotate(-1deg);
+        filter: 
+            drop-shadow(0 0 14px rgba(192, 192, 192, 1)) 
+            drop-shadow(0 0 28px rgba(192, 192, 192, 0.9)) 
+            drop-shadow(0 0 42px rgba(192, 192, 192, 0.7))
+            drop-shadow(0 0 56px rgba(192, 192, 192, 0.5));
     }
 }
 
-/* 銅メダルのアニメーション */
+/* 銅メダルのアニメーション（強化版） */
 .medal-3 {
-    animation: bronze-pulse 5s ease-in-out infinite alternate;
+    animation: bronze-mega-pulse 4.5s ease-in-out infinite alternate;
 }
 
 .medal-3 svg {
-    filter: drop-shadow(0 0 6px rgba(205, 127, 50, 0.5)) drop-shadow(0 0 12px rgba(205, 127, 50, 0.2));
+    filter: 
+        drop-shadow(0 0 5px rgba(205, 127, 50, 0.7)) 
+        drop-shadow(0 0 10px rgba(205, 127, 50, 0.5)) 
+        drop-shadow(0 0 15px rgba(205, 127, 50, 0.3))
+        drop-shadow(0 0 20px rgba(205, 127, 50, 0.1));
 }
 
-@keyframes bronze-pulse {
+@keyframes bronze-mega-pulse {
     0% {
         transform: scale(1);
-        filter: drop-shadow(0 0 6px rgba(205, 127, 50, 0.5)) drop-shadow(0 0 12px rgba(205, 127, 50, 0.2));
+        filter: 
+            drop-shadow(0 0 5px rgba(205, 127, 50, 0.7)) 
+            drop-shadow(0 0 10px rgba(205, 127, 50, 0.5)) 
+            drop-shadow(0 0 15px rgba(205, 127, 50, 0.3))
+            drop-shadow(0 0 20px rgba(205, 127, 50, 0.1));
+    }
+    50% {
+        transform: scale(1.04);
+        filter: 
+            drop-shadow(0 0 8px rgba(205, 127, 50, 0.9)) 
+            drop-shadow(0 0 16px rgba(205, 127, 50, 0.7)) 
+            drop-shadow(0 0 24px rgba(205, 127, 50, 0.5))
+            drop-shadow(0 0 32px rgba(205, 127, 50, 0.3));
     }
     100% {
-        transform: scale(1.05);
-        filter: drop-shadow(0 0 10px rgba(205, 127, 50, 0.7)) drop-shadow(0 0 20px rgba(205, 127, 50, 0.4));
+        transform: scale(1.07);
+        filter: 
+            drop-shadow(0 0 12px rgba(205, 127, 50, 1)) 
+            drop-shadow(0 0 24px rgba(205, 127, 50, 0.8)) 
+            drop-shadow(0 0 36px rgba(205, 127, 50, 0.6))
+            drop-shadow(0 0 48px rgba(205, 127, 50, 0.4));
     }
 }
 
-/* ホバー効果 */
+/* ホバー効果（強化版） */
 .medal:hover {
-    transform: scale(1.2) !important;
-    transition: transform 0.3s ease-in-out;
+    transform: scale(1.25) !important;
+    transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 }
 
 .medal-1:hover {
-    animation-duration: 1s;
+    animation-duration: 0.8s;
+    filter: 
+        drop-shadow(0 0 25px rgba(255, 215, 0, 1)) 
+        drop-shadow(0 0 50px rgba(255, 215, 0, 1)) 
+        drop-shadow(0 0 75px rgba(255, 215, 0, 0.9))
+        drop-shadow(0 0 100px rgba(255, 215, 0, 0.8)) !important;
 }
 
 .medal-2:hover {
-    animation-duration: 1.5s;
+    animation-duration: 1.2s;
+    filter: 
+        drop-shadow(0 0 20px rgba(192, 192, 192, 1)) 
+        drop-shadow(0 0 40px rgba(192, 192, 192, 0.9)) 
+        drop-shadow(0 0 60px rgba(192, 192, 192, 0.7))
+        drop-shadow(0 0 80px rgba(192, 192, 192, 0.5)) !important;
 }
 
 .medal-3:hover {
-    animation-duration: 2s;
+    animation-duration: 1.5s;
+    filter: 
+        drop-shadow(0 0 18px rgba(205, 127, 50, 1)) 
+        drop-shadow(0 0 36px rgba(205, 127, 50, 0.8)) 
+        drop-shadow(0 0 54px rgba(205, 127, 50, 0.6))
+        drop-shadow(0 0 72px rgba(205, 127, 50, 0.4)) !important;
 }
 
 /* ツールチップスタイリング */
@@ -100,15 +179,37 @@
 /* レスポンシブ対応 */
 @media (max-width: 768px) {
     .medal {
-        margin-left: 10px;
+        margin-left: 12px;
     }
     
     .medal svg {
-        width: 40px;
-        height: 40px;
+        width: 48px;
+        height: 64px;
     }
     
     .medal:hover {
-        transform: scale(1.15) !important;
+        transform: scale(1.18) !important;
     }
+}
+
+/* 追加のキラキラエフェクト用のクラス */
+.medal::before {
+    content: '';
+    position: absolute;
+    top: -5px;
+    left: -5px;
+    right: -5px;
+    bottom: -5px;
+    background: radial-gradient(circle, transparent 60%, rgba(255, 255, 255, 0.1) 61%, rgba(255, 255, 255, 0.3) 62%, transparent 63%);
+    border-radius: 50%;
+    animation: sparkle-ring 4s linear infinite;
+    pointer-events: none;
+    opacity: 0.7;
+}
+
+@keyframes sparkle-ring {
+    0% { transform: rotate(0deg) scale(0.8); opacity: 0; }
+    10% { opacity: 0.7; }
+    90% { opacity: 0.7; }
+    100% { transform: rotate(360deg) scale(1.2); opacity: 0; }
 }
