@@ -21,30 +21,16 @@ const Medal: React.FC<MedalProps> = ({ rank, className = '' }) => {
     return (
         <div className={`medal medal-${rank} ${className}`} title={`過去7日間で在室時間${rank}位のユーザー`}>
             <svg 
-                width="60" 
-                height="80" 
-                viewBox="0 0 120 150" 
+                width="50" 
+                height="50" 
+                viewBox="0 0 120 120" 
                 fill="none" 
                 xmlns="http://www.w3.org/2000/svg"
             >
-                {/* メダルの紐 */}
-                <path 
-                    d="M45 10 Q50 5 60 5 Q70 5 75 10 L70 30 Q65 25 60 25 Q55 25 50 30 Z" 
-                    fill={`url(#ribbonGradient${rank})`}
-                    stroke={colors.tertiary}
-                    strokeWidth="1"
-                />
-                <path 
-                    d="M50 30 Q55 35 60 35 Q65 35 70 30 L75 50 Q70 45 60 45 Q50 45 45 50 Z" 
-                    fill={`url(#ribbonGradient${rank})`}
-                    stroke={colors.tertiary}
-                    strokeWidth="1"
-                />
-                
                 {/* メダルの外枠 */}
                 <circle 
                     cx="60" 
-                    cy="90" 
+                    cy="60" 
                     r="55" 
                     fill={`url(#medalGradient${rank})`}
                     stroke={colors.secondary}
@@ -54,7 +40,7 @@ const Medal: React.FC<MedalProps> = ({ rank, className = '' }) => {
                 {/* メダルの内側 */}
                 <circle 
                     cx="60" 
-                    cy="90" 
+                    cy="60" 
                     r="45" 
                     fill={`url(#innerGradient${rank})`}
                     stroke={colors.tertiary}
@@ -64,7 +50,7 @@ const Medal: React.FC<MedalProps> = ({ rank, className = '' }) => {
                 {/* 順位の数字（大きくした） */}
                 <text 
                     x="60" 
-                    y="110" 
+                    y="75" 
                     textAnchor="middle" 
                     fontSize="48" 
                     fontWeight="bold" 
@@ -79,55 +65,55 @@ const Medal: React.FC<MedalProps> = ({ rank, className = '' }) => {
                 {/* 強化されたキラキラエフェクト */}
                 <g fill="white" opacity="0.9">
                     {/* 大きなキラキラ */}
-                    <circle cx="25" cy="65" r="4">
+                    <circle cx="25" cy="35" r="4">
                         <animate attributeName="opacity" values="0.2;1;0.2" dur="1.2s" repeatCount="indefinite" />
                         <animate attributeName="r" values="3;5;3" dur="1.2s" repeatCount="indefinite" />
                     </circle>
-                    <circle cx="95" cy="70" r="3.5">
+                    <circle cx="95" cy="40" r="3.5">
                         <animate attributeName="opacity" values="1;0.2;1" dur="1.8s" repeatCount="indefinite" />
                         <animate attributeName="r" values="2.5;4.5;2.5" dur="1.8s" repeatCount="indefinite" />
                     </circle>
-                    <circle cx="30" cy="115" r="3">
+                    <circle cx="30" cy="85" r="3">
                         <animate attributeName="opacity" values="0.4;1;0.4" dur="1.5s" repeatCount="indefinite" />
                         <animate attributeName="r" values="2;4;2" dur="1.5s" repeatCount="indefinite" />
                     </circle>
-                    <circle cx="90" cy="110" r="3.5">
+                    <circle cx="90" cy="80" r="3.5">
                         <animate attributeName="opacity" values="1;0.3;1" dur="2.1s" repeatCount="indefinite" />
                         <animate attributeName="r" values="3;5;3" dur="2.1s" repeatCount="indefinite" />
                     </circle>
                     
                     {/* 中サイズのキラキラ */}
-                    <circle cx="40" cy="50" r="2.5">
+                    <circle cx="40" cy="25" r="2.5">
                         <animate attributeName="opacity" values="0.6;1;0.6" dur="1.7s" repeatCount="indefinite" />
                     </circle>
-                    <circle cx="80" cy="55" r="2">
+                    <circle cx="80" cy="30" r="2">
                         <animate attributeName="opacity" values="1;0.4;1" dur="2.3s" repeatCount="indefinite" />
                     </circle>
-                    <circle cx="35" cy="130" r="2.5">
+                    <circle cx="35" cy="100" r="2.5">
                         <animate attributeName="opacity" values="0.5;1;0.5" dur="1.9s" repeatCount="indefinite" />
                     </circle>
-                    <circle cx="85" cy="125" r="2">
+                    <circle cx="85" cy="95" r="2">
                         <animate attributeName="opacity" values="1;0.5;1" dur="2.5s" repeatCount="indefinite" />
                     </circle>
                     
                     {/* 星型のキラキラ */}
                     <g>
-                        <path d="M20 80 L22 85 L27 85 L23 88 L25 93 L20 90 L15 93 L17 88 L13 85 L18 85 Z">
+                        <path d="M20 50 L22 55 L27 55 L23 58 L25 63 L20 60 L15 63 L17 58 L13 55 L18 55 Z">
                             <animate attributeName="opacity" values="0.3;1;0.3" dur="2s" repeatCount="indefinite" />
                             <animateTransform 
                                 attributeName="transform" 
                                 type="rotate" 
-                                values="0 20 88;360 20 88" 
+                                values="0 20 58;360 20 58" 
                                 dur="4s" 
                                 repeatCount="indefinite"
                             />
                         </path>
-                        <path d="M100 85 L102 90 L107 90 L103 93 L105 98 L100 95 L95 98 L97 93 L93 90 L98 90 Z">
+                        <path d="M100 55 L102 60 L107 60 L103 63 L105 68 L100 65 L95 68 L97 63 L93 60 L98 60 Z">
                             <animate attributeName="opacity" values="1;0.2;1" dur="2.4s" repeatCount="indefinite" />
                             <animateTransform 
                                 attributeName="transform" 
                                 type="rotate" 
-                                values="180 100 93;540 100 93" 
+                                values="180 100 63;540 100 63" 
                                 dur="3.5s" 
                                 repeatCount="indefinite"
                             />
@@ -136,31 +122,31 @@ const Medal: React.FC<MedalProps> = ({ rank, className = '' }) => {
                     
                     {/* 十字のキラキラ（拡張） */}
                     <g>
-                        <path d="M110 35 L113 32 L116 35 L113 38 Z">
+                        <path d="M110 20 L113 17 L116 20 L113 23 Z">
                             <animateTransform 
                                 attributeName="transform" 
                                 type="rotate" 
-                                values="0 113 35;360 113 35" 
+                                values="0 113 20;360 113 20" 
                                 dur="2.8s" 
                                 repeatCount="indefinite"
                             />
                             <animate attributeName="opacity" values="0.5;1;0.5" dur="1.4s" repeatCount="indefinite" />
                         </path>
-                        <path d="M10 120 L13 117 L16 120 L13 123 Z">
+                        <path d="M10 90 L13 87 L16 90 L13 93 Z">
                             <animateTransform 
                                 attributeName="transform" 
                                 type="rotate" 
-                                values="180 13 120;540 13 120" 
+                                values="180 13 90;540 13 90" 
                                 dur="2.2s" 
                                 repeatCount="indefinite"
                             />
                             <animate attributeName="opacity" values="1;0.3;1" dur="1.8s" repeatCount="indefinite" />
                         </path>
-                        <path d="M105 140 L108 137 L111 140 L108 143 Z">
+                        <path d="M105 110 L108 107 L111 110 L108 113 Z">
                             <animateTransform 
                                 attributeName="transform" 
                                 type="rotate" 
-                                values="0 108 140;360 108 140" 
+                                values="0 108 110;360 108 110" 
                                 dur="3.2s" 
                                 repeatCount="indefinite"
                             />
@@ -180,11 +166,6 @@ const Medal: React.FC<MedalProps> = ({ rank, className = '' }) => {
                         <stop offset="0%" stopColor={colors.secondary} />
                         <stop offset="100%" stopColor={colors.tertiary} />
                     </radialGradient>
-                    <linearGradient id={`ribbonGradient${rank}`} x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" stopColor={colors.primary} />
-                        <stop offset="50%" stopColor={colors.secondary} />
-                        <stop offset="100%" stopColor={colors.primary} />
-                    </linearGradient>
                 </defs>
             </svg>
         </div>
