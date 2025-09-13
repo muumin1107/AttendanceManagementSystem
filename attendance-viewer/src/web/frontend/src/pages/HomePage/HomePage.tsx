@@ -5,6 +5,7 @@ import { useGetSnapshot }                                      from '../../hooks
 import { useGetLast7DaysAttendance }                           from '../../hooks/useGetLast7DaysAttendance';
 import { useAttendanceSocket }                                 from '../../hooks/useAttendanceSocket';
 import Modal                                                   from '../../components/Modal/Modal';
+import Crown                                                   from '../../components/Crown/Crown';
 import ContributionGraph, { MiniContributionGraph }            from '../../components/ContributionGraph/ContributionGraph';
 import './HomePage.css';
 
@@ -121,6 +122,26 @@ const HomePage: React.FC = () => {
         });
     }, [realTimeUsers]);
 
+    // 過去7日間で最も在室時間が長いユーザーを特定するメモ化された値
+    const topAttendanceUser = useMemo(() => {
+        if (isLast7DaysLoading || last7DaysError || !last7DaysData) {
+            return null;
+        }
+
+        let maxTotalHours = 0;
+        let topUser = null;
+
+        Object.entries(last7DaysData).forEach(([userName, dailyData]) => {
+            const totalHours = Object.values(dailyData).reduce((sum, hours) => sum + hours, 0);
+            if (totalHours > maxTotalHours) {
+                maxTotalHours = totalHours;
+                topUser = userName;
+            }
+        });
+
+        return topUser;
+    }, [last7DaysData, isLast7DaysLoading, last7DaysError]);
+
     // currentYearかselectedUserが変更されたら，API用の日付を更新
     useEffect(() => {
         if (selectedUser) {
@@ -201,6 +222,7 @@ const HomePage: React.FC = () => {
                                                 <span className="user-name-clickable" onClick={() => handleUserClick(user)}>
                                                     {user.name}
                                                 </span>
+                                                {topAttendanceUser === user.name && <Crown />}
                                             </div>
                                         </td>
                                         {STATUS_COLUMNS.map(colName => (
