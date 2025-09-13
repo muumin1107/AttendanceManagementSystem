@@ -5,7 +5,7 @@ import { useGetSnapshot }                                      from '../../hooks
 import { useGetLast7DaysAttendance }                           from '../../hooks/useGetLast7DaysAttendance';
 import { useAttendanceSocket }                                 from '../../hooks/useAttendanceSocket';
 import Modal                                                   from '../../components/Modal/Modal';
-import Crown                                                   from '../../components/Crown/Crown';
+import Medal                                                   from '../../components/Medal/Medal';
 import ContributionGraph, { MiniContributionGraph }            from '../../components/ContributionGraph/ContributionGraph';
 import './HomePage.css';
 
@@ -123,24 +123,35 @@ const HomePage: React.FC = () => {
     }, [realTimeUsers]);
 
     // 過去7日間で最も在室時間が長いユーザーを特定するメモ化された値
-    const topAttendanceUser = useMemo(() => {
+    const topAttendanceUsers = useMemo(() => {
         if (isLast7DaysLoading || last7DaysError || !last7DaysData) {
-            return null;
+            return { 1: null, 2: null, 3: null };
         }
 
-        let maxTotalHours = 0;
-        let topUser = null;
+        // 各ユーザーの合計在室時間を計算
+        const userTotalHours = Object.entries(last7DaysData).map(([userName, dailyData]) => ({
+            name: userName,
+            totalHours: Object.values(dailyData).reduce((sum, hours) => sum + hours, 0)
+        }));
 
-        Object.entries(last7DaysData).forEach(([userName, dailyData]) => {
-            const totalHours = Object.values(dailyData).reduce((sum, hours) => sum + hours, 0);
-            if (totalHours > maxTotalHours) {
-                maxTotalHours = totalHours;
-                topUser = userName;
-            }
-        });
+        // 在室時間で降順ソート
+        userTotalHours.sort((a, b) => b.totalHours - a.totalHours);
 
-        return topUser;
+        // トップ3を返す
+        return {
+            1: userTotalHours[0]?.name || null,
+            2: userTotalHours[1]?.name || null,
+            3: userTotalHours[2]?.name || null
+        };
     }, [last7DaysData, isLast7DaysLoading, last7DaysError]);
+
+    // ユーザーの順位を取得するヘルパー関数
+    const getUserRank = (userName: string): 1 | 2 | 3 | null => {
+        if (topAttendanceUsers[1] === userName) return 1;
+        if (topAttendanceUsers[2] === userName) return 2;
+        if (topAttendanceUsers[3] === userName) return 3;
+        return null;
+    };
 
     // currentYearかselectedUserが変更されたら，API用の日付を更新
     useEffect(() => {
@@ -222,7 +233,10 @@ const HomePage: React.FC = () => {
                                                 <span className="user-name-clickable" onClick={() => handleUserClick(user)}>
                                                     {user.name}
                                                 </span>
-                                                {topAttendanceUser === user.name && <Crown />}
+                                                {(() => {
+                                                    const rank = getUserRank(user.name);
+                                                    return rank && <Medal rank={rank} />;
+                                                })()}
                                             </div>
                                         </td>
                                         {STATUS_COLUMNS.map(colName => (
