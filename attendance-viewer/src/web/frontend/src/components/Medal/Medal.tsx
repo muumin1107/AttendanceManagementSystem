@@ -21,8 +21,8 @@ const Medal: React.FC<MedalProps> = ({ rank, className = '' }) => {
     return (
         <div className={`medal medal-${rank} ${className}`} title={`過去7日間で在室時間${rank}位のユーザー`}>
             <svg 
-                width="50" 
-                height="50" 
+                width="60" 
+                height="60" 
                 viewBox="0 0 120 120" 
                 fill="none" 
                 xmlns="http://www.w3.org/2000/svg"
@@ -47,16 +47,16 @@ const Medal: React.FC<MedalProps> = ({ rank, className = '' }) => {
                     strokeWidth="2"
                 />
                 
-                {/* 順位の数字（大きくした） */}
+                {/* 順位の数字（さらに大きくした） */}
                 <text 
                     x="60" 
                     y="75" 
                     textAnchor="middle" 
-                    fontSize="48" 
+                    fontSize="52" 
                     fontWeight="bold" 
                     fill="white"
                     stroke="#333"
-                    strokeWidth="2"
+                    strokeWidth="2.5"
                     fontFamily="Arial, sans-serif"
                 >
                     {rankText}
