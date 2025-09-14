@@ -6,23 +6,23 @@
     position: relative;
 }
 
-/* 基本サイズ（全デバイスで統一） */
+/* 基本サイズ（デスクトップを少し大きく） */
 .medal svg {
-    width: 45px;
-    height: 45px;
-    min-width: 40px;
-    min-height: 40px;
-    max-width: 50px;
-    max-height: 50px;
+    width: 55px;
+    height: 55px;
+    min-width: 50px;
+    min-height: 50px;
+    max-width: 60px;
+    max-height: 60px;
     transition: all 0.3s ease-in-out;
 }
 
-/* デスクトップでもサイズ統一 */
+/* デスクトップでもサイズ統一（少し大きめ） */
 .medal-1 svg,
 .medal-2 svg,
 .medal-3 svg {
-    width: 45px;
-    height: 45px;
+    width: 55px;
+    height: 55px;
 }
 
 /* 金メダルのアニメーション（控えめサイズ版） */
