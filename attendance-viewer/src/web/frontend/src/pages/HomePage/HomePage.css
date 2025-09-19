@@ -116,9 +116,9 @@ body {
     transition   : background-color 0.2s ease-in-out;
 }
 
-.attendance-table tbody tr:hover {
+/* .attendance-table tbody tr:hover {
     background-color: transparent;
-}
+} */
 
 .attendance-table tbody tr:last-child {
     border-bottom: none;
