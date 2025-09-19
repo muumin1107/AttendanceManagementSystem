@@ -117,7 +117,7 @@ body {
 }
 
 .attendance-table tbody tr:hover {
-    background-color: rgba(52, 152, 219, 0.05);
+    background-color: transparent;
 }
 
 .attendance-table tbody tr:last-child {
