@@ -141,7 +141,7 @@ body {
 .attendance-table td {
     display     : flex;
     align-items : center;
-    padding     : clamp(10px, 1.8vmin, 20px) clamp(20px, 2vw, 40px);
+    padding     : clamp(8px, 1.5vmin, 18px) clamp(15px, 1.8vw, 35px);
     border-right: 1px solid #ecf0f1;
     font-size   : clamp(1rem, 2vmin, 2.2rem);
 }
@@ -152,13 +152,13 @@ body {
 
 .attendance-table th:nth-child(1),
 .attendance-table td:nth-child(1) {
-    flex           : 0 0 75%;
+    flex           : 0 0 72%;
     justify-content: flex-start;
     font-size      : clamp(1.3rem, 3.8vmin, 4.5rem);
 }
 .attendance-table th:nth-child(n+2),
 .attendance-table td:nth-child(n+2) {
-    flex           : 0 0 12.5%;
+    flex           : 0 0 14%;
     justify-content: center;
 }
 
@@ -320,7 +320,7 @@ body {
     .attendance-table th:nth-child(1),
     .attendance-table td:nth-child(1) {
         flex-basis: 65%;
-        font-size : clamp(1.1rem, 3.8vmin, 3.3rem);
+        font-size : clamp(0.9rem, 3.2vmin, 2.8rem);
     }
     
     .attendance-table th:nth-child(n+2),
