@@ -10,17 +10,16 @@ import ContributionGraph, { MiniContributionGraph }            from '../../compo
 import './HomePage.css';
 
 // 在室状況の表示用ステータス
-type DisplayStatus                    = 'Present' | 'Break' | 'Left';
-const STATUS_COLUMNS: DisplayStatus[] = ['Present', 'Break', 'Left'];
+type DisplayStatus                    = 'Present' | 'Left';
+const STATUS_COLUMNS: DisplayStatus[] = ['Present', 'Left'];
 
 // APIからのステータスを表示用のステータスにマッピングする関数
 const mapApiStatusToDisplayStatus = (apiStatus: UserStatus): DisplayStatus | null => {
     switch (apiStatus) {
         case 'clock_in':
         case 'break_out':
-            return 'Present';
         case 'break_in':
-            return 'Break';
+            return 'Present';
         case 'clock_out':
             return 'Left';
         default:
@@ -29,10 +28,11 @@ const mapApiStatusToDisplayStatus = (apiStatus: UserStatus): DisplayStatus | nul
 };
 
 // ステータスに応じて色を返す関数
-const getStatusColorClass = (status: DisplayStatus): string => {
+const getStatusColorClass = (status: DisplayStatus, realStatus?: UserStatus): string => {
     switch (status) {
-        case 'Present': return 'present';
-        case 'Break': return 'away';
+        case 'Present':
+            // 一時不在（break_in）の場合は黄色、そうでなければ緑色
+            return realStatus === 'break_in' ? 'away' : 'present';
         case 'Left': return 'left';
         default:
             return 'unknown';
@@ -242,7 +242,7 @@ const HomePage: React.FC = () => {
                                         {STATUS_COLUMNS.map(colName => (
                                             <td key={colName} className="status-cell">
                                                 <span 
-                                                    className={`status-marker ${getStatusColorClass(colName)} ${
+                                                    className={`status-marker ${getStatusColorClass(colName, user.status)} ${
                                                         displayStatus === colName ? 'active' : ''
                                                     }`}
                                                 ></span>
@@ -253,7 +253,7 @@ const HomePage: React.FC = () => {
                             })
                         ) : (
                             <tr>
-                                <td colSpan={4} className="no-data-cell">No users to display.</td>
+                                <td colSpan={3} className="no-data-cell">No users to display.</td>
                             </tr>
                         )}
                     </tbody>
