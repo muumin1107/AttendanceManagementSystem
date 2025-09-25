@@ -37,8 +37,9 @@ body {
     font-size   : clamp(2rem, 4.5vmin, 7rem);
     font-weight : 700;
     color       : #2c3e50;
-    margin      : 0;
+    margin      : 0.2em 0;
     margin-right: auto;
+    padding     : 0.1em 0.3em;
     line-height : 1.1;
     flex-shrink : 1;
     min-width   : 0;
@@ -59,8 +60,8 @@ body {
     font-size  : clamp(1rem, 2.3vmin, 2.8rem);
     color      : #7f8c8d;
     font-weight: 500;
-    margin     : 0;
-    padding    : 0.3em 0.7em;
+    margin     : 0.15em 0.2em;
+    padding    : 0.4em 0.8em;
     white-space: nowrap;
     line-height: 1.1;
     flex-shrink: 1;
@@ -68,7 +69,8 @@ body {
 
 .admin-link-button {
     display         : inline-block;
-    padding         : 0.5em 1em;
+    margin          : 0.15em 0.2em;
+    padding         : 0.6em 1.2em;
     font-size       : clamp(1rem, 2.1vmin, 2.6rem);
     font-weight     : 600;
     color           : #ffffff;
@@ -196,7 +198,7 @@ body {
     font-size       : clamp(1.3rem, 3.2vmin, 3.8rem);
     font-weight     : 600;
     color           : #495057;
-    background-color: #f8f9fa;
+    background-color: #e9ecef;
     padding         : clamp(5px, 1.2vmin, 12px) clamp(20px, 2vw, 40px);
 }
 
