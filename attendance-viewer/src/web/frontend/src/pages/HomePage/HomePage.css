@@ -15,7 +15,7 @@ body {
     height          : 100vh;
     display         : flex;
     flex-direction  : column;
-    padding         : 1vh 1vw;
+    padding         : 0.5vh 1vw;
     box-sizing      : border-box;
 }
 
@@ -24,19 +24,20 @@ body {
     display        : flex;
     justify-content: space-between;
     align-items    : center;
-    margin-bottom  : 2vh;
-    padding-bottom : 1.5vh;
+    margin-bottom  : 1vh;
+    padding-bottom : 0.5vh;
     border-bottom  : 1px solid #dee2e6;
     flex-wrap      : wrap;
     gap            : 1rem;
 }
 
 .board-title {
-    font-size   : clamp(2rem, 5vmin, 8rem);
+    font-size   : clamp(1.8rem, 4vmin, 6rem);
     font-weight : 700;
     color       : #2c3e50;
     margin      : 0;
     margin-right: auto;
+    line-height : 1.2;
 }
 
 .header-controls {
@@ -47,25 +48,27 @@ body {
 }
 
 .current-time {
-    font-size  : clamp(1rem, 2.5vmin, 3rem);
+    font-size  : clamp(0.9rem, 2.2vmin, 2.5rem);
     color      : #7f8c8d;
     font-weight: 500;
     margin     : 0;
-    padding    : 0.5em 1em;
+    padding    : 0.3em 0.8em;
     white-space: nowrap;
+    line-height: 1.2;
 }
 
 .admin-link-button {
     display         : inline-block;
-    padding         : 0.6em 1.2em;
-    font-size       : clamp(1rem, 2.2vmin, 2.8rem);
+    padding         : 0.5em 1em;
+    font-size       : clamp(0.9rem, 2vmin, 2.4rem);
     font-weight     : 600;
     color           : #ffffff;
     background-color: #3498db;
-    border-radius   : 8px;
+    border-radius   : 6px;
     text-decoration : none;
     transition      : background-color 0.3s ease;
     white-space     : nowrap;
+    line-height     : 1.2;
 }
 
 .admin-link-button:hover {
@@ -293,7 +296,9 @@ body {
     .home-header {
         flex-direction: column;
         align-items   : flex-start;
-        gap           : 0.5rem;
+        gap           : 0.3rem;
+        margin-bottom : 0.5vh;
+        padding-bottom: 0.3vh;
     }
 
     .header-controls {
