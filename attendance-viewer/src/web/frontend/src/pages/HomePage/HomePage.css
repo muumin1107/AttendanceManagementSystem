@@ -28,47 +28,57 @@ body {
     padding-bottom : 0.5vh;
     border-bottom  : 1px solid #dee2e6;
     flex-wrap      : wrap;
-    gap            : 1rem;
+    gap            : min(1rem, 2vw);
+    width          : 100%;
+    overflow       : hidden;
 }
 
 .board-title {
-    font-size   : clamp(1.8rem, 4vmin, 6rem);
+    font-size   : clamp(2rem, 4.5vmin, 7rem);
     font-weight : 700;
     color       : #2c3e50;
     margin      : 0;
     margin-right: auto;
-    line-height : 1.2;
+    line-height : 1.1;
+    flex-shrink : 1;
+    min-width   : 0;
+    overflow    : hidden;
+    text-overflow: ellipsis;
+    white-space : nowrap;
 }
 
 .header-controls {
     display    : flex;
     align-items: center;
-    gap        : 2vw;
-    /* flex-shrink: 0; */
+    gap        : min(2vw, 1.2rem);
+    flex-shrink: 1;
+    min-width  : 0;
 }
 
 .current-time {
-    font-size  : clamp(0.9rem, 2.2vmin, 2.5rem);
+    font-size  : clamp(1rem, 2.3vmin, 2.8rem);
     color      : #7f8c8d;
     font-weight: 500;
     margin     : 0;
-    padding    : 0.3em 0.8em;
+    padding    : 0.3em 0.7em;
     white-space: nowrap;
-    line-height: 1.2;
+    line-height: 1.1;
+    flex-shrink: 1;
 }
 
 .admin-link-button {
     display         : inline-block;
     padding         : 0.5em 1em;
-    font-size       : clamp(0.9rem, 2vmin, 2.4rem);
+    font-size       : clamp(1rem, 2.1vmin, 2.6rem);
     font-weight     : 600;
     color           : #ffffff;
     background-color: #3498db;
-    border-radius   : 6px;
+    border-radius   : 8px;
     text-decoration : none;
     transition      : background-color 0.3s ease;
     white-space     : nowrap;
-    line-height     : 1.2;
+    line-height     : 1.1;
+    flex-shrink     : 0;
 }
 
 .admin-link-button:hover {
@@ -142,13 +152,13 @@ body {
 
 .attendance-table th:nth-child(1),
 .attendance-table td:nth-child(1) {
-    flex           : 0 0 80%;
+    flex           : 0 0 75%;
     justify-content: flex-start;
     font-size      : clamp(1.3rem, 3.8vmin, 4.5rem);
 }
 .attendance-table th:nth-child(n+2),
 .attendance-table td:nth-child(n+2) {
-    flex           : 0 0 10%;
+    flex           : 0 0 12.5%;
     justify-content: center;
 }
 
@@ -309,13 +319,13 @@ body {
 
     .attendance-table th:nth-child(1),
     .attendance-table td:nth-child(1) {
-        flex-basis: 70%;
+        flex-basis: 65%;
         font-size : clamp(1.1rem, 3.8vmin, 3.3rem);
     }
     
     .attendance-table th:nth-child(n+2),
     .attendance-table td:nth-child(n+2) {
-        flex-basis: 15%;
+        flex-basis: 17.5%;
     }
 
     .attendance-table th,
