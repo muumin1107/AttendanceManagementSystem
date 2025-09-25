@@ -319,13 +319,13 @@ body {
 
     .attendance-table th:nth-child(1),
     .attendance-table td:nth-child(1) {
-        flex-basis: 65%;
+        flex-basis: 55%;
         font-size : clamp(0.9rem, 3.2vmin, 2.8rem);
     }
     
     .attendance-table th:nth-child(n+2),
     .attendance-table td:nth-child(n+2) {
-        flex-basis: 17.5%;
+        flex-basis: 22.5%;
     }
 
     .attendance-table th,
