@@ -10,19 +10,19 @@ import ContributionGraph, { MiniContributionGraph }            from '../../compo
 import './HomePage.css';
 
 // 在室状況の表示用ステータス
-type DisplayStatus                    = '在室' | '休憩' | '退室';
-const STATUS_COLUMNS: DisplayStatus[] = ['在室', '休憩', '退室'];
+type DisplayStatus                    = 'Present' | 'Break' | 'Left';
+const STATUS_COLUMNS: DisplayStatus[] = ['Present', 'Break', 'Left'];
 
 // APIからのステータスを表示用のステータスにマッピングする関数
 const mapApiStatusToDisplayStatus = (apiStatus: UserStatus): DisplayStatus | null => {
     switch (apiStatus) {
         case 'clock_in':
         case 'break_out':
-            return '在室';
+            return 'Present';
         case 'break_in':
-            return '休憩';
+            return 'Break';
         case 'clock_out':
-            return '退室';
+            return 'Left';
         default:
             return null;
     }
@@ -31,9 +31,9 @@ const mapApiStatusToDisplayStatus = (apiStatus: UserStatus): DisplayStatus | nul
 // ステータスに応じて色を返す関数
 const getStatusColorClass = (status: DisplayStatus): string => {
     switch (status) {
-        case '在室'  : return 'present';
-        case '休憩': return 'away';
-        case '退室'  : return 'left';
+        case 'Present': return 'present';
+        case 'Break': return 'away';
+        case 'Left': return 'left';
         default:
             return 'unknown';
     }
@@ -178,7 +178,7 @@ const HomePage: React.FC = () => {
         if (socketError) {
             navigate('/error', {
                 replace: true,
-                state: { message: `リアルタイム接続エラー: ${socketError.message}` }
+                state: { message: `Real-time connection error: ${socketError.message}` }
             });
         }
     }, [socketError, navigate]);
@@ -197,18 +197,18 @@ const HomePage: React.FC = () => {
     return (
         <div className="home-page-container">
             <header className="home-header">
-                <h1 className="board-title">在室状況一覧</h1>
+                <h1 className="board-title">Attendance Status Board</h1>
                 <p className="current-time">
-                    {currentTime.toLocaleDateString('ja-JP', { year: 'numeric', month: 'long', day: 'numeric' })}&nbsp;
-                    {currentTime.toLocaleTimeString('ja-JP')}
+                    {currentTime.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}&nbsp;
+                    {currentTime.toLocaleTimeString('en-US')}
                 </p>
-                <Link to="/admin" state={{ allUsers: passedState?.allUsers }} className="admin-link-button">管理者メニュー</Link>
+                <Link to="/admin" state={{ allUsers: passedState?.allUsers }} className="admin-link-button">Admin Menu</Link>
             </header>
             <main className="table-container">
                 <table className="attendance-table">
                     <thead>
                         <tr>
-                            <th className="name-col">名前</th>
+                            <th className="name-col">Name</th>
                             {STATUS_COLUMNS.map(colName => (
                                 <th key={colName} className="status-col">{colName}</th>
                             ))}
@@ -253,7 +253,7 @@ const HomePage: React.FC = () => {
                             })
                         ) : (
                             <tr>
-                                <td colSpan={4} className="no-data-cell">表示するユーザーがいません．</td>
+                                <td colSpan={4} className="no-data-cell">No users to display.</td>
                             </tr>
                         )}
                     </tbody>
@@ -263,8 +263,8 @@ const HomePage: React.FC = () => {
             <Modal isOpen={isModalOpen} onClose={closeModal}>
                 {(isSnapshotLoading || snapshotError) ? (
                     <div className="modal-status-container">
-                        {isSnapshotLoading && <p>グラフを読み込み中...</p>}
-                        {snapshotError && <p className="error-message">グラフの取得に失敗しました: {snapshotError.message}</p>}
+                        {isSnapshotLoading && <p>Loading graph...</p>}
+                        {snapshotError && <p className="error-message">Failed to load graph: {snapshotError.message}</p>}
                     </div>
                 ) : (
                     selectedUser && <ContributionGraph
