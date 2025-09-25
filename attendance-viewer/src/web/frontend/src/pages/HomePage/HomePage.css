@@ -197,8 +197,8 @@ body {
 .attendance-table thead th {
     font-size       : clamp(1.3rem, 3.2vmin, 3.8rem);
     font-weight     : 600;
-    color           : #495057;
-    background-color: #c2c8cd;
+    color           : #ffffff;
+    background-color: #495057;
     padding         : clamp(5px, 1.2vmin, 12px) clamp(20px, 2vw, 40px);
 }
 
