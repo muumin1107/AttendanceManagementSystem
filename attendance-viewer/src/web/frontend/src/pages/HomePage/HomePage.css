@@ -139,13 +139,13 @@ body {
 
 .attendance-table th:nth-child(1),
 .attendance-table td:nth-child(1) {
-    flex           : 0 0 60%;
+    flex           : 0 0 80%;
     justify-content: flex-start;
     font-size      : clamp(1.3rem, 3.8vmin, 4.5rem);
 }
 .attendance-table th:nth-child(n+2),
 .attendance-table td:nth-child(n+2) {
-    flex           : 0 0 13.33%;
+    flex           : 0 0 10%;
     justify-content: center;
 }
 
@@ -184,6 +184,7 @@ body {
     font-weight     : 600;
     color           : #495057;
     background-color: #f8f9fa;
+    padding         : clamp(5px, 1.2vmin, 12px) clamp(20px, 2vw, 40px);
 }
 
 .status-marker {
@@ -303,8 +304,13 @@ body {
 
     .attendance-table th:nth-child(1),
     .attendance-table td:nth-child(1) {
-        flex-basis: 50%;
+        flex-basis: 70%;
         font-size : clamp(1.1rem, 3.8vmin, 3.3rem);
+    }
+    
+    .attendance-table th:nth-child(n+2),
+    .attendance-table td:nth-child(n+2) {
+        flex-basis: 15%;
     }
 
     .attendance-table th,
