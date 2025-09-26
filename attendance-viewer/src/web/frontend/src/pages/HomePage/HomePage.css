@@ -1,8 +1,8 @@
 html,
 body {
-    margin: 0;
+    margin : 0;
     padding: 0;
-    height: 100%;
+    height : 100%;
 }
 
 *,
@@ -85,6 +85,13 @@ body {
 
 .admin-link-button:hover {
     background-color: #2980b9;
+}
+
+/* モニターレベルの大きな縦幅の場合はAdminメニューを非表示 */
+@media (min-height: 900px) {
+    .admin-link-button {
+        display: none;
+    }
 }
 
 .table-container {
