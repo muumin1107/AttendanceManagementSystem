@@ -10,8 +10,8 @@ import ContributionGraph, { MiniContributionGraph }            from '../../compo
 import './HomePage.css';
 
 // 在室状況の表示用ステータス
-type DisplayStatus                    = 'Present' | 'Left';
-const STATUS_COLUMNS: DisplayStatus[] = ['Present', 'Left'];
+type DisplayStatus                    = 'Present' | 'Absent';
+const STATUS_COLUMNS: DisplayStatus[] = ['Present', 'Absent'];
 
 // APIからのステータスを表示用のステータスにマッピングする関数
 const mapApiStatusToDisplayStatus = (apiStatus: UserStatus): DisplayStatus | null => {
@@ -21,7 +21,7 @@ const mapApiStatusToDisplayStatus = (apiStatus: UserStatus): DisplayStatus | nul
         case 'break_in':
             return 'Present';
         case 'clock_out':
-            return 'Left';
+            return 'Absent';
         default:
             return null;
     }
@@ -33,7 +33,7 @@ const getStatusColorClass = (status: DisplayStatus, realStatus?: UserStatus): st
         case 'Present':
             // 一時不在（break_in）の場合は黄色、そうでなければ緑色
             return realStatus === 'break_in' ? 'away' : 'present';
-        case 'Left': return 'left';
+        case 'Absent': return 'absent';
         default:
             return 'unknown';
     }
