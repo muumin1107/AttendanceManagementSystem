@@ -2,7 +2,7 @@
 
 ## システム概要図
 
-<img width="3084" height="2505" alt="システムアーキテクチャ図" src="https://github.com/user-attachments/assets/078e0fe7-451c-4d22-97a7-eaba055e441e" />
+<img width="3084" height="2505" alt="システムアーキテクチャ図" src="https://github.com/user-attachments/assets/818a0663-7f74-4e34-96ea-ec224854d871" />
 
 ## クラウド環境
 
