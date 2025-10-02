@@ -8,9 +8,9 @@ from botocore.credentials import Credentials
 
 class APIClient:
     """APIクライアントクラス"""
-    def __init__(self, access_key:str, secret_key:str, resource_id:str, service_name:str, region_name:str, x_api_key:str) -> None:
+    def __init__(self, access_key:str, secret_key:str, session_token: str, resource_id:str, service_name:str, region_name:str, x_api_key:str) -> None:
         """コンストラクタ"""
-        self.credentials  = Credentials(access_key=access_key, secret_key=secret_key)
+        self.credentials  = Credentials(access_key=access_key, secret_key=secret_key, token=session_token)
         self.resource_id  = resource_id
         self.service_name = service_name
         self.region_name  = region_name
@@ -30,13 +30,17 @@ class APIClient:
 
     def _get_headers(self, request:AWSRequest) -> dict:
         """リクエストヘッダーを取得する"""
-        return {
+        headers = {
             "Authorization": request.headers["Authorization"],
             "Host"         : self.host,
             "X-Amz-Date"   : request.headers["X-Amz-Date"],
             "X-Api-Key"    : self.x_api_key,
             "Content-Type" : "application/json"
         }
+        # botocoreが署名時に自動で追加したセッショントークンヘッダーをコピー
+        if "X-Amz-Security-Token" in request.headers:
+            headers["X-Amz-Security-Token"] = request.headers["X-Amz-Security-Token"]
+        return headers
 
     def send_request(self, stage_name:str, method:str, params:dict=None, data:dict=None, timeout:int=10):
         """リクエストを送信する"""

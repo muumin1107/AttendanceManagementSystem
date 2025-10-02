@@ -21,8 +21,8 @@ const AttendanceCardWaitPage = () => {
 			navigate('/', {
 				state: {
 					toast: success
-						? `在籍登録の受け付けに成功しました`
-						: `在籍登録の受け付けに失敗しました`
+						? `在室登録の受け付けに成功しました`
+						: `在室登録の受け付けに失敗しました`
 				}
 			});
 		};

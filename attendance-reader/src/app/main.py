@@ -1,16 +1,17 @@
-from fastapi                 import FastAPI
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.api import attendance, card, user
 
 # FastAPIアプリケーションのインスタンスを作成
 app = FastAPI()
-# CORSミドルウェアの設定
+
+# CORSミドルウェアを設定
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=["http://172.16.15.8:3000"],
     allow_credentials=True,
-    allow_methods=["*"],
+    allow_methods=["GET", "POST"],
     allow_headers=["*"],
 )
 

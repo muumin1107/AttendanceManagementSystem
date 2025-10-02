@@ -1,3 +1,3 @@
 #!/bin/bash
-cd /home/pi/AttendanceManagementSystem/attendance-reader/src
+cd /home/pi/attendance_system
 /usr/bin/python worker/worker_runner.py

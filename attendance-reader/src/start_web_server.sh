@@ -1,3 +1,3 @@
 #!/bin/bash
-cd /home/pi/AttendanceManagementSystem/attendance-reader/src/web/frontend
+cd /home/pi/attendance_system/web/frontend
 npm start

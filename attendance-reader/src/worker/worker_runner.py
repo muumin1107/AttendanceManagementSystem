@@ -16,9 +16,9 @@ def worker_run():
     while True:
         # 次のタスクを取得
         task = get_next_pending_task()
-        # タスクがない場合は10秒置きにスキップ
+        # タスクがない場合は1秒置きにスキップ
         if not task:
-            time.sleep(10)
+            time.sleep(1)
             continue
 
         # タスクを処理

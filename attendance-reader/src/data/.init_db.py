@@ -4,12 +4,14 @@ from pathlib import Path
 DB_PATH = Path("tasks.db")
 
 def init_db():
+    DB_PATH.unlink(missing_ok=True)
+
     conn   = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
 
     cursor.execute(
         """
-        CREATE TABLE IF NOT EXISTS tasks (
+        CREATE TABLE tasks (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             job_type TEXT NOT NULL,
             params TEXT NOT NULL,
