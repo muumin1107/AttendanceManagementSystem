@@ -24,8 +24,8 @@ const UserCardWaitPage = () => {
 			navigate('/', {
 				state: {
 					toast: success
-						? 'ユーザー登録の受け付けに成功しました'
-						: 'ユーザー登録の受け付けに失敗しました'
+						? 'Registration was successful!'
+						: 'Registration was failed..'
 				}
 			});
 		};

@@ -5,7 +5,7 @@ from typing import Union
 class ErrorHandler:
     """エラーハンドリングとログ記録を行うクラス"""
 
-    def __init__(self, log_file: str, level: int = logging.ERROR):
+    def __init__(self, log_file: str, level: int = logging.INFO):
         self.log_file = log_file
         self.level    = level
         self.logger   = self._setup_logger()
@@ -36,6 +36,10 @@ class ErrorHandler:
     def log_warning(self, message: str) -> None:
         """警告レベルのログを出力する"""
         self.logger.warning(message)
+
+    def log_debug(self, message: str) -> None:
+        """デバッグレベルのログを出力する"""
+        self.logger.debug(message)
 
     def handle_error(self, error: Exception) -> None:
         """エラーをログに記録し、必要に応じて例外を再送出"""

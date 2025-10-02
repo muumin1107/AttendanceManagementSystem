@@ -4,10 +4,10 @@ import { useEffect, useState } 		from 'react';
 import './HomePage.css';
 
 const statusMap: Record<string, string> = {
-	'出勤': 'clock_in',
+	'在室': 'clock_in',
 	'休入': 'break_in',
 	'休出': 'break_out',
-	'退勤': 'clock_out'
+	'不在': 'clock_out'
 };
 
 const HomePage = () => {
@@ -46,8 +46,8 @@ const HomePage = () => {
 			</div>
 
 			<div id="attendance-buttons">
-				<button onClick={() => handleAttendanceClick('出勤')}>
-					出勤<br /><small>Clock In</small>
+				<button onClick={() => handleAttendanceClick('在室')}>
+					在室<br /><small>Clock In</small>
 				</button>
 				<button onClick={() => handleAttendanceClick('休入')}>
 					休入<br /><small>Break Start</small>
@@ -55,8 +55,8 @@ const HomePage = () => {
 				<button onClick={() => handleAttendanceClick('休出')}>
 					休出<br /><small>Break End</small>
 				</button>
-				<button onClick={() => handleAttendanceClick('退勤')}>
-					退勤<br /><small>Clock Out</small>
+				<button onClick={() => handleAttendanceClick('不在')}>
+					不在<br /><small>Clock Out</small>
 				</button>
 			</div>
 
