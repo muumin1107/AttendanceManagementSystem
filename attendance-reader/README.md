@@ -1,118 +1,97 @@
 # 【Raspberry Pi】カードリーダー式在室確認システム（device-reader）
 
-## システム環境
-
-- Raspberry Pi 4B（device-reader）
-
-| Raspberry Pi Imager | OS                               | Kernel     |
-----                  |----                              |----
-| v1.8.5              | Raspbian GNU/Linux 11 (bullseye) | 6.1.21-v8+ |
-
-- FastAPI（ローカルAPIサーバー）
-- SQLite（バッファ）
-- RC-S380 S（カードリーダー）
-
-## プロジェクト構成
+## 制御デバイスの設定手順
 
 ```
-.
-├── app/                                # アプリケーション本体（FastAPI）
-│   ├── __init__.py
-│   ├── main.py                         # FastAPI アプリのエントリーポイント
-│   ├── api/                            # API エンドポイント定義
-│   │   ├── __init__.py
-│   │   ├── attendance.py               # 勤怠登録 API
-│   │   ├── card.py                     # NFCカード読み取り API
-│   │   └── user.py                     # ユーザー登録 API
-│   ├── hardware/
-│   │   └── card_reader.py              # NFCカードリーダー操作
-│   ├── schemas/                        # リクエスト/レスポンス用スキーマ
-│   │   ├── __init__.py
-│   │   ├── attendance.py
-│   │   └── user.py
-│   └── services/
-│       └── card_service.py             # ハードウェア連携ロジック
-│
-├── data/                               # ローカルデータベース・初期化スクリプト
-│   ├── .cleanup_tasks.py               # 古いタスクの自動削除スクリプト
-│   ├── .init_db.py                     # SQLite DB初期化スクリプト
-│   └── tasks.db                        # タスクキュー用データベース
-│
-├── logs/                               # ログファイル出力ディレクトリ
-│   ├── aws_client.log
-│   ├── card_reader.log
-│   ├── register_attendance.log
-│   ├── register_user.log
-│   └── worker.log
-│
-├── shared/                             # 共通処理・設定・ユーティリティ
-│   ├── __init__.py
-│   ├── api_client.py                   # ローカル API 呼び出し用
-│   ├── aws_client.py                   # AWS Lambda 呼び出し用
-│   ├── codec.py                        # NFC ID エンコード/デコード
-│   ├── config.py                       # 設定・環境変数読み込み
-│   ├── error_handler.py                # ログ付き例外処理
-│   └── task_queue.py                   # タスク登録・取得・状態管理
-│
-├── web/frontend                        # フロントエンド（React + TypeScript）
-│   ├── .env                            # フロント用環境変数（API URL等）
-│   ├── public/
-│   │   └── ...                         # 静的ファイル（favicon, index.html等）
-│   ├── src/
-│   │   ├── api/                        # APIクライアント（fetchラッパー）
-│   │   │   ├── attendance.ts
-│   │   │   ├── cardReader.ts
-│   │   │   └── user.ts
-│   │   ├── hooks/                      # カスタムフック
-│   │   │   ├── useCardReader.ts
-│   │   │   ├── useCurrentTime.ts
-│   │   │   ├── useRegisterAttendance.ts
-│   │   │   ├── useRegisterUser.ts
-│   │   │   └── useTimeOfDay.ts
-│   │   ├── pages/                      # ページごとのコンポーネント
-│   │   │   ├── HomePage/
-│   │   │   │   ├── HomePage.tsx
-│   │   │   │   └── HomePage.css
-│   │   │   ├── RegisterAttendance/
-│   │   │   │   ├── AttendanceCardWaitPage.tsx
-│   │   │   │   └── AttendanceCardWaitPage.css
-│   │   │   └── RegisterUser/
-│   │   │       ├── UserCardWaitPage.tsx
-│   │   │       ├── UserCardWaitPage.css
-│   │   │       ├── UserNameSelectPage.tsx
-│   │   │       └── UserNameSelectPage.css
-│   │   ├── App.tsx
-│   │   ├── App.css
-│   │   └── index.tsx / index.css      # エントリーポイント
-│   ├── package.json
-│   └── tsconfig.json
-│
-├── worker/                             # バックグラウンドタスク実行（非同期処理）
-│   ├── __init__.py
-│   ├── job_handler.py                  # タスク種別ごとの処理
-│   └── worker_runner.py                # 無限ループで待機・実行
-│
-├── .env                                # バックエンド用環境変数（DynamoDB設定など）
-├── requirements.txt                    # Python依存パッケージ一覧
-│
-├── start_api_server.sh                 # APIサーバー起動
-├── start_web_server.sh                 # Webフロント起動（React）
-├── start_worker.sh                     # ワーカー起動
-├── start_cleanup_tasks.sh              # 古いタスク削除スクリプト実行
-│
-├── test_aws_client.py                  # AWSクライアントのテスト
-├── test_post_attendance.py             # 勤怠登録のテスト
-├── test_post_user.py                   # ユーザー登録のテスト
-├── test_task_handler.py                # ワーカータスク処理のテスト
-└── test_task_queue.py                  # タスクキュー操作のテスト
+# 初期システム設定
+$ sudo apt update
+$ sudo apt full-upgrade -y
 ```
 
-## 開発言語
+```
+# Gitリポジトリのクローン
+$ git clone https://github.com/muumin1107/AttendanceManagementSystem.git
+$ pip install -r requirements.txt
+```
 
-- Python（バックエンド）
-- React（フロントエンド）
+```
+# FastAPIサーバーの起動設定
+$ sudo nano /etc/systemd/system/attendance-api.service
 
-## カードリーダーの設定方法
+# 以下の内容を張り付けて保存
+[Unit]
+Description=Attendance API Server
+After=network.target
+
+[Service]
+User=pi
+WorkingDirectory=/home/pi/AttendanceManagementSystem/attendance-reader
+ExecStart=/home/pi/AttendanceManagementSystem/attendance-reader/start_api_server.sh
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+```
+
+```
+# Reactサーバーの起動設定
+$ sudo nano /etc/systemd/system/attendance-web.service
+
+# 以下の内容を張り付けて保存
+[Unit]
+Description=React Frontend Web Server
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+User=pi
+WorkingDirectory=/home/pi/AttendanceManagementSystem/attendance-reader
+ExecStart=/home/pi/AttendanceManagementSystem/attendance-reader/start_web_server.sh
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+```
+
+```
+# ワーカーの起動設定
+$ sudo nano /etc/systemd/system/attendance-worker.service
+
+# 以下の内容を張り付けて保存
+[Unit]
+Description=Attendance Worker Service
+After=network.target
+
+[Service]
+User=pi
+WorkingDirectory=/home/pi/AttendanceManagementSystem/attendance-reader
+ExecStart=/home/pi/AttendanceManagementSystem/attendance-reader/start_worker.sh
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
+```
+
+```
+# DB初期化の設定
+$ crontab -e
+
+# 以下の内容を張り付けて保存
+0 1 * * * /home/pi/attendance_system/start_init_db.sh
+```
+
+```
+# 再起動設定
+$ sudo crontab -e
+
+# 以下の内容を張り付けて保存
+0 9 * * * /sbin/reboot
+
+$ sudo reboot
+```
+
+## 補足：カードリーダーの設定方法
 
 Raspberry Pi 4BのUSBポートにNFCカードリーダー（RC-S380 S）を接続した状態で起動
 

@@ -73,7 +73,7 @@ $ sudo reboot
 
 ```
 # 指定時間の自動スリープ＆復帰設定
-$ crontab -e
+$ sudo crontab -e
 
 # 以下の内容を張り付けて保存
 0 9 * * * /sbin/reboot
